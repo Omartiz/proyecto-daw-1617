@@ -28,7 +28,7 @@
     
     <link rel="stylesheet" type="text/css" media="screen" href="<?php echo parent::getUrlRaiz();?>/Vista/Plantilla/JS/validetta-v1.0.1-dist/validetta.min.css">
 
-    <link rel="stylesheet" type="text/css" href="<?php echo parent::getUrlRaiz(); ?>/Vista/plantilla/CSS/style.css" media="screen" />
+    <!--<link rel="stylesheet" type="text/css" href="<//?php echo parent::getUrlRaiz(); ?>/Vista/plantilla/CSS/style.css" media="screen" /> Olga:La plantilla CSS no existe, elimino su referencia-->
 
     <link rel="icon" type="image/png" href="<?php echo parent::getUrlRaiz(); ?>/Vista/Plantilla/IMG/himevico.png"/>
 </head>
@@ -116,9 +116,10 @@
 </nav>
 
 <!-- Include all compiled plugins (belor include individual files as needed -->
+<script src="<?php echo parent::getUrlRaiz();?>/Vista/Plantilla/JS/jquery-2.2.1.min.js"></script><!--Olga Incluida referencia a jquery, previa a llamada a bootstrap para evitar errores-->
 <script src="<?php echo parent::getUrlRaiz() ?>/Vista/Plantilla/JS/bootstrap.min.js"></script>
 
-<script src="js/jquery.js"></script>
+<!--<script src="js/jquery.js"></script> Olga: eliminada referencia a fichero inexistente en el proyecto-->
 </body>
 
 <?php

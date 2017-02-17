@@ -1894,12 +1894,18 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                     <th>NOMBRE</th>
                     <th>FECHA</th>
                     <th>NOTA</th>
+                    <th>AUTOPISTAS</th> <!--Olga: añadido-->
+                    <th>DIETAS</th><!--Olga: añadido-->
+                    <th>OTROS GASTOS</th><!--Olga: añadido-->
                     <th>ESTADO</th>
                     <th>ACCIÓN</th>
+
                 </tr>
                 <?php
                 foreach ($partesLog as $log) {
                     if ($log->getEstado()->getTipo() == "Cerrado") {
+                    //var_dump($log);//Olga B
+                    //die ("****LOg de parteslog en Vista>Admin>AdminView");//Olga B
                         ?>
                         <form method="post"
                               action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
@@ -1908,6 +1914,9 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                                 <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td>
                                 <td><?php echo $log->getFecha(); ?></td>
                                 <td><?php echo $log->getNota(); ?></td>
+                                <td><?php echo $log->getAutopista(); ?></td> <!--Olga: añadido-->
+                                <td><?php echo $log->getDieta(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getOtroGasto(); ?></td><!--Olga: añadido-->
                                 <td><?php echo $log->getEstado()->getTipo(); ?></td>
                                 <td>
                                     <button type="submit" name="listarParteLog"
@@ -1939,6 +1948,42 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                         </form>
                         <?php
                     }
+                 }// Olga, añadido
+                 foreach ($partesLog as $log) {// Olga, añadido: mostrar separados los partes no cerrados
+                    if ($log->getEstado()->getTipo() == "Abierto") // Olga, añadido
+                    {?><!--Olga: añadido-->
+                        <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php"><!--Olga: añadido-->
+                            <tr><!--Olga: añadido-->
+                                <td><?php echo $log->getTrabajador()->getDni(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getFecha(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getNota(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getAutopista(); ?></td> <!--Olga: añadido-->
+                                <td><?php echo $log->getDieta(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getOtroGasto(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $log->getEstado()->getTipo(); ?></td><!--Olga: añadido-->
+                                <td><!--Olga: añadido-->
+                                    <button type="submit" name="listarParteLog"style="border: none; background: none"><!--Olga: añadido-->
+                                        <span class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
+                                    </button><!--Olga: añadido-->
+                                    <button type="submit" name="modificarParteLog" style="border: none; background: none"><!--Olga: añadido-->
+                                        <span class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
+                                    </button><!--Olga: añadido-->
+                                    <button type="submit" name="validarParteLogistica" style="border: none; background: none"><!--Olga: añadido-->
+                                        <span class="glyphicon glyphicon-ok" style="color:green; font-size: 1.5em"></span><!--Olga: añadido-->
+                                    </button><!--Olga: añadido-->
+                                    <button type="submit" name="eliminarParteLogistica" style="border: none; background: none"><!--Olga: añadido-->
+                                        <span class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em"><!--Olga: añadido-->
+                                    </button><!--Olga: añadido-->
+                                    <button type="submit" name="abrirParteLogistica" style="border: none; background: none"><!--Olga: añadido-->
+                                        <span class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
+                                    </button> <!--Olga: añadido-->
+                                </td><!--Olga: añadido-->
+                            </tr><!--Olga: añadido-->
+                            <input type="hidden" name="id" value="<?php echo $log->getId(); ?>"><!--Olga: añadido-->
+                        </form><!--Olga: añadido-->
+                     <?php //Olga: añadido
+                    }//Olga: añadido
                 }
                 ?>
             </table>
@@ -1957,8 +2002,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                 </tr>
                 <?php
                 foreach ($partesProd as $prod) {
-                    if ($prod->getEstado()->getTipo() == "Cerrado") {
-                        ?>
+                    if ($prod->getEstado()->getTipo() == "Cerrado")
+                    {?>
                         <form method="post"
                               action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
                             <tr>
@@ -2001,6 +2046,49 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                         </form>
                         <?php
                     }
+                }//Olga añadido
+                foreach ($partesProd as $prod) {//Olga añadido: se muestren los abiertos tras los cerrados
+                    if ($prod->getEstado()->getTipo() == "Abierto")//Olga añadido
+                    {//Olga añadido
+                    ?><!--Olga: añadido-->
+                        <form method="post"
+                              action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php"><!--Olga: añadido-->
+                            <tr><!--Olga: añadido-->
+                                <td><?php echo $prod->getTrabajador()->getDni(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getFecha(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getIncidencia(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getAutopista(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getDieta(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getOtroGasto(); ?></td><!--Olga: añadido-->
+                                <td><?php echo $prod->getEstado()->getTipo(); ?></td><!--Olga: añadido-->
+                                <td><!--Olga: añadido-->
+                                <button type="submit" name="listarParteProd"
+                                            style="border: none; background: none"><span
+                                            class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
+                                    </button><!--Olga: añadido-->
+                                    <button type="submit" name="modificarParteProd"
+                                            style="border: none; background: none"><span
+                                            class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
+                                    </button><!--Olga: añadido-->
+                                        <button type="submit" name="validarParteProduccion"
+                                                style="border: none; background: none"><span
+                                                class="glyphicon glyphicon-ok"
+                                                style="color:green; font-size: 1.5em"></span></button><!--Olga: añadido-->
+                                        <button type="submit" name="eliminarParteProduccion"
+                                                style="border: none; background: none"><span
+                                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em"><!--Olga: añadido-->
+                                        </button><!--Olga: añadido-->
+                                        <button type="submit" name="abrirParteProduccion"
+                                                style="border: none; background: none"><span
+                                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
+                                        </button><!--Olga: añadido-->
+                                </td><!--Olga: añadido-->
+                            </tr><!--Olga: añadido-->
+                            <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>"><!--Olga: añadido-->
+                        </form><!--Olga: añadido-->
+                        <?php //Olga añadido
+                    }//Olga añadido
                 }
                 ?>
             </table>
