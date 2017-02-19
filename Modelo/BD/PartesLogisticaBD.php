@@ -177,4 +177,55 @@ abstract class PartelogisticaBD extends GenericoBD{
 
     }
 
+    public static function getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin){
+
+        $con = parent::conectar();
+//        echo("******TABLA REF EN PARTES LOGISTICA: ");//Olga Borra
+//        var_dump(self::$tabla);//Olga Borra
+//        echo("++++++FIN TABLA++++++++++++++++");//Olga Borra
+        $query = "SELECT * FROM ".self::$tabla." WHERE dniTrabajador= '".$dni."' AND fecha BETWEEN '".$fechaIni."' AND '".$fechaFin."';";
+//        var_dump($query);//Olga Borra
+        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $partes = parent::mapearArray($rs, "Partelogistica");
+
+        parent::desconectar($con);
+
+        return $partes;
+    }
+
+    public static function getPartesByRangoFechas($fechaIni,$fechaFin){
+        //var_dump($fechaIni);//Olga Borra
+        //var_dump($fechaFin);//Olga Borra
+        $con = parent::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE fecha BETWEEN '".$fechaIni."' AND '".$fechaFin."';";
+        //var_dump($query);//Olga Borra
+
+        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $partes = parent::mapearArray($rs, "Partelogistica");
+
+        parent::desconectar($con);
+
+        return $partes;
+    }
+
+    public static function getPartesByEstado($filaEstado){
+
+        //$fila=EstadoBD::selectEstdadoByTipo($estado);//Olga Borra
+
+        $con = parent::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE idEstado='".$filaEstado->getId()."';";
+
+        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $partes = parent::mapearArray($rs, "Partelogistica");
+
+        parent::desconectar($con);
+
+        return $partes;
+    }
+
 }

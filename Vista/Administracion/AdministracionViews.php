@@ -12,6 +12,7 @@ require_once __DIR__.'/../../Modelo/BD/CalendarioBD.php';
 
 abstract class AdministracionViews extends \Vista\Plantilla\Views
 {
+
 /*****************************************************/
 /* MENU */
 /*****************************************************/
@@ -22,7 +23,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
         require_once __DIR__ . "/../Plantilla/cabecera.php";
         ?>
-<h3 class="page-header" xmlns="http://www.w3.org/1999/html">Añadir</h3>
+    <h3 class="page-header" xmlns="http://www.w3.org/1999/html">Añadir</h3>
                 <a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/insertTrabajador.php">Añadir Trabajador</a><br/>
                 <a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/insertEmpresa.php">Añadir Empresa</a><br/>
                 <a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/insertCentro.php">Añadir Centro</a><br/>
@@ -286,52 +287,51 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             parent::setOn(true);
             parent::setRoot(true);
 
-        require_once __DIR__ . "/../Plantilla/cabecera.php";
+            require_once __DIR__ . "/../Plantilla/cabecera.php";
 
-        $empresas = Administracion\Controlador::getAllEmpresas();
-        if(is_null($empresas)){
-            echo "no hay empresas";
-        }else {
-            ?>
-            <h2 class="page-header">Empresas</h2>
-            <div class="table-responsive col-md-offset-1 col-md-10">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>EMPRESA</th>
-                        <th>NIF</th>
-                        <th>ACCIÓN</th>
-                    </tr>
-                    <?php
-                    foreach ($empresas as $empresa) {
-                        ?>
+            $empresas = Administracion\Controlador::getAllEmpresas();
+            if(is_null($empresas)){
+                echo "no hay empresas";
+            }else {
+                ?>
+                <h2 class="page-header">Empresas</h2>
+                <div class="table-responsive col-md-offset-1 col-md-10">
+                    <table class="table table-bordered">
                         <tr>
-                            <td><?php echo $empresa->getNombre(); ?></td>
-                            <td><?php echo $empresa->getNif(); ?></td>
-                            <td>
-                                <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
-                                    <button type="submit" name="eliminarEmpresa" value="Eliminar"
-                                            style="border: none; background: none;"><span
-                                            class="glyphicon glyphicon-remove"
-                                            style="color:red; font-size: 1.5em"></span></button>
-                                    <input type="hidden" name="id" value="<?php echo $empresa->getId(); ?>">
-                                </form>
-                            </td>
+                            <th>EMPRESA</th>
+                            <th>NIF</th>
+                            <th>ACCIÓN</th>
                         </tr>
                         <?php
-                    }
-                    ?>
-                </table>
-            </div>
-            <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
-
-                <div class="col-sm-4 col-md-3">
-                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                        foreach ($empresas as $empresa) {
+                            ?>
+                            <tr>
+                                <td><?php echo $empresa->getNombre(); ?></td>
+                                <td><?php echo $empresa->getNif(); ?></td>
+                                <td>
+                                    <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                        <button type="submit" name="eliminarEmpresa" value="Eliminar"
+                                                style="border: none; background: none;"><span
+                                                class="glyphicon glyphicon-remove"
+                                                style="color:red; font-size: 1.5em"></span></button>
+                                        <input type="hidden" name="id" value="<?php echo $empresa->getId(); ?>">
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </table>
                 </div>
-            </form>
-            <?php
-        }
-        require_once __DIR__ . "/../Plantilla/pie.php";
+                <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
 
+                    <div class="col-sm-4 col-md-3">
+                        <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                    </div>
+                </form>
+                <?php
+            }
+            require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
 /*****************************************************/
@@ -451,10 +451,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 /*****************************************************/
 /* ESTADO */
 /*****************************************************/
-
         public static function insertEstado()
         {
-
             parent::setOn(true);
             parent::setRoot(true);
 
@@ -480,7 +478,6 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         </div>
         <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
-
     }
 
     public static function deleteEstado(){
@@ -1864,6 +1861,182 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
+/*****************************************************/
+/* Filtros */
+/*****************************************************/
+     public static function PintaFiltro($tipo)
+     {
+       switch($tipo['Filtro'])
+       {
+        case "1":
+         ?><form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
+                <label>DNI: </label><input type="text" name="dni" size="10">
+                </br>
+                <input type="submit" name="Buscar" value="Buscar">
+            </form><?php
+        break;
+        case "2":
+        ?><form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=7" method="post">
+
+                <label>DNI: </label><input type="text" name="dni1" size="10">
+                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10">
+                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10">
+                 </br>
+
+                    <input type="submit" name="Buscar" value="Buscar">
+            </form><?php
+        break;
+        case "3":
+       ?><form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=8" method="post">
+
+            <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni2" size="10">
+            <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin2" size="10">
+
+                    <input type="submit" name="Buscar" value="Buscar">
+            </form><?php
+        break;
+        case "4":
+        ?><form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=9" method="post">
+
+            <label>Estado Parte: </label></br>
+
+              <input type="radio" name="estado" value="Abierto"> Abierto</br>
+              <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
+
+              <input type="submit" name="Buscar" value="Buscar">
+            </form><?php
+        break;
+
+       }
+     }
+/*****************************************************/
+/* Rellena Tabla Produccion */
+/*****************************************************/
+        public static function rellenaTablaPartesProd($prod)
+        {?>
+
+            <form method="post"
+                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <tr>
+                    <td><?php echo $prod->getTrabajador()->getDni(); ?></td>
+                    <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td>
+                    <td><?php echo $prod->getFecha(); ?></td>
+                    <td><?php echo $prod->getIncidencia(); ?></td>
+                    <td><?php echo $prod->getAutopista(); ?></td>
+                    <td><?php echo $prod->getDieta(); ?></td>
+                    <td><?php echo $prod->getOtroGasto(); ?></td>
+                    <td><?php echo $prod->getEstado()->getTipo(); ?></td>
+                    <td>
+                    <button type="submit" name="listarParteProd"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
+                        </button>
+                        <button type="submit" name="modificarParteProd"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em">
+                        </button>
+                        <button type="submit" name="validarParteProduccion"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-ok"
+                                style="color:green; font-size: 1.5em"></span></button>
+                        <button type="submit" name="eliminarParteProduccion"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
+                        </button>
+                        <button type="submit" name="abrirParteProduccion"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
+                        </button>
+                    </td>
+                </tr>
+                <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>">
+            </form>
+            <?php //Olga añadido
+        }
+
+/*****************************************************/
+/* Rellena Tabla Logistica */
+/*****************************************************/
+        public static function rellenaTablaPartesLog($log)
+        {?>
+            <form method="post"
+                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <tr>
+                    <td><?php echo $log->getTrabajador()->getDni(); ?></td>
+                    <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td>
+                    <td><?php echo $log->getFecha(); ?></td>
+                    <td><?php echo $log->getNota(); ?></td>
+                    <td><?php echo $log->getAutopista(); ?></td> <!--Olga: añadido-->
+                    <td><?php echo $log->getDieta(); ?></td><!--Olga: añadido-->
+                    <td><?php echo $log->getOtroGasto(); ?></td><!--Olga: añadido-->
+                    <td><?php echo $log->getEstado()->getTipo(); ?></td>
+                    <td>
+                        <button type="submit" name="listarParteLog"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
+                        </button>
+                        <button type="submit" name="modificarParteLog"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em">
+                        </button>
+                        <button type="submit" name="validarParteLogistica"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-ok"
+                                style="color:green; font-size: 1.5em"></span></button>
+                        <button type="submit" name="eliminarParteLogistica"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
+                        </button>
+                        <button type="submit" name="abrirParteLogistica"
+                                style="border: none; background: none"><span
+                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
+                        </button>
+                    </td>
+                </tr>
+                <input type="hidden" name="id" value="<?php echo $log->getId(); ?>">
+            </form>
+            <?php ////Olga: añadido
+        }
+
+/*****************************************************/
+/* Cabecera Tabla Producción */
+/*****************************************************/
+     public static function cabeceraTablaProd()
+     {?>
+        <h2>PARTES PRODUCCIÓN</h2>
+        <tr>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>FECHA</th>
+            <th>INCIDENCIAS</th>
+            <th>AUTOPISTAS</th>
+            <th>DIETAS</th>
+            <th>OTROS GASTOS</th>
+            <th>ESTADO</th>
+            <th>ACCIÓN</th>
+        </tr>
+     <?php
+     }
+
+/*****************************************************/
+/* Cabecera Tabla Logistica */
+/*****************************************************/
+    public static function cabeceraTablaLog()
+     {?>
+     <h2>PARTES LOGÍSTICA</h2>
+        <tr>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>FECHA</th>
+            <th>NOTA</th>
+            <th>AUTOPISTAS</th> <!--Olga: añadido-->
+            <th>DIETAS</th><!--Olga: añadido-->
+            <th>OTROS GASTOS</th><!--Olga: añadido-->
+            <th>ESTADO</th>
+            <th>ACCIÓN</th>
+        </tr>
+     <?php
+     }
 
 /*****************************************************/
 /* PARTES */
@@ -1871,233 +2044,323 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
         public static function allPartesByDni()
         {
-
             parent::setOn(true);
             parent::setRoot(true);
             require_once __DIR__ . "/../Plantilla/cabecera.php";
             $partesProd = Administracion\Controlador::getAllPartesProduccion();
+            //var_dump($partesProd);//Olga Borra
             $partesLog = Administracion\Controlador::getAllPartesLogistica();
+//            var_dump($partesLog);//Olga Borra
+//            die;
             ?>
-            Filtros:
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
-            <label>DNI: </label><input type="text" name="dni" size="10">
+            <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                </select>
             <!--<button type="button" id="buscar" style="border: none; background: none"><span
                     class="glyphicon glyphicon-search" style="color:black; font-size: 1.5em"></span></button>-->
-                    <input type="submit" name="Buscar" value="Buscar">
+                    <input type="submit" name="Buscar" value="Continuar">
             </form>
+
             <span id="respuesta">
-            <table class="table table-bordered text-center">
 
-                <h2>PARTES LOGÍSTICA</h2>
-                <tr>
-                    <th>DNI</th>
-                    <th>NOMBRE</th>
-                    <th>FECHA</th>
-                    <th>NOTA</th>
-                    <th>AUTOPISTAS</th> <!--Olga: añadido-->
-                    <th>DIETAS</th><!--Olga: añadido-->
-                    <th>OTROS GASTOS</th><!--Olga: añadido-->
-                    <th>ESTADO</th>
-                    <th>ACCIÓN</th>
+              <table class="table table-bordered text-center">
 
-                </tr>
+                    <?php
+
+                    self::cabeceraTablaProd();
+
+                    foreach ($partesProd as $prod)
+                    {
+                        if ($prod->getEstado()->getTipo() == "Cerrado")
+                        {
+                            self::rellenaTablaPartesProd($prod);
+                        }
+                    }//Olga añadido
+                    foreach ($partesProd as $prod)
+                    {//Olga añadido: se muestren los abiertos tras los cerrados
+                        if ($prod->getEstado()->getTipo() == "Abierto")//Olga añadido
+                        {//Olga añadido
+                            self::rellenaTablaPartesProd($prod);
+                        }//Olga añadido
+                     }
+                    ?>
+                </table>
+
+                 <table class="table table-bordered text-center">
+
                 <?php
-                foreach ($partesLog as $log) {
-                    if ($log->getEstado()->getTipo() == "Cerrado") {
-                    //var_dump($log);//Olga B
-                    //die ("****LOg de parteslog en Vista>Admin>AdminView");//Olga B
-                        ?>
-                        <form method="post"
-                              action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
-                            <tr>
-                                <td><?php echo $log->getTrabajador()->getDni(); ?></td>
-                                <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td>
-                                <td><?php echo $log->getFecha(); ?></td>
-                                <td><?php echo $log->getNota(); ?></td>
-                                <td><?php echo $log->getAutopista(); ?></td> <!--Olga: añadido-->
-                                <td><?php echo $log->getDieta(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getOtroGasto(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getEstado()->getTipo(); ?></td>
-                                <td>
-                                    <button type="submit" name="listarParteLog"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
-                                    </button>
-                                    <button type="submit" name="modificarParteLog"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em">
-                                    </button>
+                self::cabeceraTablaLog();
 
-                                        <button type="submit" name="validarParteLogistica"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-ok"
-                                                style="color:green; font-size: 1.5em"></span></button>
-                                        <button type="submit" name="eliminarParteLogistica"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
-                                        </button>
-                                        <button type="submit" name="abrirParteLogistica"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
-                                        </button>
-
-
-                                </td>
-                            </tr>
-                            <input type="hidden" name="id" value="<?php echo $log->getId(); ?>">
-                        </form>
-                        <?php
+                foreach ($partesLog as $log)
+                {
+                    if ($log->getEstado()->getTipo() == "Cerrado")
+                    {
+                        self::rellenaTablaPartesLog($log);
                     }
                  }// Olga, añadido
-                 foreach ($partesLog as $log) {// Olga, añadido: mostrar separados los partes no cerrados
+                 foreach ($partesLog as $log)
+                 {// Olga, añadido: mostrar separados los partes no cerrados
                     if ($log->getEstado()->getTipo() == "Abierto") // Olga, añadido
-                    {?><!--Olga: añadido-->
-                        <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php"><!--Olga: añadido-->
-                            <tr><!--Olga: añadido-->
-                                <td><?php echo $log->getTrabajador()->getDni(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getFecha(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getNota(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getAutopista(); ?></td> <!--Olga: añadido-->
-                                <td><?php echo $log->getDieta(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getOtroGasto(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $log->getEstado()->getTipo(); ?></td><!--Olga: añadido-->
-                                <td><!--Olga: añadido-->
-                                    <button type="submit" name="listarParteLog"style="border: none; background: none"><!--Olga: añadido-->
-                                        <span class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
-                                    </button><!--Olga: añadido-->
-                                    <button type="submit" name="modificarParteLog" style="border: none; background: none"><!--Olga: añadido-->
-                                        <span class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
-                                    </button><!--Olga: añadido-->
-                                    <button type="submit" name="validarParteLogistica" style="border: none; background: none"><!--Olga: añadido-->
-                                        <span class="glyphicon glyphicon-ok" style="color:green; font-size: 1.5em"></span><!--Olga: añadido-->
-                                    </button><!--Olga: añadido-->
-                                    <button type="submit" name="eliminarParteLogistica" style="border: none; background: none"><!--Olga: añadido-->
-                                        <span class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em"><!--Olga: añadido-->
-                                    </button><!--Olga: añadido-->
-                                    <button type="submit" name="abrirParteLogistica" style="border: none; background: none"><!--Olga: añadido-->
-                                        <span class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
-                                    </button> <!--Olga: añadido-->
-                                </td><!--Olga: añadido-->
-                            </tr><!--Olga: añadido-->
-                            <input type="hidden" name="id" value="<?php echo $log->getId(); ?>"><!--Olga: añadido-->
-                        </form><!--Olga: añadido-->
-                     <?php //Olga: añadido
+                    {
+                        self::rellenaTablaPartesLog($log);
                     }//Olga: añadido
                 }
                 ?>
             </table>
+
+            </span>
+            <?php
+            require_once __DIR__ . "/../Plantilla/pie.php";
+        }
+
+/*****************************************************/
+/* BUSCA PARTES POR DNI */
+/*****************************************************/
+
+    public static function findPartesByDni($i)//Olga añadido
+    {//Olga añadido
+    //var_dump($i);//Olga Borra
+    //die;//Olga Borra
+    $dni=$i["dni"];
+    //var_dump($dni);//Olga Borra
+    //die;//Olga Borra
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $partesProd = Administracion\Controlador::getAllPartesProduccion();
+        $partesLog = Administracion\Controlador::getAllPartesLogistica();
+        ?>
+            <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                </select>
+                <input type="submit" name="Buscar" value="Continuar">
+            </form>
+
+            <span id="respuesta">
             <table class="table table-bordered text-center">
-                <h2>PARTES PRODUCCIÓN</h2>
-                <tr>
-                    <th>DNI</th>
-                    <th>NOMBRE</th>
-                    <th>FECHA</th>
-                    <th>INCIDENCIAS</th>
-                    <th>AUTOPISTAS</th>
-                    <th>DIETAS</th>
-                    <th>OTROS GASTOS</th>
-                    <th>ESTADO</th>
-                    <th>ACCIÓN</th>
-                </tr>
+
                 <?php
-                foreach ($partesProd as $prod) {
-                    if ($prod->getEstado()->getTipo() == "Cerrado")
-                    {?>
-                        <form method="post"
-                              action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
-                            <tr>
-                                <td><?php echo $prod->getTrabajador()->getDni(); ?></td>
-                                <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td>
-                                <td><?php echo $prod->getFecha(); ?></td>
-                                <td><?php echo $prod->getIncidencia(); ?></td>
-                                <td><?php echo $prod->getAutopista(); ?></td>
-                                <td><?php echo $prod->getDieta(); ?></td>
-                                <td><?php echo $prod->getOtroGasto(); ?></td>
-                                <td><?php echo $prod->getEstado()->getTipo(); ?></td>
-                                <td>
-                                <button type="submit" name="listarParteProd"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
-                                    </button>
-                                    <button type="submit" name="modificarParteProd"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em">
-                                    </button>
+                 self::cabeceraTablaLog();
 
+                foreach ($partesLog as $log)
+                {
+                    if ($log->getEstado()->getTipo() == "Cerrado"&& $log->getTrabajador()->getDni()==$dni)
+                    {
+                        self::rellenaTablaPartesLog($log);
+                    }
+                 }// Olga, añadido
+                 foreach ($partesLog as $log)
+                 {// Olga, añadido: mostrar separados los partes no cerrados
+                    if ($log->getEstado()->getTipo() == "Abierto" && $log->getTrabajador()->getDni()==$dni) // Olga, añadido
+                    {
+                       self::rellenaTablaPartesLog($log);
+                    }//Olga: añadido
+                }
+                ?>
+            </table>
 
-                                        <button type="submit" name="validarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-ok"
-                                                style="color:green; font-size: 1.5em"></span></button>
-                                        <button type="submit" name="eliminarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
-                                        </button>
-                                        <button type="submit" name="abrirParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
-                                        </button>
-
-
-                                </td>
-                            </tr>
-                            <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>">
-                        </form>
-                        <?php
+            <table class="table table-bordered text-center">
+                <?php
+                self::cabeceraTablaProd();
+                foreach ($partesProd as $prod)
+                {
+                        //var_dump($prod);
+                    if ($prod->getEstado()->getTipo() == "Cerrado" && $prod->getTrabajador()->getDni()==$dni)
+                    {
+                        self::rellenaTablaPartesProd($prod);
                     }
                 }//Olga añadido
                 foreach ($partesProd as $prod) {//Olga añadido: se muestren los abiertos tras los cerrados
-                    if ($prod->getEstado()->getTipo() == "Abierto")//Olga añadido
+                    if ($prod->getEstado()->getTipo() == "Abierto" && $prod->getTrabajador()->getDni()==$dni)//Olga añadido
                     {//Olga añadido
-                    ?><!--Olga: añadido-->
-                        <form method="post"
-                              action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php"><!--Olga: añadido-->
-                            <tr><!--Olga: añadido-->
-                                <td><?php echo $prod->getTrabajador()->getDni(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getFecha(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getIncidencia(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getAutopista(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getDieta(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getOtroGasto(); ?></td><!--Olga: añadido-->
-                                <td><?php echo $prod->getEstado()->getTipo(); ?></td><!--Olga: añadido-->
-                                <td><!--Olga: añadido-->
-                                <button type="submit" name="listarParteProd"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
-                                    </button><!--Olga: añadido-->
-                                    <button type="submit" name="modificarParteProd"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-edit" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
-                                    </button><!--Olga: añadido-->
-                                        <button type="submit" name="validarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-ok"
-                                                style="color:green; font-size: 1.5em"></span></button><!--Olga: añadido-->
-                                        <button type="submit" name="eliminarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em"><!--Olga: añadido-->
-                                        </button><!--Olga: añadido-->
-                                        <button type="submit" name="abrirParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em"><!--Olga: añadido-->
-                                        </button><!--Olga: añadido-->
-                                </td><!--Olga: añadido-->
-                            </tr><!--Olga: añadido-->
-                            <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>"><!--Olga: añadido-->
-                        </form><!--Olga: añadido-->
-                        <?php //Olga añadido
+                        self::rellenaTablaPartesProd($prod);
                     }//Olga añadido
                 }
                 ?>
             </table>
             </span>
             <?php
-
             require_once __DIR__ . "/../Plantilla/pie.php";
+    }//Olga añadido
 
+/*****************************************************/
+/* BUSCA PARTES POR TRABAJADOR Y RANGO FECHAS */
+/*****************************************************/
+    public static function findPartesByTrabajadorFechas($i)
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        //var_dump($i);//Olga Borra
+        $dni=$i["dni1"];
+        $fechaIni=$i["fechaIni1"];
+        $fechaFin=$i["fechaFin1"];
+//        var_dump($dni);//Olga Borra
+//        var_dump($fechaIni);//Olga Borra
+//        var_dump($fechaFin);//Olga Borra
+        $partesProd = Administracion\Controlador::getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin);
+//        echo("******PARTES PROD TRAB y RANGO FECHAS Administración Views*********");//Olga Borra
+//        var_dump($partesProd);//Olga Borra
+//        echo ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");//Olga Borra
+        $partesLog = Administracion\Controlador::getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin);
+//        echo("******PARTES LOG TRAB y RANGO FECHAS Administración Views*********");//Olga Borra
+//        var_dump($partesLog);//Olga Borra
+//        echo ("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");//Olga Borra
+        ?>
+         <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                </select>
+                <input type="submit" name="Buscar" value="Continuar">
+            </form>
+           <span id="respuesta">
+            <table class="table table-bordered text-center">
+
+                <?php
+                self::cabeceraTablaLog();
+                foreach ($partesLog as $log)
+                {
+                     self::rellenaTablaPartesLog($log);
                 }
+                ?>
+            </table>
+
+            <table class="table table-bordered text-center">
+                <?php
+                self::cabeceraTablaProd();
+                foreach ($partesProd as $prod)
+                {
+                    self::rellenaTablaPartesProd($prod);
+                }//Olga añadido
+                ?>
+            </table>
+            </span>
+            <?php
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+/*****************************************************/
+/* BUSCA PARTES POR RANGO FECHAS */
+/*****************************************************/
+    public static function findPartesByRangoFechas($i)
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        //var_dump($i);//Olga Borra
+        $fechaIni=$i["fechaIni2"];
+        $fechaFin=$i["fechaFin2"];
+       //var_dump($fechaIni);//Olga Borra
+        //var_dump($fechaFin);//Olga Borra
+
+        $partesProd = Administracion\Controlador::getPartesVentanaTpoProd($fechaIni,$fechaFin);
+        $partesLog = Administracion\Controlador::getPartesVentanaTpoLog($fechaIni,$fechaFin);
+        ?>
+         <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                </select>
+                <input type="submit" name="Buscar" value="Continuar">
+            </form>
+
+            <span id="respuesta">
+            <table class="table table-bordered text-center">
+
+                <?php
+                self::cabeceraTablaLog();
+                foreach ($partesLog as $log)
+                {
+                     self::rellenaTablaPartesLog($log);
+                }
+                ?>
+            </table>
+
+            <table class="table table-bordered text-center">
+                <?php
+                self::cabeceraTablaProd();
+                foreach ($partesProd as $prod)
+                {
+                    self::rellenaTablaPartesProd($prod);
+                }//Olga añadido
+                ?>
+            </table>
+            </span>
+            <?php
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+/*****************************************************/
+/* BUSCA PARTES POR ESTADO  */
+/*****************************************************/
+    public static function findPartesByEstado($i)
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+
+        $estado=$i["estado"];
+        $fila=\Modelo\BD\EstadoBD::selectEstdadoByTipo($estado);//Olga
+
+        $partesProd = Administracion\Controlador::getPartesProdByEstado($fila);
+        $partesLog = Administracion\Controlador::getPartesLogByEstado($fila);
+
+         ?>
+            <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                </select>
+                <input type="submit" name="Buscar" value="Continuar">
+            </form>
+
+            <span id="respuesta">
+            <table class="table table-bordered text-center">
+
+                <?php
+                self::cabeceraTablaLog();
+                foreach ($partesLog as $log)
+                {
+                     self::rellenaTablaPartesLog($log);
+                }
+                ?>
+            </table>
+
+            <table class="table table-bordered text-center">
+                <?php
+                self::cabeceraTablaProd();
+                foreach ($partesProd as $prod)
+                {
+                    self::rellenaTablaPartesProd($prod);
+
+                }//Olga añadido
+                ?>
+            </table>
+            </span>
+            <?php
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
 
 /*****************************************************/
 /* FESTIVOS */

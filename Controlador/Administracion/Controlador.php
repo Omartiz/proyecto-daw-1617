@@ -315,7 +315,7 @@ abstract class Controlador{
 
     public static function getAllHoraioTrabajador(){
     return BD\HorarioTrabajadorBD::getAll();
-}
+    }
     public static function getHorarioTrabajador($trabajador){
         return BD\HorarioTrabajadorBD::getAll($trabajador);
     }
@@ -490,8 +490,8 @@ abstract class Controlador{
         }
 
         unset($_SESSION['parte']);
-
     }
+
     public static function updateAbrirParteLogistica($datos){
         BD\PartelogisticaBD::updateAbrir($datos['id']);
     }
@@ -523,16 +523,15 @@ abstract class Controlador{
     public static function buscarParteLog($datos){
         return BD\PartelogisticaBD::getAllByTrabajador($datos['dni']);;
     }
+
     public static function buscarParteProd($datos){
         return BD\ParteProduccionBD::getAllByTrabajador($datos['dni']);
     }
+
     public static function getPerfilByDni($dni){
         $trabajador = new Logistica($dni);
         $perfil = BD\TrabajadorBD::getPerfilByDni($trabajador);
-
-
         return $perfil;
-
     }
 
     public static function getParte($dni, $perfil){
@@ -544,7 +543,6 @@ abstract class Controlador{
         elseif($perfil == "Logistica"){
             return $partes = BD\PartelogisticaBD::getAllByTrabajador($trabajador);
         }
-
     }
 
     public static function updateParteLogistica($datos)
@@ -558,5 +556,40 @@ abstract class Controlador{
         $parte = BD\ParteProduccionBD::getParteById($datos['id']);
 
         $_SESSION['parte'] = serialize($parte);
+    }
+
+    public static function getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
+    {
+//        echo "************getPartesProdByTrabAndRangoFechas ctrol>admin>ctrol****";//Olga Borrar
+//        var_dump($dni);//Olga Borrar
+//        var_dump($fechaIni);//Olga Borrar
+//        var_dump($fechaFin);//Olga Borrar
+//        echo "+++++++";//Olga Borrar
+        return BD\ParteProduccionBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
+    }
+
+    public static function getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
+    }
+
+    public static function getPartesVentanaTpoProd($fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByRangoFechas($fechaIni,$fechaFin);
+    }
+
+    public static function getPartesVentanaTpoLog($fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByRangoFechas($fechaIni,$fechaFin);
+    }
+
+    public static function getPartesProdByEstado($filaEstado)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByEstado($filaEstado);
+    }
+
+    public static function getPartesLogByEstado($filaEstado)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByEstado($filaEstado);
     }
 }

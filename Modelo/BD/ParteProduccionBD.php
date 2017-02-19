@@ -49,7 +49,7 @@ abstract class ParteProduccionBD extends GenericoBD
 
         $resultado = mysqli_query($conexion,$select);
 
-        $partes = GenericoBD::mapearArray($resultado,"PaarteProduccion");
+        $partes = GenericoBD::mapearArray($resultado,"ParteProduccion");
 
 
         GenericoBD::desconectar($conexion);
@@ -226,5 +226,61 @@ abstract class ParteProduccionBD extends GenericoBD
 
         return $partes;
 
+    }
+
+    public static function getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin){
+//        echo "************getPartesByTrabajadorAndFechas mod>BD>ParteProdBD****";//Olga Borrar
+//        var_dump($dni);//Olga Borrar
+//        var_dump($fechaIni);//Olga Borrar
+//        var_dump($fechaFin);//Olga Borrar
+//        echo "******";//Olga Borrar
+
+        $con = parent::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE dniTrabajador= '".$dni."' AND fecha BETWEEN '".$fechaIni."' AND '".$fechaFin."';";
+        //var_dump($query);//Olga Borrar
+        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $partes = parent::mapearArray($rs, "ParteProduccion");
+
+        parent::desconectar($con);
+
+        return $partes;
+    }
+
+    public static function getPartesByRangoFechas($fechaIni,$fechaFin){
+
+        $con = parent::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE fecha BETWEEN '".$fechaIni."' AND '".$fechaFin."';";
+
+        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $partes = parent::mapearArray($rs, "ParteProduccion");
+
+        parent::desconectar($con);
+
+        return $partes;
+    }
+
+    public static function getPartesByEstado($filaEstado){
+
+        //$fila=EstadoBD::selectEstdadoByTipo($estado);//Olga Borra
+        //var_dump($fila);//Olga Borra
+        //var_dump($fila->getId());//Olga Borra
+        //die;//Olga Borra
+        $con = parent::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE idEstado='".$filaEstado->getId()."';";
+
+        //var_dump($query);//Olga Borra
+        //die;//Olga Borra
+        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $partes = parent::mapearArray($rs, "ParteProduccion");
+
+        parent::desconectar($con);
+
+        return $partes;
     }
 }
