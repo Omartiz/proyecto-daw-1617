@@ -75,6 +75,7 @@ abstract class ParteProduccionBD extends GenericoBD
 
     }
     public static function getPartebyTrabajadorAndFecha($trabajador,$fecha){
+
         $conexion = parent::conectar();
 
         $select = "SELECT * FROM ".self::$tabla." WHERE dniTrabajador = '".$trabajador->getDni()."' AND fecha = '".$fecha."';";
@@ -86,7 +87,6 @@ abstract class ParteProduccionBD extends GenericoBD
         parent::desconectar($conexion);
 
         return $parte;
-
     }
 
     public static function getParteByHorarioParte($horarioparte){
@@ -229,17 +229,12 @@ abstract class ParteProduccionBD extends GenericoBD
     }
 
     public static function getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin){
-//        echo "************getPartesByTrabajadorAndFechas mod>BD>ParteProdBD****";//Olga Borrar
-//        var_dump($dni);//Olga Borrar
-//        var_dump($fechaIni);//Olga Borrar
-//        var_dump($fechaFin);//Olga Borrar
-//        echo "******";//Olga Borrar
 
         $con = parent::conectar();
 
         $query = "SELECT * FROM ".self::$tabla." WHERE dniTrabajador= '".$dni."' AND fecha BETWEEN '".$fechaIni."' AND '".$fechaFin."';";
-        //var_dump($query);//Olga Borrar
-        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+
+        $rs = mysqli_query($con, $query) or die("Error getPartesByTrabajadorAndFechas");
 
         $partes = parent::mapearArray($rs, "ParteProduccion");
 
@@ -254,7 +249,7 @@ abstract class ParteProduccionBD extends GenericoBD
 
         $query = "SELECT * FROM ".self::$tabla." WHERE fecha BETWEEN '".$fechaIni."' AND '".$fechaFin."';";
 
-        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+        $rs = mysqli_query($con, $query) or die("Error getPartesByRangoFechas");
 
         $partes = parent::mapearArray($rs, "ParteProduccion");
 
@@ -265,17 +260,26 @@ abstract class ParteProduccionBD extends GenericoBD
 
     public static function getPartesByEstado($filaEstado){
 
-        //$fila=EstadoBD::selectEstdadoByTipo($estado);//Olga Borra
-        //var_dump($fila);//Olga Borra
-        //var_dump($fila->getId());//Olga Borra
-        //die;//Olga Borra
         $con = parent::conectar();
 
         $query = "SELECT * FROM ".self::$tabla." WHERE idEstado='".$filaEstado->getId()."';";
 
-        //var_dump($query);//Olga Borra
-        //die;//Olga Borra
-        $rs = mysqli_query($con, $query) or die("Error getAllPartes");
+        $rs = mysqli_query($con, $query) or die("Error getPartesByEstado");
+
+        $partes = parent::mapearArray($rs, "ParteProduccion");
+
+        parent::desconectar($con);
+
+        return $partes;
+    }
+
+    public static function getPartesByDni($dni)
+    {
+        $con = parent::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE dniTrabajador= '".$dni."';";
+
+        $rs = mysqli_query($con, $query) or die("Error getPartesByDni");
 
         $partes = parent::mapearArray($rs, "ParteProduccion");
 

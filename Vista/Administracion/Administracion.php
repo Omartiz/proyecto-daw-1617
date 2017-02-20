@@ -14,7 +14,6 @@ switch($_GET['cod']) {
         break;
     case "3":
         Vista\Administracion\AdministracionViews::findPartesByDni($_POST);
-        //Vista\Administracion\AdministracionViews::pintaFiltro($_POST);//Olga Borra
         break;
     case "4":
         Vista\Administracion\AdministracionViews::editParteLogistica();
@@ -23,18 +22,16 @@ switch($_GET['cod']) {
         Vista\Administracion\AdministracionViews::editParteProduccion();
         break;
     case "6":
-        Vista\Administracion\AdministracionViews::pintaFiltro($_POST);//Olga Borra
+        Vista\Administracion\AdministracionViews::pintaFiltro($_POST);
         break;
     case "7":
         Vista\Administracion\AdministracionViews::findPartesByTrabajadorFechas($_POST);
         break;
     case "8":
         Vista\Administracion\AdministracionViews::findPartesByRangoFechas($_POST);
-        //Vista\Administracion\AdministracionViews::pintaFiltro($_POST);//Olga Borra
         break;
     case "9":
         Vista\Administracion\AdministracionViews::findPartesByEstado($_POST);
-        //Vista\Administracion\AdministracionViews::pintaFiltro($_POST);//Olga Borra
         break;
 }
 ?>

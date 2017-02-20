@@ -377,7 +377,8 @@ abstract class Controlador{
         return $perfil;
 
     }
-    public static function getParte($dni, $perfil){
+    public static function getParte($dni, $perfil)
+    {
         $trabajador = new Logistica($dni);
 
         if($perfil == "Produccion"){
@@ -389,4 +390,43 @@ abstract class Controlador{
 
     }
 
+    public static function getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
+    }
+
+    public static function getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
+    }
+
+    public static function getPartesVentanaTpoProd($fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByRangoFechas($fechaIni,$fechaFin);
+    }
+
+    public static function getPartesVentanaTpoLog($fechaIni,$fechaFin)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByRangoFechas($fechaIni,$fechaFin);
+    }
+
+    public static function getPartesProdByEstado($filaEstado)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByEstado($filaEstado);
+    }
+
+    public static function getPartesLogByEstado($filaEstado)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByEstado($filaEstado);
+    }
+
+    public static function getPartesProdByDni($dni)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByDni($dni);
+    }
+
+    public static function getPartesLogByDni($dni)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByDni($dni);
+    }
 }

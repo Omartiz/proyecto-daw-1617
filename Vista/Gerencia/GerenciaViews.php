@@ -1288,51 +1288,191 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
-        public static function findPartesByDni($datos)
-        {
 
-            parent::setOn(true);
-            parent::setRoot(true);
-            require_once __DIR__ . "/../Plantilla/cabecera.php";
-            ?>
-            Filtros:
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=3" method="post">
-            <label>DNI: </label><input type="text" name="dni" size="10">
-            <!--<button type="button" id="buscar" style="border: none; background: none"><span
-                    class="glyphicon glyphicon-search" style="color:black; font-size: 1.5em"></span></button>-->
-                    <input type="submit" name="Buscar" value="Buscar">
+/*****************************************************/
+/* Tipos de Filtros */
+/*****************************************************/
+   public static function tiposFiltro()
+     {
+      ?>
+       <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=4" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                    <option value="0">Eliminar Filtro</option>
+                </select>
+                <input type="submit" name="Buscar" value="Parámetros">
+            </form>
+      <?php
+     }
+
+/*****************************************************/
+/* Variables de Filtrado */
+/*****************************************************/
+     public static function pintaFiltro($tipo)
+     {
+       switch($tipo['Filtro'])
+       {
+       case "0":
+         ?>
+            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2" method="post">
+                <input type="submit" name="Buscar" value="Mostrar Todos">
+            </form>
+        <?php
+        break;
+
+        case "1":
+         ?>
+            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
+                <label>DNI: </label><input type="text" name="dni" size="10">
+                </br>
+                <input type="submit" name="Buscar" value="Filtrar">
+            </form>
+        <?php
+        break;
+
+        case "2":
+        ?>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=5" method="post">
+                <label>DNI: </label><input type="text" name="dni1" size="10"></br>
+                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10"> </br>
+                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10"> </br>
+                <input type="submit" name="Buscar" value="Filtrar">
             </form>
             <?php
-            $perfil = Gerencia\Controlador::getPerfilbyDni($datos['dni']);
-            $partes = Gerencia\Controlador::getParte($datos['dni'], $perfil);
+        break;
 
-            if ($perfil == "Logistica") {
+        case "3":
         ?>
-        <span id="respuesta">
-        <table class="table table-bordered text-center">
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni2" size="10"> </br>
+                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin2" size="10"> </br>
+                <input type="submit" name="Buscar" value="Filtrar">
+            </form>
+        <?php
+        break;
 
-            <h2>PARTES LOGÍSTICA</h2>
-            <tr>
-                <th>DNI</th>
-                <th>NOMBRE</th>
-                <th>FECHA</th>
-                <th>NOTA</th>
-                <th>ESTADO</th>
-                <th>ACCIÓN</th>
-            </tr>
+        case "4":
+        ?>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=7" method="post">
+                <label>Estado Parte: </label></br>
+                <input type="radio" name="estado" value="Abierto"> Validado</br>
+                <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
+                <input type="submit" name="Buscar" value="Filtrar">
+            </form><?php
+        break;
+       }
+     }
+
+/*****************************************************/
+/* Rellena Tabla Produccion */
+/*****************************************************/
+        public static function rellenaTablaPartesProd($prod)
+        {?>
+                <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                    <tr>
+                        <td><?php echo $prod->getTrabajador()->getDni(); ?></td>
+                        <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td>
+                        <td><?php echo $prod->getFecha(); ?></td>
+                        <td><?php echo $prod->getIncidencia(); ?></td>
+                        <td><?php echo $prod->getAutopista(); ?></td>
+                        <td><?php echo $prod->getDieta(); ?></td>
+                        <td><?php echo $prod->getOtroGasto(); ?></td>
+                        <td><?php echo $prod->getEstado()->getTipo(); ?></td>
+                        <td>
+                            <button type="submit" name="listarParteProd"
+                                    style="border: none; background: none"><span
+                                    class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
+                            </button>
+                            <?php
+                            if ($prod->getEstado()->getTipo() == "Validado")
+                            {
+                                ?>
+                                <button type="submit" name="finalizarParteProduccion"
+                                        style="border: none; background: none"><span
+                                        class="glyphicon glyphicon-ok"
+                                        style="color:green; font-size: 1.5em"></span>
+                                </button>
+
+                                <button type="submit" name="eliminarParteProduccion"
+                                        style="border: none; background: none"><span
+                                        class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
+                                </button>
+
+                                <button type="submit" name="cerrarParteProduccion"
+                                        style="border: none; background: none"><span
+                                        class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
+                                </button>
+                                <?php
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                    <?php
+                    //Calculo de horas extras
+                    $fecha = $prod->getFecha();
+
+                    $semana = date('W',strtotime($fecha));
+
+                    $trabajador = $prod->getTrabajador();
+
+                    $horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
+
+                    if (!is_array($horariosTrabajador))
+                    {
+                        $horariosTrabajador = array($horariosTrabajador);
+                    }
+
+                    $numhorasrealizadas = 0;
+                    foreach($prod->getHorariosParte() as $horarioParte)
+                    {
+                        $horaEntrada = $horarioParte->getHoraEntrada();
+                        $horaSalida = $horarioParte->getHoraSalida();
+
+                        $numhorasrealizadas = $numhorasrealizadas + (substr($horaSalida,0,2)-substr($horaEntrada,0,2)) ;
+                    }
+
+                    $numhoras = 0;
+                    foreach($horariosTrabajador as $horarioTrabajador)
+                    {
+                        $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+                    }
+
+                    $extras = $numhorasrealizadas - $numhoras;
+                    if ($extras < 0)
+                    {
+                        $extras=0;
+                    }
+
+                    //Termina calculo de horas extra
+                    ?>
+                    <input type="hidden" name="horas" value="<?php echo $extras; ?>">
+
+                    <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>">
+                </form>
             <?php
-            foreach ($partes as $log) {
-            if ($log->getEstado()->getTipo() == "Validado" || $log->getEstado()->getTipo() == "Finalizado") {
+        }
 
-                ?>
-            <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">                   <tr>
+/*****************************************************/
+/* Rellena Tabla Logistica */
+/*****************************************************/
+        public static function rellenaTablaPartesLog($log)
+        {?>
+                      <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                    <tr>
+
                         <td><?php echo $log->getTrabajador()->getDni(); ?></td>
                         <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td>
                         <td><?php echo $log->getFecha(); ?></td>
                         <td><?php echo $log->getNota(); ?></td>
+                        <td><?php echo $log->getAutopista(); ?></td>
+                        <td><?php echo $log->getDieta(); ?></td>
+                        <td><?php echo $log->getOtroGasto(); ?></td>
                         <td><?php echo $log->getEstado()->getTipo(); ?></td>
                         <td>
-
                             <button type="submit" name="listarParteLog"
                                     style="border: none; background: none"><span
                                     class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
@@ -1356,446 +1496,395 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                             </button>
                             <?php
                             }
-
-
                             ?>
                         </td>
                     </tr>
                     <?php
-                                //Calculo de horas extras
 
-            $numhorasrealizadas = 0;
-            $viajes = array();
-                        if (!is_null($log->getViajes())) {
-                            if (!is_array($log->getViajes())) {
+                    //*******************Calculo de horas extras
+                    $numhorasrealizadas = 0;
 
-                                $viajes[] = $log->getViajes();
-                            } else {
-                                $viajes = $log->getViajes();
-                            }
+                    $fecha = $log->getFecha();
+
+                    $semana = date('W',strtotime($fecha));
+
+                    $trabajador = $log->getTrabajador();
+
+                    $viajes = array();
+                    if (!is_null($log->getViajes()))
+                    {
+                        if (!is_array($log->getViajes()))
+                        {
+                            $viajes[] = $log->getViajes();
                         }
-			foreach($viajes as $viaje){
-                $horaInicio = $viaje->getHoraInicio();
-				$horaFin = $viaje->getHoraFin();
+                        else
+                        {
+                            $viajes = $log->getViajes();
+                        }
+                    }
+                    foreach($viajes as $viaje)
+                    {
+                        $horaInicio = $viaje->getHoraInicio();
+                        $horaFin = $viaje->getHoraFin();
 
-				$numhorasrealizadas = $numhorasrealizadas + (substr($horaFin,0,2)-substr($horaInicio,0,2)) ;
-            }
+                        $numhorasrealizadas = $numhorasrealizadas + (substr($horaFin,0,2)-substr($horaInicio,0,2)) ;
+                    }
 
-            $fecha = $log->getFecha();
+                    $horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
+                    if (!is_array($horariosTrabajador))
+                    {
+                         $horariosTrabajador = array($horariosTrabajador);
 
-            $semana = date('W',strtotime($fecha));
+                    }
 
-            $trabajador = $log->getTrabajador();
+                    $numhoras = 0;
+                    foreach($horariosTrabajador as $horarioTrabajador)
+                    {
+                        if (!is_null($horarioTrabajador))
+                        {
+                            $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+                        }
+                    }
 
+                    $extras = $numhorasrealizadas - $numhoras;
 
-			$horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
+                    if ($extras < 0)
+                    {
+                        $extras=0;
+                    }
 
-            if (!is_array($horariosTrabajador))
-            {
-                 $horariosTrabajador = array($horariosTrabajador);
+                    //*******************Termina calculo de horas extra
 
-            }
-
-
-			$numhoras = 0;
-			foreach($horariosTrabajador as $horarioTrabajador)
-			{
-			 if (!is_null($horarioTrabajador))
-			   {
-				$numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
-			}
-			}
-
-            $extras = $numhorasrealizadas - $numhoras;
-
-					if ($extras < 0)
-                            {
-                                $extras=0;
-
-                            }
-
-                    //Termina calculo de horas extra
                     ?>
                     <input type="hidden" name="horas" value="<?php echo $extras; ?>">
 
                     <input type="hidden" name="id" value="<?php echo $log->getId(); ?>">
                 </form>
-                <?php
-                }
-            }
-            ?>
-        </table>
-        <?php
-    } elseif ($perfil == "Produccion") {
-        ?>
-        <table class="table table-bordered text-center">
-            <h2>PARTES PRODUCCIÓN</h2>
-            <tr>
-                <th>DNI</th>
-                <th>NOMBRE</th>
-                <th>FECHA</th>
-                <th>INCIDENCIAS</th>
-                <th>AUTOPISTAS</th>
-                <th>DIETAS</th>
-                <th>OTROS GASTOS</th>
-                <th>ESTADO</th>
-                <th>ACCIÓN</th>
-            </tr>
             <?php
-            foreach ($partes as $prod) {
-            if ($prod->getEstado()->getTipo() == "Validado" || $prod->getEstado()->getTipo() == "Finalizado") {
+        }
 
-                ?>
-                <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
-                    <tr>
-                        <td><?php echo $prod->getTrabajador()->getDni(); ?></td>
-                        <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td>
-                        <td><?php echo $prod->getFecha(); ?></td>
-                        <td><?php echo $prod->getIncidencia(); ?></td>
-                        <td><?php echo $prod->getAutopista(); ?></td>
-                        <td><?php echo $prod->getDieta(); ?></td>
-                        <td><?php echo $prod->getOtroGasto(); ?></td>
-                        <td><?php echo $prod->getEstado()->getTipo(); ?></td>
-                        <td>
-                         <button type="submit" name="listarParteProd"
-                                    style="border: none; background: none"><span
-                                    class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
-                            </button>
-                            <?php
-                                if ($prod->getEstado()->getTipo() == "Validado") {
-                                ?>
-                            <button type="submit" name="finalizarParteProduccion"
-                                    style="border: none; background: none"><span
-                                    class="glyphicon glyphicon-ok"
-                                    style="color:green; font-size: 1.5em"></span></button>
+/*****************************************************/
+/* Cabecera Tabla Partes Producción */
+/*****************************************************/
+     public static function cabeceraTablaProd()
+     {?>
+        <h2>PARTES PRODUCCIÓN</h2>
+        <tr>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>FECHA</th>
+            <th>INCIDENCIAS</th>
+            <th>AUTOPISTAS</th>
+            <th>DIETAS</th>
+            <th>OTROS GASTOS</th>
+            <th>ESTADO</th>
+            <th>ACCIÓN</th>
+        </tr>
+     <?php
+     }
 
-                            <button type="submit" name="eliminarParteProduccion"
-                                    style="border: none; background: none"><span
-                                    class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
-                            </button>
+/*****************************************************/
+/* Cabecera Tabla Partes Logistica */
+/*****************************************************/
+    public static function cabeceraTablaLog()
+     {?>
+     <h2>PARTES LOGÍSTICA</h2>
+        <tr>
+            <th>DNI</th>
+            <th>NOMBRE</th>
+            <th>FECHA</th>
+            <th>NOTA</th>
+            <th>AUTOPISTAS</th>
+            <th>DIETAS</th>
+            <th>OTROS GASTOS</th>
+            <th>ESTADO</th>
+            <th>ACCIÓN</th>
+        </tr>
+     <?php
+     }
 
-                            <button type="submit" name="cerrarParteProduccion"
-                                    style="border: none; background: none"><span
-                                    class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
-                            </button>
-                            <?php
+ /*****************************************************/
+/* Insertar tablas Partes */
+/*****************************************************/
+    public static function insertarTablas($partesProd,$partesLog)
+    {
+    ?>
+        <span id="respuesta">
+            <table class="table table-bordered text-center">
+                <?php
+                if (count($partesLog)>0)// solo se muestra la cabecer asi hay contenido
+                {
+                    self::cabeceraTablaLog();
 
-
-                            }
-
-                            ?>
-
-                        </td>
-                    </tr>
-                                        <?php
-                    //Calculo de horas extras
-                    $fecha = $prod->getFecha();
-
-                    $semana = date('W',strtotime($fecha));
-
-                    $trabajador = $prod->getTrabajador();
-
-					$horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
-
-                    if (!is_array($horariosTrabajador))
+                    foreach ($partesLog as $log)
                     {
-                        $horariosTrabajador = array($horariosTrabajador);
-
+                        if ($log->getEstado()->getTipo() == "Validado" || $log->getEstado()->getTipo() == "Finalizado")
+                        {
+                            self::rellenaTablaPartesLog($log);
+                        }
                     }
 
-                            $numhorasrealizadas = 0;
-					        foreach($prod->getHorariosParte() as $horarioParte){
-
-
-						        $horaEntrada = $horarioParte->getHoraEntrada();
-						        $horaSalida = $horarioParte->getHoraSalida();
-
-						        $numhorasrealizadas = $numhorasrealizadas + (substr($horaSalida,0,2)-substr($horaEntrada,0,2)) ;
-
-					        }
-
-					        $numhoras = 0;
-					        foreach($horariosTrabajador as $horarioTrabajador)
-						    {
-						        $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
-						    }
-
-						    $extras = $numhorasrealizadas - $numhoras;
-                            if ($extras < 0)
-                            {
-                                $extras=0;
-
-                            }
-
-                    //Termina calculo de horas extra
-                    ?>
-                    <input type="hidden" name="horas" value="<?php echo $extras; ?>">
-
-                    <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>">
-                </form>
-                <?php
+                    foreach ($partesLog as $log)
+                    {
+                        if ($log->getEstado()->getTipo() == "Cerrado")
+                        {
+                            self::rellenaTablaPartesLog($log);
+                        }
+                    }
                 }
-            }
-            ?>
-        </table>
+                ?>
+            </table>
+
+            <table class="table table-bordered text-center">
+                <?php
+                 if (count($partesProd)>0)// solo se muestra la cabecer asi hay contenido
+                {
+                    self::cabeceraTablaProd();
+
+                    foreach ($partesProd as $prod)
+                    {
+                        if ($prod->getEstado()->getTipo() == "Validado" || $prod->getEstado()->getTipo() == "Finalizado")
+                        {
+                            self::rellenaTablaPartesProd($prod);
+                        }
+                    }
+                    foreach ($partesProd as $prod)
+                    {
+                        if ($prod->getEstado()->getTipo() == "Cerrado")
+                        {
+                            self::rellenaTablaPartesProd($prod);
+                        }
+                    }
+                }
+                ?>
+            </table>
         </span>
-        <?php
-    }
-    require_once __DIR__ . "/../Plantilla/pie.php";
+    <?php
     }
 
 
-        public static function allPartesByDni()
+/*****************************************************/
+/* Busca Partes por DNI*/
+/*****************************************************/
+
+        public static function findPartesByDni($datos)
         {
-
+        var_dump($datos);
             parent::setOn(true);
             parent::setRoot(true);
+
             require_once __DIR__ . "/../Plantilla/cabecera.php";
-            $partesProd = Gerencia\Controlador::getAllPartesProduccion();
-            $partesLog = Gerencia\Controlador::getAllPartesLogistica();
-            ?>
-            Filtros:
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=3" method="post">
-            <label>DNI: </label><input type="text" name="dni" size="10">
-            <!--<button type="button" id="buscar" style="border: none; background: none"><span
-                    class="glyphicon glyphicon-search" style="color:black; font-size: 1.5em"></span></button>-->
-                    <input type="submit" name="Buscar" value="Buscar">
-            </form>
-            <span id="respuesta">
-            <table class="table table-bordered text-center">
 
-                <h2>PARTES LOGÍSTICA</h2>
-                <tr>
-                    <th>DNI</th>
-                    <th>NOMBRE</th>
-                    <th>FECHA</th>
-                    <th>NOTA</th>
-                    <th>ESTADO</th>
-                    <th>ACCIÓN</th>
-                </tr>
-                <?php
-                foreach ($partesLog as $log) {
-                    if ($log->getEstado()->getTipo() == "Validado" || $log->getEstado()->getTipo() == "Finalizado") {
-                        ?>
+            self::tiposFiltro();
 
-                        <form method="post"
-                              action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
-                            <tr>
-                                <td><?php echo $log->getTrabajador()->getDni(); ?></td>
-                                <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td>
-                                <td><?php echo $log->getFecha(); ?></td>
-                                <td><?php echo $log->getNota(); ?></td>
-                                <td><?php echo $log->getEstado()->getTipo(); ?></td>
-                                <td>
-                                <button type="submit" name="listarParteLog"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
-                                    </button>
-                                <?php
-                                if ($log->getEstado()->getTipo() == "Validado") {
-                                ?>
+            $perfil = Gerencia\Controlador::getPerfilbyDni($datos['dni']);
+            $partes = Gerencia\Controlador::getParte($datos['dni'], $perfil);
 
+            if ($perfil == "Logistica")
+            {
+                ?>
+                <span id="respuesta">
+                <table class="table table-bordered text-center">
+                    <?php
 
-                                        <button type="submit" name="finalizarParteLogistica"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-ok"
-                                                style="color:green; font-size: 1.5em"></span></button>
-                                        <button type="submit" name="eliminarParteLogistica"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
-                                        </button>
-                                        <button type="submit" name="cerrarParteLogistica"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
-                                        </button>
-                                    <?php
-                                    }
-                                     ?>
+                        self::cabeceraTablaLog();
 
-                                </td>
-                            </tr>
-                                                <?php
-                                //Calculo de horas extras
-
-            $numhorasrealizadas = 0;
-            $viajes = array();
-
-                        if (!is_null($log->getViajes())) {
-                            if (!is_array($log->getViajes())) {
-
-                                $viajes[] = $log->getViajes();
-                            } else {
-                                $viajes = $log->getViajes();
+                        foreach ($partes as $log)
+                        {
+                            if ($log->getEstado()->getTipo() == "Validado" || $log->getEstado()->getTipo() == "Finalizado")
+                            {
+                                self::rellenaTablaPartesLog($log);
                             }
                         }
-			foreach($viajes as $viaje){
-                $horaInicio = $viaje->getHoraInicio();
-				$horaFin = $viaje->getHoraFin();
-
-				$numhorasrealizadas = $numhorasrealizadas + (substr($horaFin,0,2)-substr($horaInicio,0,2)) ;
-            }
-
-            $fecha = $log->getFecha();
-
-            $semana = date('W',strtotime($fecha));
-
-            $trabajador = $log->getTrabajador();
-
-			$horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
-
-            if (!is_array($horariosTrabajador))
-            {
-                 $horariosTrabajador = array($horariosTrabajador);
-
-            }
-            if (is_null($horariosTrabajador))
-            {
-                $horariosTrabajador = array();
-            }
-
-
-			$numhoras = 0;
-			foreach($horariosTrabajador as $horarioTrabajador)
-			{
-			    if (!is_null($horarioTrabajador))
-			   {
-			   $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
-			   }
-			}
-
-            $extras = $numhorasrealizadas - $numhoras;
-
-					if ($extras < 0)
+                        foreach ($partes as $log)
+                        {
+                            if ($log->getEstado()->getTipo() == "Cerrado")
                             {
-                                $extras=0;
-
+                                self::rellenaTablaPartesLog($log);
                             }
+                        }
 
-                    //Termina calculo de horas extra
                     ?>
-                    <input type="hidden" name="horas" value="<?php echo $extras; ?>">
-
-                            <input type="hidden" name="id" value="<?php echo $log->getId(); ?>">
-                        </form>
-                        <?php
-                    }
-                }
-                ?>
-            </table>
-            <table class="table table-bordered text-center">
-                <h2>PARTES PRODUCCIÓN</h2>
-                <tr>
-                    <th>DNI</th>
-                    <th>NOMBRE</th>
-                    <th>FECHA</th>
-                    <th>INCIDENCIAS</th>
-                    <th>AUTOPISTAS</th>
-                    <th>DIETAS</th>
-                    <th>OTROS GASTOS</th>
-                    <th>ESTADO</th>
-                    <th>ACCIÓN</th>
-                </tr>
+                </table>
                 <?php
-                foreach ($partesProd as $prod) {
-                    if ($prod->getEstado()->getTipo() == "Validado" || $prod->getEstado()->getTipo() == "Finalizado") {
-                        ?>
-                        <form method="post"
-                              action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
-                            <tr>
-                                <td><?php echo $prod->getTrabajador()->getDni(); ?></td>
-                                <td><?php echo $prod->getTrabajador()->getNombre()." ".$prod->getTrabajador()->getApellido1()." ".$prod->getTrabajador()->getApellido2(); ?></td>
-                                <td><?php echo $prod->getFecha(); ?></td>
-                                <td><?php echo $prod->getIncidencia(); ?></td>
-                                <td><?php echo $prod->getAutopista(); ?></td>
-                                <td><?php echo $prod->getDieta(); ?></td>
-                                <td><?php echo $prod->getOtroGasto(); ?></td>
-                                <td><?php echo $prod->getEstado()->getTipo(); ?></td>
-                                <td>
-                                <button type="submit" name="listarParteProd"
-                                            style="border: none; background: none"><span
-                                            class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
-                                    </button>
-                                <?php
-                                if ($prod->getEstado()->getTipo() == "Validado") {
-                                ?>
+            }
+            elseif ($perfil == "Produccion")
+            {
+            ?>
+                <table class="table table-bordered text-center">
+                    <?php
 
+                        self::cabeceraTablaProd();
 
-
-                                        <button type="submit" name="finalizarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-ok"
-                                                style="color:green; font-size: 1.5em"></span></button>
-                                        <button type="submit" name="eliminarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
-                                        </button>
-                                        <button type="submit" name="cerrarParteProduccion"
-                                                style="border: none; background: none"><span
-                                                class="glyphicon glyphicon-open-file" style="color:blue; font-size: 1.5em">
-                                        </button>
-                                    <?php
-                                    }
-                                     ?>
-
-                                </td>
-                            </tr>
-                                                <?php
-                    //Calculo de horas extras
-                    $fecha = $prod->getFecha();
-
-                    $semana = date('W',strtotime($fecha));
-
-                    $trabajador = $prod->getTrabajador();
-
-					$horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
-
-                    if (!is_array($horariosTrabajador))
-                    {
-                        $horariosTrabajador = array($horariosTrabajador);
-
-                    }
-
-                            $numhorasrealizadas = 0;
-					        foreach($prod->getHorariosParte() as $horarioParte){
-
-
-						        $horaEntrada = $horarioParte->getHoraEntrada();
-						        $horaSalida = $horarioParte->getHoraSalida();
-
-						        $numhorasrealizadas = $numhorasrealizadas + (substr($horaSalida,0,2)-substr($horaEntrada,0,2)) ;
-
-					        }
-
-					        $numhoras = 0;
-					        foreach($horariosTrabajador as $horarioTrabajador)
-						    {
-						        $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
-						    }
-
-						    $extras = $numhorasrealizadas - $numhoras;
-                            if ($extras < 0)
+                        foreach ($partes as $prod)
+                        {
+                            if ($prod->getEstado()->getTipo() == "Validado" || $prod->getEstado()->getTipo() == "Finalizado")
                             {
-                                $extras=0;
+                                self::rellenaTablaPartesProd($prod);
 
                             }
+                        }
+                        foreach ($partes as $prod)
+                        {
+                            if ($prod->getEstado()->getTipo() == "Cerrado")
+                            {
+                                self::rellenaTablaPartesProd($prod);
 
-                    //Termina calculo de horas extra
+                            }
+                        }
                     ?>
-                    <input type="hidden" name="horas" value="<?php echo $extras; ?>">
-
-                            <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>">
-                        </form>
-                        <?php
-                    }
-                }
-                ?>
-            </table>
+                </table>
             </span>
-            <?php
+        <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
 
-            require_once __DIR__ . "/../Plantilla/pie.php";
+/*****************************************************/
+/* Busca Partes Total*/
+/*****************************************************/
+    public static function allPartesByDni()
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $partesProd = Gerencia\Controlador::getAllPartesProduccion();
+        $partesLog = Gerencia\Controlador::getAllPartesLogistica();
 
-                }
+        self::tiposFiltro()
+
+        ?>
+<!--        Filtros:-->
+<!--        <form name="buscar" action="--><?php //echo parent::getUrlRaiz()?><!--/Vista/Gerencia/Gerencia.php?cod=3" method="post">-->
+<!--        <label>DNI: </label><input type="text" name="dni" size="10">-->
+<!--        <!--<button type="button" id="buscar" style="border: none; background: none"><span-->
+<!--                class="glyphicon glyphicon-search" style="color:black; font-size: 1.5em"></span></button>-->-->
+<!--                <input type="submit" name="Buscar" value="Buscar">-->
+<!--        </form>-->
+
+<!--        <span id="respuesta">-->
+<!--            <table class="table table-bordered text-center">-->
+<!--                --><?php
+//                if (count($partesLog)>0)// solo se muestra la cabecer asi hay contenido
+//                {
+//                    self::cabeceraTablaLog();
+//
+//                    foreach ($partesLog as $log)
+//                    {
+//                        if ($log->getEstado()->getTipo() == "Validado" || $log->getEstado()->getTipo() == "Finalizado")
+//                        {
+//                            self::rellenaTablaPartesLog($log);
+//                        }
+//                    }
+//
+//                    foreach ($partesLog as $log)
+//                    {
+//                        if ($log->getEstado()->getTipo() == "Cerrado")
+//                        {
+//                            self::rellenaTablaPartesLog($log);
+//                        }
+//                    }
+//                }
+//                ?>
+<!--            </table>-->
+<!---->
+<!--            <table class="table table-bordered text-center">-->
+<!--                --><?php
+//                 if (count($partesProd)>0)// solo se muestra la cabecer asi hay contenido
+//                {
+//                    self::cabeceraTablaProd();
+//
+//                    foreach ($partesProd as $prod)
+//                    {
+//                        if ($prod->getEstado()->getTipo() == "Validado" || $prod->getEstado()->getTipo() == "Finalizado")
+//                        {
+//                            self::rellenaTablaPartesProd($prod);
+//                        }
+//                    }
+//                    foreach ($partesProd as $prod)
+//                    {
+//                        if ($prod->getEstado()->getTipo() == "Cerrado")
+//                        {
+//                            self::rellenaTablaPartesProd($prod);
+//                        }
+//                    }
+//                }
+//                ?>
+<!--            </table>-->
+<!--        </span>-->
+    <?php
+
+    self::insertarTablas($partesProd,$partesLog);
+
+    require_once __DIR__ . "/../Plantilla/pie.php";
+
+   }
+   /*****************************************************/
+/* BUSCA PARTES POR TRABAJADOR Y RANGO FECHAS */
+/*****************************************************/
+    public static function findPartesByTrabajadorFechas($i)
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+
+        $dni=$i["dni1"];
+        $fechaIni=$i["fechaIni1"];
+        $fechaFin=$i["fechaFin1"];
+
+        $partesProd = Gerencia\Controlador::getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin);
+        $partesLog = Gerencia\Controlador::getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin);
+
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
+
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+/*****************************************************/
+/* BUSCA PARTES POR RANGO FECHAS */
+/*****************************************************/
+    public static function findPartesByRangoFechas($i)
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+
+        $fechaIni=$i["fechaIni2"];
+        $fechaFin=$i["fechaFin2"];
+
+        $partesProd = Gerencia\Controlador::getPartesVentanaTpoProd($fechaIni,$fechaFin);
+        $partesLog = Gerencia\Controlador::getPartesVentanaTpoLog($fechaIni,$fechaFin);
+
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
+
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+/*****************************************************/
+/* BUSCA PARTES POR ESTADO  */
+/*****************************************************/
+    public static function findPartesByEstado($i)
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+
+        $estado=$i["estado"];
+        $fila=\Modelo\BD\EstadoBD::selectEstdadoByTipo($estado);//Olga
+
+        $partesProd = Gerencia\Controlador::getPartesProdByEstado($fila);
+        $partesLog = Gerencia\Controlador::getPartesLogByEstado($fila);
+
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
+
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+
 
 }
 

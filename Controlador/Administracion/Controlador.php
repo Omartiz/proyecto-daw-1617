@@ -343,7 +343,6 @@ abstract class Controlador{
         $viajes=BD\ViajeBD::getViajeByParte($parte);
 
         AdministracionViews::viewParteLog($parte,$viajes);
-
     }
 
     public static function viewParteProd($datos)
@@ -354,8 +353,8 @@ abstract class Controlador{
         //$viajes=BD\ViajeBD::getViajeByParte($parte);
 
         AdministracionViews::viewParteProd($parte,$estado);
-
     }
+
     public static function updateValidarParteLogistica($datos){
         BD\PartelogisticaBD::updateValidar($datos['id']);
     }
@@ -451,9 +450,8 @@ abstract class Controlador{
         BD\ParteProduccionBD::updateDatosParte($parte);
 
         unset($_SESSION['parte']);
-
-
     }
+
     public static function guardarParteLogistica($datos)
     {
         $parte = unserialize($_SESSION['parte']);
@@ -495,9 +493,11 @@ abstract class Controlador{
     public static function updateAbrirParteLogistica($datos){
         BD\PartelogisticaBD::updateAbrir($datos['id']);
     }
+
     public static function updateValidarParteProduccion($datos){
         BD\ParteProduccionBD::updateValidar($datos['id']);
     }
+
     public static function updateAbrirParteProduccion($datos){
         BD\ParteProduccionBD::updateAbrir($datos['id']);
         $parte = BD\ParteProduccionBD::getParteById($datos['id']);
@@ -506,20 +506,22 @@ abstract class Controlador{
         {
             BD\HorarioParteBD::delete($horarioparte);
         }
-
-
     }
+
     public static function getAllFestivos(){
         return BD\FestivoBD::getAll();
     }
+
     public static function addFestivo($datos){
         $festivo = new Festivo(null, $datos['fecha'], $datos['motivo']);
 
         BD\FestivoBD::add($festivo);
     }
+
     public static function deleteFestivo($datos){
         BD\FestivoBD::delete($datos['id']);
     }
+
     public static function buscarParteLog($datos){
         return BD\PartelogisticaBD::getAllByTrabajador($datos['dni']);;
     }
@@ -551,6 +553,7 @@ abstract class Controlador{
 
         $_SESSION['parte'] = serialize($parte);
     }
+
     public static function updateParteProduccion($datos)
     {
         $parte = BD\ParteProduccionBD::getParteById($datos['id']);
@@ -560,11 +563,6 @@ abstract class Controlador{
 
     public static function getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
     {
-//        echo "************getPartesProdByTrabAndRangoFechas ctrol>admin>ctrol****";//Olga Borrar
-//        var_dump($dni);//Olga Borrar
-//        var_dump($fechaIni);//Olga Borrar
-//        var_dump($fechaFin);//Olga Borrar
-//        echo "+++++++";//Olga Borrar
         return BD\ParteProduccionBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
     }
 
@@ -591,5 +589,15 @@ abstract class Controlador{
     public static function getPartesLogByEstado($filaEstado)//Olga added
     {
         return BD\ParteLogisticaBD::getPartesByEstado($filaEstado);
+    }
+
+    public static function getPartesProdByDni($dni)//Olga added
+    {
+        return BD\ParteProduccionBD::getPartesByDni($dni);
+    }
+
+    public static function getPartesLogByDni($dni)//Olga added
+    {
+        return BD\ParteLogisticaBD::getPartesByDni($dni);
     }
 }

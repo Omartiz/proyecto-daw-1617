@@ -1861,54 +1861,85 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
+
+ /*****************************************************/
+/* Tipos de Filtros */
 /*****************************************************/
-/* Filtros */
+   public static function tiposFiltro()
+     {
+      ?>
+       <h4>Filtrar por:</h4>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                <select name="Filtro">
+                    <option value="1">Trabajador</option>
+                    <option value="2">Trabajador y Rango de Fechas</option>
+                    <option value="3">Rango de Fecha</option>
+                    <option value="4">Estado de Parte</option>
+                    <option value="0">Eliminar Filtro</option>
+                </select>
+                <input type="submit" name="Buscar" value="Parámetros">
+            </form>
+      <?php
+     }
+
 /*****************************************************/
-     public static function PintaFiltro($tipo)
+/* Variables de Filtrado */
+/*****************************************************/
+     public static function pintaFiltro($tipo)
      {
        switch($tipo['Filtro'])
        {
+       case "0":
+         ?>
+            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2" method="post">
+                <input type="submit" name="Buscar" value="Mostrar Todos">
+            </form>
+        <?php
+        break;
+
         case "1":
-         ?><form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
+         ?>
+            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
                 <label>DNI: </label><input type="text" name="dni" size="10">
                 </br>
-                <input type="submit" name="Buscar" value="Buscar">
-            </form><?php
+                <input type="submit" name="Buscar" value="Filtrar">
+            </form>
+        <?php
         break;
+
         case "2":
-        ?><form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=7" method="post">
-
-                <label>DNI: </label><input type="text" name="dni1" size="10">
-                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10">
-                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10">
-                 </br>
-
-                    <input type="submit" name="Buscar" value="Buscar">
-            </form><?php
+        ?>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=7" method="post">
+                <label>DNI: </label><input type="text" name="dni1" size="10"></br>
+                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10"> </br>
+                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10"> </br>
+                <input type="submit" name="Buscar" value="Filtrar">
+            </form>
+            <?php
         break;
+
         case "3":
-       ?><form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=8" method="post">
-
-            <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni2" size="10">
-            <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin2" size="10">
-
-                    <input type="submit" name="Buscar" value="Buscar">
-            </form><?php
+        ?>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=8" method="post">
+                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni2" size="10"> </br>
+                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin2" size="10"> </br>
+                <input type="submit" name="Buscar" value="Filtrar">
+            </form>
+        <?php
         break;
+
         case "4":
-        ?><form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=9" method="post">
-
-            <label>Estado Parte: </label></br>
-
-              <input type="radio" name="estado" value="Abierto"> Abierto</br>
-              <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
-
-              <input type="submit" name="Buscar" value="Buscar">
+        ?>
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=9" method="post">
+                <label>Estado Parte: </label></br>
+                <input type="radio" name="estado" value="Abierto"> Abierto</br>
+                <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
+                <input type="submit" name="Buscar" value="Filtrar">
             </form><?php
         break;
-
        }
      }
+
 /*****************************************************/
 /* Rellena Tabla Produccion */
 /*****************************************************/
@@ -1927,7 +1958,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                     <td><?php echo $prod->getOtroGasto(); ?></td>
                     <td><?php echo $prod->getEstado()->getTipo(); ?></td>
                     <td>
-                    <button type="submit" name="listarParteProd"
+                        <button type="submit" name="listarParteProd"
                                 style="border: none; background: none"><span
                                 class="glyphicon glyphicon-list" style="color:blue; font-size: 1.5em">
                         </button>
@@ -1995,11 +2026,11 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                 </tr>
                 <input type="hidden" name="id" value="<?php echo $log->getId(); ?>">
             </form>
-            <?php ////Olga: añadido
+            <?php
         }
 
 /*****************************************************/
-/* Cabecera Tabla Producción */
+/* Cabecera Tabla Partes Producción */
 /*****************************************************/
      public static function cabeceraTablaProd()
      {?>
@@ -2019,7 +2050,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
      }
 
 /*****************************************************/
-/* Cabecera Tabla Logistica */
+/* Cabecera Tabla Partes Logistica */
 /*****************************************************/
     public static function cabeceraTablaLog()
      {?>
@@ -2029,14 +2060,72 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             <th>NOMBRE</th>
             <th>FECHA</th>
             <th>NOTA</th>
-            <th>AUTOPISTAS</th> <!--Olga: añadido-->
-            <th>DIETAS</th><!--Olga: añadido-->
-            <th>OTROS GASTOS</th><!--Olga: añadido-->
+            <th>AUTOPISTAS</th>
+            <th>DIETAS</th>
+            <th>OTROS GASTOS</th>
             <th>ESTADO</th>
             <th>ACCIÓN</th>
         </tr>
      <?php
      }
+
+/*****************************************************/
+/* Insertar tablas Partes */
+/*****************************************************/
+    public static function insertarTablas($partesProd,$partesLog)
+    {
+    ?>
+        <span id="respuesta">
+           <table class="table table-bordered text-center">
+
+                <?php
+                if(count($partesProd)>0){//solo se "pinta" la tabla si hay contenido que nmostrar
+                    self::cabeceraTablaProd();
+
+                    foreach ($partesProd as $prod)
+                    {
+                        if ($prod->getEstado()->getTipo() == "Cerrado")
+                        {
+                            self::rellenaTablaPartesProd($prod);
+                        }
+                    }
+                    foreach ($partesProd as $prod) // se muestren los abiertos tras los cerrados
+                    {
+                        if ($prod->getEstado()->getTipo() == "Abierto")
+                        {
+                            self::rellenaTablaPartesProd($prod);
+                        }
+                     }
+                }
+                ?>
+            </table>
+
+             <table class="table table-bordered text-center">
+                <?php
+                if(count($partesLog)>0){//solo se "pinta" la tabla si hay contenido que nmostrar
+                    self::cabeceraTablaLog();
+
+                    foreach ($partesLog as $log)
+                    {
+                        if ($log->getEstado()->getTipo() == "Cerrado")
+                        {
+                            self::rellenaTablaPartesLog($log);
+                        }
+                     }
+                     foreach ($partesLog as $log)// mostrar separados los partes no cerrados
+                     {
+                        if ($log->getEstado()->getTipo() == "Abierto")
+                        {
+                            self::rellenaTablaPartesLog($log);
+                        }
+                    }
+                }
+                ?>
+            </table>
+
+    </span>
+    <?php
+    }
 
 /*****************************************************/
 /* PARTES */
@@ -2046,75 +2135,15 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         {
             parent::setOn(true);
             parent::setRoot(true);
+
             require_once __DIR__ . "/../Plantilla/cabecera.php";
+
             $partesProd = Administracion\Controlador::getAllPartesProduccion();
-            //var_dump($partesProd);//Olga Borra
             $partesLog = Administracion\Controlador::getAllPartesLogistica();
-//            var_dump($partesLog);//Olga Borra
-//            die;
-            ?>
-            <h4>Filtrar por:</h4>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
-                <select name="Filtro">
-                    <option value="1">Trabajador</option>
-                    <option value="2">Trabajador y Rango de Fechas</option>
-                    <option value="3">Rango de Fecha</option>
-                    <option value="4">Estado de Parte</option>
-                </select>
-            <!--<button type="button" id="buscar" style="border: none; background: none"><span
-                    class="glyphicon glyphicon-search" style="color:black; font-size: 1.5em"></span></button>-->
-                    <input type="submit" name="Buscar" value="Continuar">
-            </form>
 
-            <span id="respuesta">
+            self::tiposFiltro();
+            self::insertarTablas($partesProd,$partesLog);
 
-              <table class="table table-bordered text-center">
-
-                    <?php
-
-                    self::cabeceraTablaProd();
-
-                    foreach ($partesProd as $prod)
-                    {
-                        if ($prod->getEstado()->getTipo() == "Cerrado")
-                        {
-                            self::rellenaTablaPartesProd($prod);
-                        }
-                    }//Olga añadido
-                    foreach ($partesProd as $prod)
-                    {//Olga añadido: se muestren los abiertos tras los cerrados
-                        if ($prod->getEstado()->getTipo() == "Abierto")//Olga añadido
-                        {//Olga añadido
-                            self::rellenaTablaPartesProd($prod);
-                        }//Olga añadido
-                     }
-                    ?>
-                </table>
-
-                 <table class="table table-bordered text-center">
-
-                <?php
-                self::cabeceraTablaLog();
-
-                foreach ($partesLog as $log)
-                {
-                    if ($log->getEstado()->getTipo() == "Cerrado")
-                    {
-                        self::rellenaTablaPartesLog($log);
-                    }
-                 }// Olga, añadido
-                 foreach ($partesLog as $log)
-                 {// Olga, añadido: mostrar separados los partes no cerrados
-                    if ($log->getEstado()->getTipo() == "Abierto") // Olga, añadido
-                    {
-                        self::rellenaTablaPartesLog($log);
-                    }//Olga: añadido
-                }
-                ?>
-            </table>
-
-            </span>
-            <?php
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
@@ -2124,73 +2153,21 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
     public static function findPartesByDni($i)//Olga añadido
     {//Olga añadido
-    //var_dump($i);//Olga Borra
-    //die;//Olga Borra
-    $dni=$i["dni"];
-    //var_dump($dni);//Olga Borra
-    //die;//Olga Borra
+
+        $dni=$i["dni"];
+
         parent::setOn(true);
         parent::setRoot(true);
+
         require_once __DIR__ . "/../Plantilla/cabecera.php";
-        $partesProd = Administracion\Controlador::getAllPartesProduccion();
-        $partesLog = Administracion\Controlador::getAllPartesLogistica();
-        ?>
-            <h4>Filtrar por:</h4>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
-                <select name="Filtro">
-                    <option value="1">Trabajador</option>
-                    <option value="2">Trabajador y Rango de Fechas</option>
-                    <option value="3">Rango de Fecha</option>
-                    <option value="4">Estado de Parte</option>
-                </select>
-                <input type="submit" name="Buscar" value="Continuar">
-            </form>
 
-            <span id="respuesta">
-            <table class="table table-bordered text-center">
+        $partesProd = Administracion\Controlador::getPartesProdByDni($dni);
+        $partesLog = Administracion\Controlador::getPartesLogByDni($dni);
 
-                <?php
-                 self::cabeceraTablaLog();
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
 
-                foreach ($partesLog as $log)
-                {
-                    if ($log->getEstado()->getTipo() == "Cerrado"&& $log->getTrabajador()->getDni()==$dni)
-                    {
-                        self::rellenaTablaPartesLog($log);
-                    }
-                 }// Olga, añadido
-                 foreach ($partesLog as $log)
-                 {// Olga, añadido: mostrar separados los partes no cerrados
-                    if ($log->getEstado()->getTipo() == "Abierto" && $log->getTrabajador()->getDni()==$dni) // Olga, añadido
-                    {
-                       self::rellenaTablaPartesLog($log);
-                    }//Olga: añadido
-                }
-                ?>
-            </table>
-
-            <table class="table table-bordered text-center">
-                <?php
-                self::cabeceraTablaProd();
-                foreach ($partesProd as $prod)
-                {
-                        //var_dump($prod);
-                    if ($prod->getEstado()->getTipo() == "Cerrado" && $prod->getTrabajador()->getDni()==$dni)
-                    {
-                        self::rellenaTablaPartesProd($prod);
-                    }
-                }//Olga añadido
-                foreach ($partesProd as $prod) {//Olga añadido: se muestren los abiertos tras los cerrados
-                    if ($prod->getEstado()->getTipo() == "Abierto" && $prod->getTrabajador()->getDni()==$dni)//Olga añadido
-                    {//Olga añadido
-                        self::rellenaTablaPartesProd($prod);
-                    }//Olga añadido
-                }
-                ?>
-            </table>
-            </span>
-            <?php
-            require_once __DIR__ . "/../Plantilla/pie.php";
+        require_once __DIR__ . "/../Plantilla/pie.php";
     }//Olga añadido
 
 /*****************************************************/
@@ -2200,56 +2177,19 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
     {
         parent::setOn(true);
         parent::setRoot(true);
+
         require_once __DIR__ . "/../Plantilla/cabecera.php";
-        //var_dump($i);//Olga Borra
+
         $dni=$i["dni1"];
         $fechaIni=$i["fechaIni1"];
         $fechaFin=$i["fechaFin1"];
-//        var_dump($dni);//Olga Borra
-//        var_dump($fechaIni);//Olga Borra
-//        var_dump($fechaFin);//Olga Borra
+
         $partesProd = Administracion\Controlador::getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin);
-//        echo("******PARTES PROD TRAB y RANGO FECHAS Administración Views*********");//Olga Borra
-//        var_dump($partesProd);//Olga Borra
-//        echo ("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");//Olga Borra
         $partesLog = Administracion\Controlador::getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin);
-//        echo("******PARTES LOG TRAB y RANGO FECHAS Administración Views*********");//Olga Borra
-//        var_dump($partesLog);//Olga Borra
-//        echo ("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");//Olga Borra
-        ?>
-         <h4>Filtrar por:</h4>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
-                <select name="Filtro">
-                    <option value="1">Trabajador</option>
-                    <option value="2">Trabajador y Rango de Fechas</option>
-                    <option value="3">Rango de Fecha</option>
-                    <option value="4">Estado de Parte</option>
-                </select>
-                <input type="submit" name="Buscar" value="Continuar">
-            </form>
-           <span id="respuesta">
-            <table class="table table-bordered text-center">
 
-                <?php
-                self::cabeceraTablaLog();
-                foreach ($partesLog as $log)
-                {
-                     self::rellenaTablaPartesLog($log);
-                }
-                ?>
-            </table>
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
 
-            <table class="table table-bordered text-center">
-                <?php
-                self::cabeceraTablaProd();
-                foreach ($partesProd as $prod)
-                {
-                    self::rellenaTablaPartesProd($prod);
-                }//Olga añadido
-                ?>
-            </table>
-            </span>
-            <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
 
@@ -2261,49 +2201,16 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         parent::setOn(true);
         parent::setRoot(true);
         require_once __DIR__ . "/../Plantilla/cabecera.php";
-        //var_dump($i);//Olga Borra
+
         $fechaIni=$i["fechaIni2"];
         $fechaFin=$i["fechaFin2"];
-       //var_dump($fechaIni);//Olga Borra
-        //var_dump($fechaFin);//Olga Borra
 
         $partesProd = Administracion\Controlador::getPartesVentanaTpoProd($fechaIni,$fechaFin);
         $partesLog = Administracion\Controlador::getPartesVentanaTpoLog($fechaIni,$fechaFin);
-        ?>
-         <h4>Filtrar por:</h4>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
-                <select name="Filtro">
-                    <option value="1">Trabajador</option>
-                    <option value="2">Trabajador y Rango de Fechas</option>
-                    <option value="3">Rango de Fecha</option>
-                    <option value="4">Estado de Parte</option>
-                </select>
-                <input type="submit" name="Buscar" value="Continuar">
-            </form>
 
-            <span id="respuesta">
-            <table class="table table-bordered text-center">
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
 
-                <?php
-                self::cabeceraTablaLog();
-                foreach ($partesLog as $log)
-                {
-                     self::rellenaTablaPartesLog($log);
-                }
-                ?>
-            </table>
-
-            <table class="table table-bordered text-center">
-                <?php
-                self::cabeceraTablaProd();
-                foreach ($partesProd as $prod)
-                {
-                    self::rellenaTablaPartesProd($prod);
-                }//Olga añadido
-                ?>
-            </table>
-            </span>
-            <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
 
@@ -2322,45 +2229,11 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         $partesProd = Administracion\Controlador::getPartesProdByEstado($fila);
         $partesLog = Administracion\Controlador::getPartesLogByEstado($fila);
 
-         ?>
-            <h4>Filtrar por:</h4>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
-                <select name="Filtro">
-                    <option value="1">Trabajador</option>
-                    <option value="2">Trabajador y Rango de Fechas</option>
-                    <option value="3">Rango de Fecha</option>
-                    <option value="4">Estado de Parte</option>
-                </select>
-                <input type="submit" name="Buscar" value="Continuar">
-            </form>
+        self::tiposFiltro();
+        self::insertarTablas($partesProd,$partesLog);
 
-            <span id="respuesta">
-            <table class="table table-bordered text-center">
-
-                <?php
-                self::cabeceraTablaLog();
-                foreach ($partesLog as $log)
-                {
-                     self::rellenaTablaPartesLog($log);
-                }
-                ?>
-            </table>
-
-            <table class="table table-bordered text-center">
-                <?php
-                self::cabeceraTablaProd();
-                foreach ($partesProd as $prod)
-                {
-                    self::rellenaTablaPartesProd($prod);
-
-                }//Olga añadido
-                ?>
-            </table>
-            </span>
-            <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
-
 
 /*****************************************************/
 /* FESTIVOS */
