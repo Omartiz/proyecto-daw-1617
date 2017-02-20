@@ -1318,7 +1318,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
        {
        case "0":
          ?>
-            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2" method="post">
+            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=2" method="post">
                 <input type="submit" name="Buscar" value="Mostrar Todos">
             </form>
         <?php
@@ -1326,7 +1326,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         case "1":
          ?>
-            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
+            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=3" method="post">
                 <label>DNI: </label><input type="text" name="dni" size="10">
                 </br>
                 <input type="submit" name="Buscar" value="Filtrar">
@@ -1336,7 +1336,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         case "2":
         ?>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=5" method="post">
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=5" method="post">
                 <label>DNI: </label><input type="text" name="dni1" size="10"></br>
                 <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10"> </br>
                 <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10"> </br>
@@ -1347,7 +1347,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         case "3":
         ?>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=6" method="post">
                 <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni2" size="10"> </br>
                 <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin2" size="10"> </br>
                 <input type="submit" name="Buscar" value="Filtrar">
@@ -1357,9 +1357,9 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         case "4":
         ?>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=7" method="post">
+            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=7" method="post">
                 <label>Estado Parte: </label></br>
-                <input type="radio" name="estado" value="Abierto"> Validado</br>
+                <input type="radio" name="estado" value="Validado"> Validado</br>
                 <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
                 <input type="submit" name="Buscar" value="Filtrar">
             </form><?php
@@ -1608,11 +1608,12 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 /*****************************************************/
     public static function insertarTablas($partesProd,$partesLog)
     {
+    echo ("******estas en INSERTAR TABLAS ++++")
     ?>
         <span id="respuesta">
             <table class="table table-bordered text-center">
                 <?php
-                if (count($partesLog)>0)// solo se muestra la cabecer asi hay contenido
+                if (count($partesLog)>0)// solo se muestra la cabecera si hay contenido
                 {
                     self::cabeceraTablaLog();
 
@@ -1669,7 +1670,6 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         public static function findPartesByDni($datos)
         {
-        var_dump($datos);
             parent::setOn(true);
             parent::setRoot(true);
 
@@ -1762,56 +1762,6 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 <!--                <input type="submit" name="Buscar" value="Buscar">-->
 <!--        </form>-->
 
-<!--        <span id="respuesta">-->
-<!--            <table class="table table-bordered text-center">-->
-<!--                --><?php
-//                if (count($partesLog)>0)// solo se muestra la cabecer asi hay contenido
-//                {
-//                    self::cabeceraTablaLog();
-//
-//                    foreach ($partesLog as $log)
-//                    {
-//                        if ($log->getEstado()->getTipo() == "Validado" || $log->getEstado()->getTipo() == "Finalizado")
-//                        {
-//                            self::rellenaTablaPartesLog($log);
-//                        }
-//                    }
-//
-//                    foreach ($partesLog as $log)
-//                    {
-//                        if ($log->getEstado()->getTipo() == "Cerrado")
-//                        {
-//                            self::rellenaTablaPartesLog($log);
-//                        }
-//                    }
-//                }
-//                ?>
-<!--            </table>-->
-<!---->
-<!--            <table class="table table-bordered text-center">-->
-<!--                --><?php
-//                 if (count($partesProd)>0)// solo se muestra la cabecer asi hay contenido
-//                {
-//                    self::cabeceraTablaProd();
-//
-//                    foreach ($partesProd as $prod)
-//                    {
-//                        if ($prod->getEstado()->getTipo() == "Validado" || $prod->getEstado()->getTipo() == "Finalizado")
-//                        {
-//                            self::rellenaTablaPartesProd($prod);
-//                        }
-//                    }
-//                    foreach ($partesProd as $prod)
-//                    {
-//                        if ($prod->getEstado()->getTipo() == "Cerrado")
-//                        {
-//                            self::rellenaTablaPartesProd($prod);
-//                        }
-//                    }
-//                }
-//                ?>
-<!--            </table>-->
-<!--        </span>-->
     <?php
 
     self::insertarTablas($partesProd,$partesLog);
@@ -1873,7 +1823,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
         require_once __DIR__ . "/../Plantilla/cabecera.php";
 
         $estado=$i["estado"];
-        $fila=\Modelo\BD\EstadoBD::selectEstdadoByTipo($estado);//Olga
+        $fila=\Modelo\BD\EstadoBD::selectEstdadoByTipo($estado);
 
         $partesProd = Gerencia\Controlador::getPartesProdByEstado($fila);
         $partesLog = Gerencia\Controlador::getPartesLogByEstado($fila);
@@ -1883,8 +1833,5 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
-
-
-
 }
 
