@@ -15,23 +15,67 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         require_once __DIR__ . "/../Plantilla/cabecera.php";
         ?>
-            <h3 class="page-header">Añadir</h3>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertTrabajador.php">Añadir Trabajador</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertEmpresa.php">Añadir Empresa</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertVehiculo.php">Añadir Vehículo</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertHorasConvenio.php">Añadir Convenio</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertCentro.php">Añadir Centro</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertTipoFranja.php">Añadir Tipo de Horario</a><br/>
-            <h3 class="page-header">Eliminar</h3>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteTrabajador.php">Ver Trabajadores</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteEmpresa.php">Ver Empresas</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteCentro.php">Ver Centros</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteVehiculo.php">Ver Vehículos</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteHorasConvenio.php">Ver Convenios</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteTipoFranja.php">Ver Tipos de Horarios</a><br/>
-            <h3 class="page-header">Modificar</h3>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateTipoFranja.php">Modificar Tipos de Horarios</a><br/>
-                <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateHorasConvenio.php">Modificar Horas de Convenios</a><br/>
+         <div class="table-responsive col-md-offset-1 col-md-10">
+             <table class="table table-bordered">
+                 <tr>
+                        <th><h5>NOMBRE DE TABLA</h5></th>
+                        <th colspan="3"><h5>ACCIONES</h5></th>
+                 </tr>
+                 <tr>
+                        <td>TRABAJADOR</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertTrabajador.php">Añadir</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteTrabajador.php">Eliminar</a></td>
+                        <td>Editar</td>
+                 </tr>
+                 <tr>
+                        <td>EMPRESA</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertEmpresa.php">Añadir</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteEmpresa.php">Eliminar</a></td>
+                        <td>Editar</td>
+                 </tr>
+                 <tr>
+                        <td>VEHICULO</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertVehiculo.php">Añadir</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteVehiculo.php">Eliminar</a></td>
+                        <td>Editar</td>
+                 </tr>
+                 <tr>
+                        <td>HORAS CONVENIO</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertHorasConvenio.php">Añadir</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteHorasConvenio.php">Eliminar</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateHorasConvenio.php">Editar</a></td>
+                 </tr>
+                 <tr>
+                        <td>CENTRO</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertCentro.php">Añadir</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteCentro.php">Eliminar</a></td>
+                        <td>Editar</td>
+                 </tr>
+                 <tr>
+                        <td>TIPOS DE HORARIOS</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertTipoFranja.php">Añadir</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteTipoFranja.php">Eliminar</a></td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateTipoFranja.php">Editar</a></td>
+                 </tr>
+            </table>
+        </div>
+<!--            <h3 class="page-header">Añadir</h3>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertTrabajador.php">Añadir Trabajador</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertEmpresa.php">Añadir Empresa</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertVehiculo.php">Añadir Vehículo</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertHorasConvenio.php">Añadir Convenio</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertCentro.php">Añadir Centro</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertTipoFranja.php">Añadir Tipo de Horario</a><br/>-->
+<!--            <h3 class="page-header">Eliminar</h3>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteTrabajador.php">Ver Trabajadores</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteEmpresa.php">Ver Empresas</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteCentro.php">Ver Centros</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteVehiculo.php">Ver Vehículos</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteHorasConvenio.php">Ver Convenios</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteTipoFranja.php">Ver Tipos de Horarios</a><br/>-->
+<!--            <h3 class="page-header">Modificar</h3>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/updateTipoFranja.php">Modificar Tipos de Horarios</a><br/>-->
+<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/updateHorasConvenio.php">Modificar Horas de Convenios</a><br/>-->
 
         <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
