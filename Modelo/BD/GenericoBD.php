@@ -7,17 +7,12 @@ use Modelo\Base;
 
 abstract class GenericoBD
 {
-
-
     protected static function conectar()
     {
-
         $conn = mysqli_connect("localhost", "root", "root") or die("problemas en la conexión");
         mysqli_select_db($conn, "himevico") or die("problemas en la selección de base de datos");
         mysqli_set_charset($conn, "utf8");
         return $conn;
-
-
     }
 
     protected static function desconectar($conexion)
@@ -64,7 +59,7 @@ abstract class GenericoBD
                 return new Base\Viaje($fila['id'], $fila['horaInicio'], $fila['horaFin'], $fila['albaran'], null, null);
                 break;
             case "Vehiculo":
-                return new Base\Vehiculo($fila['id'], $fila['matricula'], $fila['marca'], null, null);
+                return new Base\Vehiculo($fila['id'], $fila['matricula'], $fila['marca'], $fila['idCentro'], null);
                 break;
             case "Estado":
                 return new Base\Estado($fila["id"], $fila["tipo"]);
@@ -125,13 +120,13 @@ abstract class GenericoBD
                 return new Base\TiposFranjas($fila['id'], $fila['tipo'], $fila['precio']);
                 break;
             case "Login":
-                return new Base\Login($fila['id'], $fila['password'], null);
+                return new Base\Login($fila['id'], $fila['password']);
                 break;
             case  "HorariosFranja":
                 return new Base\HorariosFranja($fila['id']);
                 break;
             case  "HorarioTrabajador":
-                return new Base\HorariosTrabajadores($fila['id'], $fila['numeroSemana']);
+                return new Base\HorariosTrabajadores($fila['id'], $fila['numeroSemana'],$fila['dniTrabajador'],$fila['idHorario']);
                 break;
             case  "Horario":
                 return new Base\Horarios($fila['id'], $fila['tipo']);

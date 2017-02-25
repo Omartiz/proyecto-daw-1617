@@ -5,7 +5,8 @@ namespace Modelo\BD;
 
 require_once __DIR__."/GenericoBD.php";
 
-abstract class VehiculoBD extends GenericoBD{
+abstract class VehiculoBD extends GenericoBD
+{
 
     private static $tabla = "vehiculos";
 
@@ -24,6 +25,7 @@ abstract class VehiculoBD extends GenericoBD{
         return $vehiculos;
 
     }
+
     public static function getVehiculosById($vehiculoId){
 
         $con = parent::conectar();
@@ -91,6 +93,7 @@ abstract class VehiculoBD extends GenericoBD{
         parent::desconectar($con);
 
     }
+
      public static function getAll(){
          $con = parent::conectar();
 
@@ -104,4 +107,16 @@ abstract class VehiculoBD extends GenericoBD{
 
          return $vehiculos;
      }
+
+    public static function update($vehiculo)
+    {
+
+        $conexion = GenericoBD::conectar();
+
+        $update = "UPDATE ".self::$tabla." SET idCentro='".$vehiculo->getCentro()."';";
+
+        mysqli_query($conexion,$update) or die("Error UpdateVehiculo");
+
+        GenericoBD::desconectar($conexion);
+    }
 }

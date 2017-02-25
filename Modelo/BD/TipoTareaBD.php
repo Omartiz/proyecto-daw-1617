@@ -29,9 +29,12 @@ abstract class TipoTareaBD extends GenericoBD
     public static function getTipoByTarea($tarea){
 
         $conexion = parent::conectar();
-
-        $query = "SELECT * FROM ".self::$tabla." WHERE id = (SELECT idTipoTarea FROM tareas WHERE id = '".$tarea->getId()."');";
-
+        echo("************getTipoBy Tarea**********");//olga Borra
+        var_dump($tarea);//olga Borra
+        echo("+++++++++++getTipoBy Tarea++++++");//olga Borra
+        //$query = "SELECT * FROM ".self::$tabla." WHERE id = (SELECT idTipoTarea FROM tareas WHERE id = '".$tarea->getId()."');";
+        $query = "SELECT * FROM ".self::$tabla." WHERE id = (SELECT idTipoTarea FROM tareas WHERE id = '".$tarea."');";
+        var_dump($query);//olga Borra
         $rs = mysqli_query($conexion, $query) or die(mysqli_error($conexion));
 
         $tipo= parent::mapear($rs, "TipoTarea");
@@ -39,11 +42,12 @@ abstract class TipoTareaBD extends GenericoBD
         return $tipo;
 
     }
+
     public static function insert($tipoTarea){
 
         $conexion = GenericoBD::conectar();
 
-        $insert = "INSERT INTO ".self::$tabla." VALUES (null,'".$tipoTarea->getDescripcion()."'".";)";
+        $insert = "INSERT INTO ".self::$tabla." (descripcion) VALUES ('".$tipoTarea->getDescripcion()."');";
 
         mysqli_query($conexion,$insert) or die("Error InsertTipoTarea");
 

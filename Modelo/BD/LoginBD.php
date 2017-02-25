@@ -89,4 +89,21 @@ abstract class LoginBD extends genericoBD
 
     }
 
+//    public static function getAll()
+//    {
+//
+//        $conexion = parent::conectar();
+//
+//        $query = "Select * from ".self::$tabla;
+//
+//        $rs = mysqli_query($conexion, $query) or die(mysqli_error($conexion));
+//
+//        $tareas = parent::mapearArray($rs, "Login");
+//
+//        parent::desconectar($conexion);
+//
+//        return $tareas;
+//
+//    }
+
 }

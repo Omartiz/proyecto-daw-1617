@@ -125,4 +125,13 @@ abstract class CentroBD extends GenericoBD{
         parent::desconectar($con);
 
     }
+
+    public static function update($centro){
+        $conexion = GenericoBD::conectar();
+
+        $update = "UPDATE ".self::$tabla." SET localizacion='".$centro->getLocalizacion()."' WHERE id = '".$centro->getId()."';";
+        mysqli_query($conexion,$update) or die("Error UpdateCentro");
+
+        GenericoBD::desconectar($conexion);
+    }
 }

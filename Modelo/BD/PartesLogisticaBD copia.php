@@ -175,7 +175,6 @@ abstract class PartelogisticaBD extends GenericoBD{
         mysqli_query($con, $query) or die("Error validar");
 
         parent::desconectar($con);
-
     }
 
 }

@@ -66,6 +66,7 @@ abstract class HorarioTrabajadorBD extends GenericoBD{
 
         parent::desconectar($con);
     }
+
     public static function getAll($trabajador = null){
         $con = parent::conectar();
 
@@ -87,16 +88,25 @@ abstract class HorarioTrabajadorBD extends GenericoBD{
         return $horarioTrabajador;
     }
 
-
-    public static function delete($id){
+    public static function delete($id)
+    {
         $con = parent::conectar();
 
         $query = "DELETE FROM ".self::$tabla." WHERE id= ".$id.";";
-        //var_dump($query);
 
         mysqli_query($con, $query) or die("Error delete horarioTrabajador");
 
         parent::desconectar($con);
+    }
 
+    public static function update($horarioTrabajador)
+    {
+        $conexion = GenericoBD::conectar();
+        var_dump($horarioTrabajador);//Olga Borra
+        //die;//Olga Borra
+        $update = "UPDATE ".self::$tabla." SET idHorario='".$horarioTrabajador->getHorario()."' WHERE id = '".$horarioTrabajador->getId()."';";
+        mysqli_query($conexion,$update) or die("Error UpdateHorarioTrabajador");
+
+        GenericoBD::desconectar($conexion);
     }
 }

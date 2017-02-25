@@ -136,8 +136,8 @@ abstract class TrabajadorBD extends GenericoBD{
         return $perfil;
 
     }
-
-    public static function getAllTrabajadores(){
+        //obtener lista de trabajadores con su perfil tipo de perfil (departamento en eque trabajan) por oreden alfabético de apellidos
+        public static function getAllTrabajadores(){
 
         $con = parent::conectar();
 

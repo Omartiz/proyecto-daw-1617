@@ -9,6 +9,7 @@ require_once __DIR__ . "/../Plantilla/Views.php";
 require_once __DIR__ . "/../../Controlador/Administracion/Controlador.php";
 require_once __DIR__.'/../../Modelo/BD/GenericoBD.php';
 require_once __DIR__.'/../../Modelo/BD/CalendarioBD.php';
+require_once __DIR__.'/../../Modelo/BD/CentroBD.php';
 
 abstract class AdministracionViews extends \Vista\Plantilla\Views
 {
@@ -40,13 +41,13 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                         <td>EMPRESA</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/insertEmpresa.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/deleteEmpresa.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateEmpresa.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>VEHICULO</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/insertVehiculo.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/deleteVehiculo.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateVehiculo.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>HORAS / CONVENIO</td>
@@ -58,7 +59,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                         <td>CENTROS DE TRABAJO DE CADA EMPRESA</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/insertCentro.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/deleteCentro.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateCentro.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>TIPO FRANJA / PRECIO HORA</td>
@@ -70,58 +71,34 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                         <td>FRANJA HORARIA</td>
                         <td><a href="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/insertHorario.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/deleteHorario.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateHorario.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>HORARIO TRABAJADOR</td>
                         <td><a href="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/insertHorarioTrabajador.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/deleteHorarioTrabajador.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateHorarioTrabajador.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>LOGIN</td>
-                        <td>Añadir</td>
-                        <td>Eliminar</td>
+                        <td>Se añade al generar el trabahjador</td>
+                        <td>Se elimina con el trabahjador</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updatePassword.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>TAREA DE PRODUCCIÓN</td>
-                        <td>Añadir</td>
+                        <td><a href="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/insertTarea.php">Añadir</a></td>
                         <td>Eliminar</td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateTarea.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>DEFINICIÓN ACTIVIDAD POR TAREA</td>
-                        <td>Añadir</td>
+                        <td><a href="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/insertTipoTarea.php">Añadir</a></td>
                         <td>Eliminar</td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/updateTipoTarea.php">Editar</a></td>
                  </tr>
             </table>
         </div>
-
-<!--    <h3 class="page-header" xmlns="http://www.w3.org/1999/html">Añadir</h3>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/insertTrabajador.php">Añadir Trabajador</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/insertEmpresa.php">Añadir Empresa</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/insertCentro.php">Añadir Centro</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/insertVehiculo.php">Añadir Vehiculo</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/insertHorasConvenio.php">Añadir Convenio</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/insertTipoFranja.php">Añadir Tipo Franja</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz() ?><!--/Vista/Administracion/insertHorario.php">Añadir Horario</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz() ?><!--/Vista/Administracion/insertHorarioTrabajador.php">Añadir Horario-trabajador</a><br/>-->
-<!--            <h3 class="page-header">Eliminar</h3>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/deleteTrabajador.php">Ver Trabajadores</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/deleteEmpresa.php">Ver Empresas</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/deleteCentro.php">Ver Centros</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/deleteVehiculo.php">Ver Vehiculos</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/deleteHorasConvenio.php">Ver Convenios</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/deleteTipoFranja.php">Ver Tipos Franja</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz() ?><!--/Vista/Administracion/deleteHorario.php">Ver Horario</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz() ?><!--/Vista/Administracion/deleteHorarioTrabajador.php">Ver Horario Trabajador</a><br/>-->
-<!--            <h3 class="page-header">Modificar</h3>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/updateTipoFranja.php">Modificar Tipos de Horarios</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/updateHorasConvenio.php">Modificar Horas de Convenios</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/updatePassword.php">Modificar Contraseñas</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/updateFoto.php">Modificar Fotos</a>-->
 
         <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
@@ -285,30 +262,31 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                                 <form name="deleteTrabajador" method="post"
                                       action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
                                     <button type="submit" name="eliminarTrabajador" value="Eliminar"
-                                            style="border: none; background: none;"><span
-                                            class="glyphicon glyphicon-remove"
-                                            style="color:red; font-size: 1.5em"></span></button>
+                                            style="border: none; background: none;">
+                                        <span
+                                        class="glyphicon glyphicon-remove"
+                                        style="color:red; font-size: 1.5em">
+                                        </span>
+                                    </button>
                                     <input type="hidden" name="dni" value="<?php echo $trabajador->getDni(); ?>">
                                 </form>
                             </td>
                         </tr>
 
                         <?php
-
                     }
-
                 }
-                        ?>
-                    </table>
+            ?>
+
+            </table>
+            </div>
+            <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <div class="col-sm-4 col-md-3">
+                     <input class="btn btn-danger" type="submit" name="volver" value="Volver">
                 </div>
-                <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+            </form>
 
-                    <div class="col-sm-4 col-md-3">
-                         <input class="btn btn-danger" type="submit" name="volver" value="Volver">
-                    </div>
-                </form>
-
-                <?php
+            <?php
 
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
@@ -317,98 +295,160 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 /* EMPRESA */
 /*****************************************************/
 
-        public static function insertEmpresa()
-        {
+    public static function insertEmpresa()
+    {
 
-            parent::setOn(true);
-            parent::setRoot(true);
+        parent::setOn(true);
+        parent::setRoot(true);
+
+    require_once __DIR__ . "/../Plantilla/cabecera.php";
+    ?>
+    <div class="container ins">
+        <form class="form-horizontal" name="insertTrabajador" method="post" action="<?php echo self::getUrlRaiz()?>/Controlador/Administracion/Router.php"><br/>
+            <fieldset>
+                <legend>Añadir Empresa</legend>
+                <div class="form-group">
+                    <label class="control-label col-sm-2 col-md-2">Nombre:</label>
+                    <div class="col-sm-4 col-md-3">
+                        <input class="form-control" type="text" name="nombre">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2 col-md-2">NIF:</label>
+                    <div class="col-sm-4 col-md-3">
+                        <input class="form-control" type="text" name="nif" maxlength="9">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2">
+                        <input class="btn btn-primary" type="submit" name="addEmpresa" value="Añadir">
+                    </div>
+                        <div class="col-sm-4 col-md-3">
+                            <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                        </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <?php
+    require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+    public static function deleteEmpresa()
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
 
         require_once __DIR__ . "/../Plantilla/cabecera.php";
-        ?>
-        <div class="container ins">
-            <form class="form-horizontal" name="insertTrabajador" method="post" action="<?php echo self::getUrlRaiz()?>/Controlador/Administracion/Router.php"><br/>
-                <fieldset>
-                    <legend>Añadir Empresa</legend>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2 col-md-2">Nombre:</label>
-                        <div class="col-sm-4 col-md-3">
-                            <input class="form-control" type="text" name="nombre">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2 col-md-2">NIF:</label>
-                        <div class="col-sm-4 col-md-3">
-                            <input class="form-control" type="text" name="nif" maxlength="9">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2">
-                            <input class="btn btn-primary" type="submit" name="addEmpresa" value="Añadir">
-                        </div>
-                            <div class="col-sm-4 col-md-3">
-                                <input class="btn btn-danger" type="submit" name="volver" value="Volver">
-                            </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-        <?php
-        require_once __DIR__ . "/../Plantilla/pie.php";
 
-        }
+        $empresas = Administracion\Controlador::getAllEmpresas();
 
-        public static function deleteEmpresa()
+        if(is_null($empresas))
         {
-
-            parent::setOn(true);
-            parent::setRoot(true);
-
-            require_once __DIR__ . "/../Plantilla/cabecera.php";
-
-            $empresas = Administracion\Controlador::getAllEmpresas();
-            if(is_null($empresas)){
-                echo "no hay empresas";
-            }else {
-                ?>
-                <h2 class="page-header">Empresas</h2>
-                <div class="table-responsive col-md-offset-1 col-md-10">
-                    <table class="table table-bordered">
+            echo "no hay empresas";
+        }
+        else
+        {
+            ?>
+            <h2 class="page-header">Empresas</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>EMPRESA</th>
+                        <th>NIF</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($empresas as $empresa) {
+                        ?>
                         <tr>
-                            <th>EMPRESA</th>
-                            <th>NIF</th>
-                            <th>ACCIÓN</th>
+                            <td><?php echo $empresa->getNombre(); ?></td>
+                            <td><?php echo $empresa->getNif(); ?></td>
+                            <td>
+                                <form name="deleteEmpresa" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                    <button type="submit" name="eliminarEmpresa" value="Eliminar" style="border: none; background: none;">
+                                            <span class="glyphicon glyphicon-remove" style="color:red; font-size: 1.5em">
+                                            </span>
+                                    </button>
+                                    <input type="hidden" name="id" value="<?php echo $empresa->getId(); ?>">
+                                </form>
+                            </td>
                         </tr>
                         <?php
-                        foreach ($empresas as $empresa) {
-                            ?>
-                            <tr>
-                                <td><?php echo $empresa->getNombre(); ?></td>
-                                <td><?php echo $empresa->getNif(); ?></td>
-                                <td>
-                                    <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
-                                        <button type="submit" name="eliminarEmpresa" value="Eliminar"
-                                                style="border: none; background: none;"><span
-                                                class="glyphicon glyphicon-remove"
-                                                style="color:red; font-size: 1.5em"></span></button>
-                                        <input type="hidden" name="id" value="<?php echo $empresa->getId(); ?>">
-                                    </form>
-                                </td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
-                    </table>
-                </div>
-                <form name="deleteTrabajador" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteEmpresa" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
 
-                    <div class="col-sm-4 col-md-3">
-                        <input class="btn btn-danger" type="submit" name="volver" value="Volver">
-                    </div>
-                </form>
-                <?php
-            }
-            require_once __DIR__ . "/../Plantilla/pie.php";
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
         }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+    public static function updateEmpresa(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $empresas = Administracion\Controlador::getAllEmpresas();
+
+        if(is_null($empresas)){
+            echo "No hay empresas";
+        }
+        else
+        {
+            ?>
+            <h2 class="page-header">Empresas</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>NIF</th>
+                        <th>NOMBRE</th>
+                        <th>NUEVO NOMBRE</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($empresas as $empresa) {
+                        ?>
+                        <tr>
+                            <td><?php echo $empresa->getId(); ?></td>
+                            <td><?php echo $empresa->getNif(); ?></td>
+                            <td><?php echo $empresa->getNombre(); ?></td>
+
+                            <form name="cambiaNombre" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                <td><input type="text" name="nuevo" size="50" placeholder="denominación de empresa"></td>
+                                <td>
+                                    <button type="submit" name="updateEmpresa" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $empresa->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+   }
 
 /*****************************************************/
 /* CENTRO */
@@ -524,6 +564,79 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
+    public static function updateCentro()
+    {
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $centros = Administracion\Controlador::getAllCentros();
+
+        if(is_null($centros))
+        {
+            echo "no hay centros";
+        }
+        else
+        {
+            ?>
+
+            <h2 class="page-header">Centros</h2>
+
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>LOCALIZACIÓN</th>
+                        <th>NUEVA LOCALIZACIÓN</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($centros as $centro)
+                    {
+                    ?>
+
+                    <tr>
+                        <td><?php echo $centro->getNombre(); ?></td>
+                        <td><?php echo $centro->getLocalizacion(); ?></td>
+                        <form name="updateCentro" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                            <td>
+                                    <input type="text" name="nuevo" size="50" placeholder="dirección Centro">
+                                    <input type="hidden" name="id" value="<?php echo $centro->getId(); ?>">
+                            </td>
+                            <td>
+                                    <button type="submit" name="updateCentro" value="Editar"
+                                        style="border: none; background: none;">
+                                        <span
+                                        class="glyphicon glyphicon-edit"
+                                        style="color:blue; font-size: 1.5em">
+                                        </span>
+                                    </button>
+                                    <input type="hidden" name="id" value="<?php echo $centro->getId(); ?>">
+                            </td>
+                        </form>
+                    </tr>
+
+                    <?php
+                    }
+                    ?>
+
+                </table>
+            </div>
+
+            <form name="deleteEstado" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+
+        <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+
 /*****************************************************/
 /* ESTADO */
 /*****************************************************/
@@ -597,68 +710,68 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 /* VEHICULO */
 /*****************************************************/
 
-        public static function insertVehiculo()
-        {
+    public static function insertVehiculo()
+    {
 
-            parent::setOn(true);
-            parent::setRoot(true);
+        parent::setOn(true);
+        parent::setRoot(true);
 
-            $centros = Administracion\Controlador::getAllCentros();
-            require_once __DIR__ . "/../Plantilla/cabecera.php";
-            ?>
-            <div class="container ins">
-                <form class="form-horizontal" name="insertTrabajador" method="post"
-                      action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php"><br/>
-                    <fieldset>
-                        <legend>Añadir Vehiculo</legend>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2 col-md-2">Centro:</label>
-                            <div class="col-sm-4 col-md-3">
-                                <select class="form-control" name="centro">
-                                    <?php
-                                    foreach ($centros as $indice => $valor) {
-                                        ?>
-                                        <option
-                                            value="<?php echo $valor->getId() ?>"><?php echo $valor->getNombre() ?></option>
-                                        <?php
-                                    }
+        $centros = Administracion\Controlador::getAllCentros();
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        ?>
+        <div class="container ins">
+            <form class="form-horizontal" name="insertTrabajador" method="post"
+                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php"><br/>
+                <fieldset>
+                    <legend>Añadir Vehiculo</legend>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-md-2">Centro:</label>
+                        <div class="col-sm-4 col-md-3">
+                            <select class="form-control" name="centro">
+                                <?php
+                                foreach ($centros as $indice => $valor) {
                                     ?>
-                                </select>
-                            </div>
+                                    <option
+                                        value="<?php echo $valor->getId() ?>"><?php echo $valor->getNombre() ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2 col-md-2">Matrícula:</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-md-2">Matrícula:</label>
+                        <div class="col-sm-4 col-md-3">
+                            <input class="form-control" type="text" name="matricula">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-md-2">Marca:</label>
+                        <div class="col-sm-4 col-md-3">
+                            <input class="form-control" type="text" name="marca">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2">
+                            <input class="btn btn-primary" type="submit" value="Añadir" name="addVehiculo">
+                        </div>
                             <div class="col-sm-4 col-md-3">
-                                <input class="form-control" type="text" name="matricula">
+                                <input class="btn btn-danger" type="submit" name="volver" value="Volver">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2 col-md-2">Marca:</label>
-                            <div class="col-sm-4 col-md-3">
-                                <input class="form-control" type="text" name="marca">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2">
-                                <input class="btn btn-primary" type="submit" value="Añadir" name="addVehiculo">
-                            </div>
-                                <div class="col-sm-4 col-md-3">
-                                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
-                                </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <?php
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <?php
 
-        require_once __DIR__ . "/../Plantilla/pie.php";
-        }
+    require_once __DIR__ . "/../Plantilla/pie.php";
+    }
 
-        public static function deleteVehiculo()
-        {
+    public static function deleteVehiculo()
+    {
 
-            parent::setOn(true);
-            parent::setRoot(true);
+        parent::setOn(true);
+        parent::setRoot(true);
 
         require_once __DIR__ . "/../Plantilla/cabecera.php";
         $vehiculos = Administracion\Controlador::getAllVehiculos();
@@ -709,6 +822,84 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         require_once __DIR__ . "/../Plantilla/pie.php";
 
     }
+
+     public static function updateVehiculo(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $vehiculos = Administracion\Controlador::getAllVehiculos();
+        $centros = Administracion\Controlador::getAllCentros();
+
+        if(is_null($vehiculos))
+        {
+            echo "No hay vehiculos";
+        }
+        else
+        {
+            ?>
+            <h2 class="page-header">Vehiculos</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>MATRICULA</th>
+                        <th>MARCA</th>
+                        <th>CENTRO</th>
+                        <th>NUEVO CENTRO</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($vehiculos as $vehiculo)
+                    {
+                        $centro=BD\CentroBD::getCentrosById($vehiculo->getCentro());
+
+                        ?>
+                        <tr>
+                            <td><?php echo $vehiculo->getId(); ?></td>
+                            <td><?php echo $vehiculo->getMatricula(); ?></td>
+                            <td><?php echo $vehiculo->getMarca(); ?></td>
+                            <td><?php echo $centro->getNombre(); ?></td>
+
+                            <form name="cambiaCentro" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                <td>
+                                    <select id="nuevo" name="nuevo">
+                                        <?php
+                                        foreach ($centros as $c)
+                                        {
+                                        ?>
+                                            <option value="<?php echo $c->getId() ?>"><?php echo $c->getNombre() ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="submit" name="updateVehiculo" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $vehiculo->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+   }
 
 /*****************************************************/
 /* HORAS CONVENIO */
@@ -768,8 +959,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
 
-        public static function deleteHorasConvenio()
-        {
+    public static function deleteHorasConvenio()
+    {
 
             parent::setOn(true);
             parent::setRoot(true);
@@ -824,18 +1015,23 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
     }
 
-        public static function updateHorasConvenio(){
-
+    public static function updateHorasConvenio()
+    {
         parent::setOn(true);
         parent::setRoot(true);
 
         require_once __DIR__ . "/../Plantilla/cabecera.php";
         $horas = Administracion\Controlador::getAllHorasConvenio();
-        if(is_null($horas)){
+        if(is_null($horas))
+        {
             echo "no hay horas";
-        }else {
+        }
+        else
+        {
             ?>
+
             <h2 class="page-header">Convenios</h2>
+
             <div class="table-responsive col-md-offset-1 col-md-10">
                 <table class="table table-bordered">
                     <tr>
@@ -846,45 +1042,49 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                         <th>ACCIÓN</th>
                     </tr>
                     <?php
-                    foreach ($horas as $hora) {
-                        ?>
-                        <tr>
-                            <td><?php echo $hora->getDenominacion(); ?></td>
-                            <td><?php echo $hora->getHorasAnual(); ?></td>
-                            <td><?php echo $hora->getCentro()->getNombre(); ?></td>
-                            <form name="deleteEstado" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
-                            <td>
+                    foreach ($horas as $hora)
+                    {
+                    ?>
 
+                    <tr>
+                        <td><?php echo $hora->getDenominacion(); ?></td>
+                        <td><?php echo $hora->getHorasAnual(); ?></td>
+                        <td><?php echo $hora->getCentro()->getNombre(); ?></td>
+                        <form name="updateH_Convenio" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                            <td>
                                     <input type="text" name="nuevo" size="5" placeholder="1200">
                                     <input type="hidden" name="id" value="<?php echo $hora->getId(); ?>">
-
                             </td>
                             <td>
-
                                     <button type="submit" name="updateHorasConvenio" value="Editar"
-                                            style="border: none; background: none;"><span
-                                            class="glyphicon glyphicon-edit"
-                                            style="color:blue; font-size: 1.5em"></span></button>
+                                        style="border: none; background: none;">
+                                        <span
+                                        class="glyphicon glyphicon-edit"
+                                        style="color:blue; font-size: 1.5em">
+                                        </span>
+                                    </button>
                                     <input type="hidden" name="id" value="<?php echo $hora->getId(); ?>">
-
                             </td>
-                            </form>
-                        </tr>
-                        <?php
+                        </form>
+                    </tr>
+
+                    <?php
                     }
                     ?>
+
                 </table>
             </div>
+
             <form name="deleteEstado" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
 
                 <div class="col-sm-4 col-md-3">
                     <input class="btn btn-danger" type="submit" name="volver" value="Volver">
                 </div>
             </form>
-            <?php
+
+        <?php
         }
         require_once __DIR__ . "/../Plantilla/pie.php";
-
     }
 
 /*****************************************************/
@@ -1041,7 +1241,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 /* PASSWORD */
 /*****************************************************/
 
-    public static function updatePassword(){
+    public static function updatePassword()
+    {
 
         parent::setOn(true);
         parent::setRoot(true);
@@ -1125,7 +1326,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         }
             require_once __DIR__ . "/../Plantilla/pie.php";
 
-        }
+    }
 
 /*****************************************************/
 /* HORARIO */
@@ -1232,6 +1433,64 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
+        public static function updateHorario(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        $horarios = Administracion\Controlador::getAllHorarios();
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        if(is_null($horarios))
+        {
+            echo "no hay horarios";
+        }
+        else
+         {
+            ?>
+            <h2 class="page-header">Tipo de Tareas</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>TIPO</th>
+                        <th>NUEVO TIPO</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($horarios as $horario) {
+                        ?>
+                        <tr>
+                            <td><?php echo $horario->getId(); ?></td>
+                            <td><?php echo $horario->getTipo(); ?></td>
+                            <form name="cambiaTipo" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                <td><input type="text" name="nuevo" size="50" placeholder="denominación de tipo"></td>
+                                <td>
+                                    <button type="submit" name="updateHorario" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $horario->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+            require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
+
 /*****************************************************/
 /* HORARIO TRABAJADOR */
 /*****************************************************/
@@ -1272,7 +1531,6 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <label class="control-label col-sm-2 col-md-2">Horario: </label>
@@ -1344,6 +1602,92 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
+
+     public static function updateHorarioTrabajador()
+    {
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $calendarios = Administracion\Controlador::getAllHoraioTrabajador();
+        $horarios = Administracion\Controlador::getAllHorarios();
+
+        if(is_null($calendarios))
+        {
+            echo "no hay horarios de trabajador";
+        }
+        else
+        {
+            ?>
+
+            <h2 class="page-header">Horario Trabajador</h2>
+
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>DNI TRABAJADOR</th>
+                        <th>NUMERO SEMANA</th>
+                        <th>HORARIO</th>
+                        <th>NUEVO HORARIO</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($calendarios as $calendario)
+                    {
+                        $horario=BD\HorarioBD::getHorarioById($calendario->getHorario());
+
+                        ?>
+
+                        <tr>
+                            <td><?php echo $calendario->getTrabajador(); ?></td>
+                            <td><?php echo $calendario->getNumeroSemana(); ?></td>
+                            <td><?php echo $horario->getTipo(); ?></td>
+                            <form name="cambiaTurno" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                <td>
+                                    <select id="nuevo" name="nuevo">
+                                        <?php
+                                        foreach ($horarios as $h)
+                                        {
+                                        ?>
+                                            <option value="<?php echo $h->getId() ?>"><?php echo $h->getTipo() ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            <td>
+                                <button type="submit" name="updateHorarioTrabajador" value="Editar"
+                                    style="border: none; background: none;">
+                                    <span
+                                    class="glyphicon glyphicon-edit"
+                                    style="color:blue; font-size: 1.5em">
+                                    </span>
+                                </button>
+                                <input type="hidden" name="id" value="<?php echo $calendario->getId(); ?>">
+                            </td>
+                        </form>
+                    </tr>
+
+                    <?php
+                    }
+                    ?>
+
+                </table>
+            </div>
+
+            <form name="deleteTurno" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+
+        <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
 
 /*****************************************************/
 /* PARTE LOGISTICA */
@@ -1592,29 +1936,30 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 					echo "</div></div>";
 
                 }
-				if(strnatcasecmp($estado->getTipo(),"abierto")==0){
+				if(strnatcasecmp($estado->getTipo(),"abierto")==0)
+				{
 					echo "<button type='button' class='btn btn-primary pCerrar' rel='".$parte->getId()."'>Cerrar Parte</button> ";
 					echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
-				}elseif(strnatcasecmp($estado->getTipo(),"cerrado")==0){
+				}
+				elseif(strnatcasecmp($estado->getTipo(),"cerrado")==0)
+				{
 					echo "<div class='panel panel-default'><div class='panel-body' >";
-
 
 					if(count($parte->getHorariosParte())==1){
 						echo "<p class='col-xs-12'><strong>Horario realizado: Continua de ";
-					}else{
+					}
+					else
+					{
 						echo "<p class='col-xs-12'><strong>Horario realizado: Partida de ";
 					}
 
 					$x = 1;
 
-					foreach($parte->getHorariosParte() as $horarioParte){
+					foreach($parte->getHorariosParte() as $horarioParte)
+					{
 						if($x>1){echo " y ";}
 						$x++;
-
 						echo $horarioParte->getHoraEntrada()." - ".$horarioParte->getHoraSalida();
-
-
-
 					}
 
 					$fecha = $parte->getFecha();
@@ -1698,12 +2043,13 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 					}
 
 					echo "</div></div>";
-
-
 			}
-		}else{
+		}
+		else
+		{
 			echo "<div class='panel panel-default'><div class='panel-body'>El Parte no tiene ninguna Tarea.</div></div>";
-			if(strnatcasecmp($estado->getTipo(),"abierto")==0){
+			if(strnatcasecmp($estado->getTipo(),"abierto")==0)
+			{
 				echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
 			}
 		}?>
@@ -1724,218 +2070,223 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
             $parte = unserialize($_SESSION['parte']);
 
-		echo "<h3 class='text-left'><strong>Trabajador: ".$parte->getTrabajador()->getNombre()." ".$parte->getTrabajador()->getApellido1()." ".$parte->getTrabajador()->getApellido2()."</strong></h3><br/>";
+            echo "<h3 class='text-left'><strong>Trabajador: ".$parte->getTrabajador()->getNombre()." ".$parte->getTrabajador()->getApellido1()." ".$parte->getTrabajador()->getApellido2()."</strong></h3><br/>";
 
-		$parteProduccionTareas = $parte->getParteProduccionTareas();
-
-
-		if(!is_null($parteProduccionTareas)){
-		?>
-		<form action="<?php echo parent::getUrlRaiz();?>/Controlador/Administracion/Router.php" method="post">
-		<input type="hidden" name="idParte" id="idParte" value="<?php echo $parte->getId(); ?>"/>
-
-		<?php
-		    $x = 1;
-
-			foreach ($parteProduccionTareas as $parteProduccionTarea)
-			{
-				echo "<link rel='stylesheet' type='text/css' href='".self::getUrlRaiz()."/Vista/Plantilla/CSS/ProduccionStyle.css'>";
-				echo "<input type='hidden' id='contTareas' value='".sizeof($parteProduccionTareas)."'>";
-
-					$tipo = $parteProduccionTarea->getTarea()->getTipo();
-					$tareas = BD\TareaBD::getTareaByTipo($tipo);
-
-					echo "<div class='panel panel-default' rel='".$parteProduccionTarea->getId()."'>";
-                    ?>
-                    <input type="hidden" name="id<?php echo $x; ?>" id="id<?php echo $x;?>" value="<?php echo $parteProduccionTarea->getId();?>"/>
-					<div class='panel-heading container-fluid'><article class='col-xs-6 text-left'><h4 class='panel-title'><strong>
-					<?php echo $parteProduccionTarea->getTarea()->getTipo()->getDescripcion();?>:</strong> <span class='lead small'>
-					<select name="ParteProduccionTarea<?php echo $x;?>" id="ParteProduccionTarea<?php echo $x;?>">
-					    <?php
-                        foreach ($tareas as $tarea)
-                        {?>
-                            <option value="<?php echo $tarea->getId();?>"
-                            <?php
-                            if ($tarea->getId() == $parteProduccionTarea->getTarea()->getId())
-                            {
-                                echo "selected='selected'";
-                            }
-                             ?>
-                            ><?php echo $tarea->getDescripcion();?></option>
-                         <?php
-                        }
-                         ?>
-
-                    </select>
-					</span></h4></article>
-
-                    <?php
-					if(strnatcasecmp($parte->getEstado()->getTipo(),"abierto")==0){ echo "<article class='col-xs-6'><a class='tOp eliminar_tarea' rel='".$parteProduccionTarea->getId()."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a><!--<a class='tOp editar_tarea' rel='".$parteProduccionTarea->getId()."'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a>--></article>";}
-
-					echo '</div><div class="panel-body">';
-
-					if(!empty($parteProduccionTarea->getNumeroHoras())){?>
-
-						<span class='col-sm-4 col-xs-12'>Numero Horas: <input type="number" name="NumeroHoras<?php echo $x;?>" id="NumeroHoras<?php echo $x;?>" min="1" value="<?php echo $parteProduccionTarea->getNumeroHoras();?>"/></span>
-					<?php
-					}
-
-					if(!empty($parteProduccionTarea->getPaqueteEntrada())&&!empty($parteProduccionTarea->getPaqueteSalida())){
-					?>
-						<span class='col-sm-4 col-xs-12'>Nº Entrada: <input type="number" name="PaqueteEntrada<?php echo $x;?>" id="PaqueteEntrada<?php echo $x;?>" min="1" value="<?php echo $parteProduccionTarea->getPaqueteEntrada();?>"/></span><span class='col-sm-4 col-xs-12'>Nº Salida: <input type="number" name="PaqueteSalida<?php echo $x;?>" id="PaqueteSalida<?php echo $x;?>" min="1" value="<?php echo $parteProduccionTarea->getPaqueteSalida();?>"/></span><span class='col-sm-4 col-xs-12'>Total: <?php echo $parteProduccionTarea->getPaqueteSalida()-$parteProduccionTarea->getPaqueteEntrada();?></span>
-					<?php
-					}
-                    ?>
-					</div></div>
-					<?php
-					$x++;
-
-                }
-				if(strnatcasecmp($parte->getEstado()->getTipo(),"abierto")==0){
-					echo "<button type='button' class='btn btn-primary pCerrar' rel='".$parte->getId()."'>Cerrar Parte</button> ";
-					echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
-				}elseif(strnatcasecmp($parte->getEstado()->getTipo(),"cerrado")==0){
-					echo "<div class='panel panel-default'><div class='panel-body' >";
+            $parteProduccionTareas = $parte->getParteProduccionTareas();
 
 
-					if(count($parte->getHorariosParte())==1){
-						echo "<p class='col-xs-12'><strong>Horario realizado: Continua de ";
-					}else{
-						echo "<p class='col-xs-12'><strong>Horario realizado: Partida de ";
-					}
-
-					$x = 0;
-
-					foreach($parte->getHorariosParte() as $horarioParte){
-						if($x>0){echo " y ";}
-						$x++;
-                        ?>
-						<input type="time" name="HoraEntrada<?php echo $x;?>" id="HoraEntrada<?php echo $x;?>" value="<?php echo $horarioParte->getHoraEntrada();?>"/> - <input type="time" name="HoraSalida<?php echo $x;?>" id="HoraSalida<?php echo $x;?>" value="<?php echo $horarioParte->getHoraSalida();?>"/>
-                        <?php
-
-
-					}
-
-					$fecha = $parte->getFecha();
-
-                    $semana = date('W',strtotime($fecha));
-
-					$trabajador = $parte->getTrabajador();
-
-					$horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
-
-                    if (!is_array($horariosTrabajador))
-                    {
-                        $horariosTrabajador = array($horariosTrabajador);
-
-                    }
-
-						foreach($horariosTrabajador as $horarioTrabajador)
-						{
-
-						    $horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
-						    echo "<p class='col-xs-12'><strong>Horario asociado: ";
-						    echo $horariofranjas[0]->getFranja()->getHoraInicio()." - ".$horariofranjas[sizeof($horariofranjas)-1]->getFranja()->getHoraFin();
-						    echo "</p>";
-
-						}
-						//Calculo de horas extras
-
-                            $numhorasrealizadas = 0;
-					        foreach($parte->getHorariosParte() as $horarioParte){
-
-						        $x++;
-						        $horaEntrada = $horarioParte->getHoraEntrada();
-						        $horaSalida = $horarioParte->getHoraSalida();
-
-						        $numhorasrealizadas = $numhorasrealizadas + (substr($horaSalida,0,2)-substr($horaEntrada,0,2)) ;
-
-					        }
-
-					        $numhoras = 0;
-					        foreach($horariosTrabajador as $horarioTrabajador)
-						    {
-						        $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
-						    }
-
-						    $extras = $numhorasrealizadas - $numhoras;
-                            if ($extras > 0)
-                            {
-                                echo "<p class='col-xs-12' style='color: red;'><strong>Horas extras: ";
-			                    echo $extras;
-			                    echo "</p>";
-                            }
-
-                    //Termina calculo de horas extra
-
-					echo "</strong></p><article>";
-					?>
-                    <span class='col-sm-4 col-xs-12'>Autopistas/Peajes: <input type="number" name="Autopista" id="Autopista"
-                    <?php
-					if(!empty($parte->getAutopista())){?>
-						value="<?php echo $parte->getAutopista();?>"/>€</span>
-				    <?php
-					}else{?>
-						value="0"/>€</span>
-				    <?php
-				    }
-				    ?>
-                    <span class='col-sm-4 col-xs-12'>Dietas: <input type="number" name="Dieta" id="Dieta"
-                    <?php
-					if(!empty($parte->getDieta())){?>
-						value="<?php echo $parte->getDieta();?>"/>€</span>
-				    <?php
-					}else{?>
-						value="0"/>€</span>
-				    <?php
-				    }
-					?>
-                    <span class='col-sm-4 col-xs-12'>Otros Gastos: <input type="number" name="Otros" id="Otros"
-                    <?php
-					if(!empty($parte->getOtroGasto())){?>
-						value="<?php echo $parte->getOtroGasto();?>"/>€</span>
-				    <?php
-					}else{?>
-						value="0"/>€</span>
-				    <?php
-				    }
-
-					echo "</article><article class='col-xs-12'>";
-
-                    ?>
-                    <span class='col-sm-4 col-xs-12'>Incidencia: <br/><textarea name="Incidencia" id="Incidencia">
-                    <?php
-					if(!empty($parte->getIncidencia())){?>
-						<?php echo $parte->getIncidencia();?></textarea></span>
-				    <?php
-					}else{?>
-						No hay ninguna incidencia.</span></textarea>
-				    <?php
-				    }
-
-
-					echo "</div></div>";
-
-
-			}
-		}else{
-			echo "<div class='panel panel-default'><div class='panel-body'>El Parte no tiene ninguna Tarea.</div></div>";
-			if(strnatcasecmp($parte->getEstado()->getTipo(),"abierto")==0){
-				echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
-			}
-		}?>
-		        <button type="submit" name="guardarParteProduccion"
-                   style="border: none; background: none"><span
-                   class="glyphicon glyphicon-floppy-saved" style="color:blue; font-size: 1.5em"></span> <span style="color:blue;">Guardar</span>
-                </button>
-                </form>
-
-            <a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2">Volver</a>
+            if(!is_null($parteProduccionTareas)){
+            ?>
+            <form action="<?php echo parent::getUrlRaiz();?>/Controlador/Administracion/Router.php" method="post">
+            <input type="hidden" name="idParte" id="idParte" value="<?php echo $parte->getId(); ?>"/>
 
             <?php
-            //echo '</div> </div><div><button id="close" class="btn-danger btn pull-right col-sm-2 cerrar">Volver</button></div>';
+                $x = 1;
 
-            require_once __DIR__ . "/../Plantilla/pie.php";
+                foreach ($parteProduccionTareas as $parteProduccionTarea)
+                {
+                    echo "<link rel='stylesheet' type='text/css' href='".self::getUrlRaiz()."/Vista/Plantilla/CSS/ProduccionStyle.css'>";
+                    echo "<input type='hidden' id='contTareas' value='".sizeof($parteProduccionTareas)."'>";
+
+                        $tipo = $parteProduccionTarea->getTarea()->getTipo();
+                        $tareas = BD\TareaBD::getTareaByTipo($tipo);
+
+                        echo "<div class='panel panel-default' rel='".$parteProduccionTarea->getId()."'>";
+                        ?>
+                        <input type="hidden" name="id<?php echo $x; ?>" id="id<?php echo $x;?>" value="<?php echo $parteProduccionTarea->getId();?>"/>
+                        <div class='panel-heading container-fluid'><article class='col-xs-6 text-left'><h4 class='panel-title'><strong>
+                        <?php echo $parteProduccionTarea->getTarea()->getTipo()->getDescripcion();?>:</strong> <span class='lead small'>
+                        <select name="ParteProduccionTarea<?php echo $x;?>" id="ParteProduccionTarea<?php echo $x;?>">
+                            <?php
+                            foreach ($tareas as $tarea)
+                            {?>
+                                <option value="<?php echo $tarea->getId();?>"
+                                <?php
+                                if ($tarea->getId() == $parteProduccionTarea->getTarea()->getId())
+                                {
+                                    echo "selected='selected'";
+                                }
+                                 ?>
+                                ><?php echo $tarea->getDescripcion();?></option>
+                             <?php
+                            }
+                             ?>
+
+                        </select>
+                        </span></h4></article>
+
+                        <?php
+                        if(strnatcasecmp($parte->getEstado()->getTipo(),"abierto")==0){ echo "<article class='col-xs-6'><a class='tOp eliminar_tarea' rel='".$parteProduccionTarea->getId()."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a><!--<a class='tOp editar_tarea' rel='".$parteProduccionTarea->getId()."'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a>--></article>";}
+
+                        echo '</div><div class="panel-body">';
+
+                        if(!empty($parteProduccionTarea->getNumeroHoras())){?>
+
+                            <span class='col-sm-4 col-xs-12'>Numero Horas: <input type="number" name="NumeroHoras<?php echo $x;?>" id="NumeroHoras<?php echo $x;?>" min="1" value="<?php echo $parteProduccionTarea->getNumeroHoras();?>"/></span>
+                        <?php
+                        }
+
+                        if(!empty($parteProduccionTarea->getPaqueteEntrada())&&!empty($parteProduccionTarea->getPaqueteSalida())){
+                        ?>
+                            <span class='col-sm-4 col-xs-12'>Nº Entrada: <input type="number" name="PaqueteEntrada<?php echo $x;?>" id="PaqueteEntrada<?php echo $x;?>" min="1" value="<?php echo $parteProduccionTarea->getPaqueteEntrada();?>"/></span><span class='col-sm-4 col-xs-12'>Nº Salida: <input type="number" name="PaqueteSalida<?php echo $x;?>" id="PaqueteSalida<?php echo $x;?>" min="1" value="<?php echo $parteProduccionTarea->getPaqueteSalida();?>"/></span><span class='col-sm-4 col-xs-12'>Total: <?php echo $parteProduccionTarea->getPaqueteSalida()-$parteProduccionTarea->getPaqueteEntrada();?></span>
+                        <?php
+                        }
+                        ?>
+                        </div></div>
+                        <?php
+                        $x++;
+
+                    }
+                    if(strnatcasecmp($parte->getEstado()->getTipo(),"abierto")==0){
+                        echo "<button type='button' class='btn btn-primary pCerrar' rel='".$parte->getId()."'>Cerrar Parte</button> ";
+                        echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
+                    }elseif(strnatcasecmp($parte->getEstado()->getTipo(),"cerrado")==0){
+                        echo "<div class='panel panel-default'><div class='panel-body' >";
+
+
+                        if(count($parte->getHorariosParte())==1){
+                            echo "<p class='col-xs-12'><strong>Horario realizado: Continua de ";
+                        }else{
+                            echo "<p class='col-xs-12'><strong>Horario realizado: Partida de ";
+                        }
+
+                        $x = 0;
+
+                        foreach($parte->getHorariosParte() as $horarioParte){
+                            if($x>0){echo " y ";}
+                            $x++;
+                            ?>
+                            <input type="time" name="HoraEntrada<?php echo $x;?>" id="HoraEntrada<?php echo $x;?>" value="<?php echo $horarioParte->getHoraEntrada();?>"/> - <input type="time" name="HoraSalida<?php echo $x;?>" id="HoraSalida<?php echo $x;?>" value="<?php echo $horarioParte->getHoraSalida();?>"/>
+                            <?php
+
+
+                        }
+
+                        $fecha = $parte->getFecha();
+
+                        $semana = date('W',strtotime($fecha));
+
+                        $trabajador = $parte->getTrabajador();
+
+                        $horariosTrabajador = $trabajador->getHorariosTrabajadorBySemana($semana);
+
+                        if (!is_array($horariosTrabajador))
+                        {
+                            $horariosTrabajador = array($horariosTrabajador);
+
+                        }
+
+                            foreach($horariosTrabajador as $horarioTrabajador)
+                            {
+
+                                $horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
+                                echo "<p class='col-xs-12'><strong>Horario asociado: ";
+                                echo $horariofranjas[0]->getFranja()->getHoraInicio()." - ".$horariofranjas[sizeof($horariofranjas)-1]->getFranja()->getHoraFin();
+                                echo "</p>";
+
+                            }
+                            //Calculo de horas extras
+
+                                $numhorasrealizadas = 0;
+                                foreach($parte->getHorariosParte() as $horarioParte){
+
+                                    $x++;
+                                    $horaEntrada = $horarioParte->getHoraEntrada();
+                                    $horaSalida = $horarioParte->getHoraSalida();
+
+                                    $numhorasrealizadas = $numhorasrealizadas + (substr($horaSalida,0,2)-substr($horaEntrada,0,2)) ;
+
+                                }
+
+                                $numhoras = 0;
+                                foreach($horariosTrabajador as $horarioTrabajador)
+                                {
+                                    $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+                                }
+
+                                $extras = $numhorasrealizadas - $numhoras;
+                                if ($extras > 0)
+                                {
+                                    echo "<p class='col-xs-12' style='color: red;'><strong>Horas extras: ";
+                                    echo $extras;
+                                    echo "</p>";
+                                }
+
+                        //Termina calculo de horas extra
+
+                        echo "</strong></p><article>";
+                        ?>
+                        <span class='col-sm-4 col-xs-12'>Autopistas/Peajes: <input type="number" name="Autopista" id="Autopista"
+                        <?php
+                        if(!empty($parte->getAutopista())){?>
+                            value="<?php echo $parte->getAutopista();?>"/>€</span>
+                        <?php
+                        }else{?>
+                            value="0"/>€</span>
+                        <?php
+                        }
+                        ?>
+                        <span class='col-sm-4 col-xs-12'>Dietas: <input type="number" name="Dieta" id="Dieta"
+                        <?php
+                        if(!empty($parte->getDieta())){?>
+                            value="<?php echo $parte->getDieta();?>"/>€</span>
+                        <?php
+                        }else{?>
+                            value="0"/>€</span>
+                        <?php
+                        }
+                        ?>
+                        <span class='col-sm-4 col-xs-12'>Otros Gastos: <input type="number" name="Otros" id="Otros"
+                        <?php
+                        if(!empty($parte->getOtroGasto())){?>
+                            value="<?php echo $parte->getOtroGasto();?>"/>€</span>
+                        <?php
+                        }
+                        else
+                        {?>
+                            value="0"/>€</span>
+                        <?php
+                        }
+
+                        echo "</article><article class='col-xs-12'>";
+
+                        ?>
+                        <span class='col-sm-4 col-xs-12'>Incidencia: <br/><textarea name="Incidencia" id="Incidencia">
+                        <?php
+                        if(!empty($parte->getIncidencia()))
+                        {?>
+                            <?php echo $parte->getIncidencia();?></textarea></span>
+                        <?php
+                        }
+                        else
+                        {?>
+                            No hay ninguna incidencia.</span></textarea>
+                        <?php
+                        }
+                        echo "</div></div>";
+
+                }
+            }
+            else
+            {
+                echo "<div class='panel panel-default'><div class='panel-body'>El Parte no tiene ninguna Tarea.</div></div>";
+                if(strnatcasecmp($parte->getEstado()->getTipo(),"abierto")==0)
+                {
+                    echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
+                }
+            }?>
+                    <button type="submit" name="guardarParteProduccion"
+                       style="border: none; background: none"><span
+                       class="glyphicon glyphicon-floppy-saved" style="color:blue; font-size: 1.5em"></span> <span style="color:blue;">Guardar</span>
+                    </button>
+                    </form>
+
+                <a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2">Volver</a>
+
+                <?php
+                //echo '</div> </div><div><button id="close" class="btn-danger btn pull-right col-sm-2 cerrar">Volver</button></div>';
+
+                require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
  /*****************************************************/
@@ -2020,8 +2371,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 /* Rellena Tabla Produccion */
 /*****************************************************/
         public static function rellenaTablaPartesProd($prod)
-        {?>
-
+        {
+        ?>
             <form method="post"
                   action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
                 <tr>
@@ -2058,7 +2409,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                 </tr>
                 <input type="hidden" name="id" value="<?php echo $prod->getId(); ?>">
             </form>
-            <?php //Olga añadido
+            <?php
         }
 
 /*****************************************************/
@@ -2073,9 +2424,9 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                     <td><?php echo $log->getTrabajador()->getNombre()." ".$log->getTrabajador()->getApellido1()." ".$log->getTrabajador()->getApellido2(); ?></td>
                     <td><?php echo $log->getFecha(); ?></td>
                     <td><?php echo $log->getNota(); ?></td>
-                    <td><?php echo $log->getAutopista(); ?></td> <!--Olga: añadido-->
-                    <td><?php echo $log->getDieta(); ?></td><!--Olga: añadido-->
-                    <td><?php echo $log->getOtroGasto(); ?></td><!--Olga: añadido-->
+                    <td><?php echo $log->getAutopista(); ?></td>
+                    <td><?php echo $log->getDieta(); ?></td>
+                    <td><?php echo $log->getOtroGasto(); ?></td>
                     <td><?php echo $log->getEstado()->getTipo(); ?></td>
                     <td>
                         <button type="submit" name="listarParteLog"
@@ -2157,6 +2508,13 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                 <?php
                 if(count($partesProd)>0){//solo se "pinta" la tabla si hay contenido que nmostrar
                     self::cabeceraTablaProd();
+                     foreach ($partesProd as $prod)
+                    {
+                        if ($prod->getEstado()->getTipo() == "Validado")
+                        {
+                            self::rellenaTablaPartesProd($prod);
+                        }
+                    }
 
                     foreach ($partesProd as $prod)
                     {
@@ -2217,7 +2575,14 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             $partesProd = Administracion\Controlador::getAllPartesProduccion();
             $partesLog = Administracion\Controlador::getAllPartesLogistica();
 
+            ?>
+
+            <div id="filtrado">
+            <?php
             self::tiposFiltro();
+             ?>
+            </div>
+            <?php
             self::insertarTablas($partesProd,$partesLog);
 
             require_once __DIR__ . "/../Plantilla/pie.php";
@@ -2227,9 +2592,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 /* BUSCA PARTES POR DNI */
 /*****************************************************/
 
-    public static function findPartesByDni($i)//Olga añadido
-    {//Olga añadido
-
+    public static function findPartesByDni($i)
+    {
         $dni=$i["dni"];
 
         parent::setOn(true);
@@ -2244,8 +2608,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         self::insertarTablas($partesProd,$partesLog);
 
         require_once __DIR__ . "/../Plantilla/pie.php";
-    }//Olga añadido
-
+    }
 /*****************************************************/
 /* BUSCA PARTES POR TRABAJADOR Y RANGO FECHAS */
 /*****************************************************/
@@ -2353,7 +2716,6 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             <?php
 
             require_once __DIR__ . "/../Plantilla/pie.php";
-
         }
 
         public static function deleteFestivo(){
@@ -2449,6 +2811,316 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
     }
 
+/*****************************************************/
+/* TIPO TAREA */
+/*****************************************************/
+
+    public static function updateTipoTarea(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $tipos = Administracion\Controlador::getAllTiposTarea();
+                if(is_null($tipos)){
+            echo "No hay tipos de tarea";
+        }
+        else
+        {
+            ?>
+            <h2 class="page-header">Tipo de Tareas</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>NUEVA DESCRIPCIÓN</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($tipos as $tipo) {
+                        ?>
+                        <tr>
+                            <td><?php echo $tipo->getId(); ?></td>
+                            <td><?php echo $tipo->getDescripcion(); ?></td>
+                            <form name="cambiaDescripcion" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                <td><input type="text" name="nuevo" size="50" placeholder="denominación de tarea"></td>
+                                <td>
+                                    <button type="submit" name="updateTiposTarea" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $tipo->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
+
+    public static function insertTipoTarea()
+    {
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        ?>
+        <div class="container">
+            <form class="form-horizontal" name="insertTipoTarea" method="post" action="<?php echo self::getUrlRaiz()?>/Controlador/Administracion/Router.php"><br/>
+                <fieldset>
+                    <legend>Añadir Tipo Tarea</legend>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-md-2">Tipo de Tarea:</label>
+                        <div class="col-sm-4 col-md-3">
+                            <input class="form-control" type="text" name="tipo" placeholder="Descripcion tarea">
+                        </div>
+                    </div>
+<!--                    <div class="form-group">-->
+<!--                        <label class="control-label col-sm-2 col-md-2">Precio:</label>-->
+<!--                        <div class="col-sm-4 col-md-3">-->
+<!--                            <input class="form-control" type="text" name="precio">-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2">
+                            <input class="btn btn-primary" type="submit" value="Añadir" name="addTipoTarea">
+                        </div>
+                            <div class="col-sm-4 col-md-3">
+                                <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                            </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <?php
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
+
+    public static function deleteTipoTarea(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+//        $tipos = Administracion\Controlador::getAllTiposFranjas();
+//        if(is_null($tipos)){
+//            echo "no hay tipos";
+//        }else {
+//            ?>
+<!--            <h2 class="page-header">Convenios</h2>-->
+<!--            <div class="table-responsive col-md-offset-1 col-md-10">-->
+<!--                <table class="table table-bordered">-->
+<!--                    <tr>-->
+<!--                        <th>TIPO</th>-->
+<!--                        <th>PRECIO</th>-->
+<!--                        <th>ACCIÓN</th>-->
+<!--                    </tr>-->
+<!--                    --><?php
+//                    foreach ($tipos as $tipo) {
+//                        ?>
+<!--                        <tr>-->
+<!--                            <td>--><?php //echo $tipo->getTipo(); ?><!--</td>-->
+<!--                            <td>--><?php //echo $tipo->getPrecio(); ?><!--</td>-->
+<!--                            <td>-->
+<!--                                <form name="deleteEstado" method="post" action="--><?php //echo self::getUrlRaiz() ?><!--/Controlador/Administracion/Router.php">-->
+<!--                                    <button class="btn btn-primary" type="submit" name="deleteTipoFranja"-->
+<!--                                            value="Eliminar" style="border: none; background: none;"><span-->
+<!--                                            class="glyphicon glyphicon-remove"-->
+<!--                                            style="color:red; font-size: 1.5em"></span></button>-->
+<!--                                    <input type="hidden" name="id" value="--><?php //echo $tipo->getId(); ?><!--">-->
+<!--                                </form>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        --><?php
+//                    }
+//                    ?>
+<!--                </table>-->
+<!--            </div>-->
+<!--            <form name="deleteEstado" method="post" action="--><?php //echo self::getUrlRaiz() ?><!--/Controlador/Administracion/Router.php">-->
+<!---->
+<!--                <div class="col-sm-4 col-md-3">-->
+<!--                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">-->
+<!--                </div>-->
+<!--            </form>-->
+<!--            --><?php
+//        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
+/*****************************************************/
+/* TAREA */
+/*****************************************************/
+
+    public static function updateTarea(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $tareas = Administracion\Controlador::getAllTareas();
+                if(is_null($tareas)){
+            echo "No hay tareas";
+        }
+        else
+        {
+            ?>
+            <h2 class="page-header">Tareas</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>NUEVA DESCRIPCIÓN</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($tareas as $tarea) {
+                        ?>
+                        <tr>
+                            <td><?php echo $tarea->getId(); ?></td>
+                            <td><?php echo $tarea->getDescripcion(); ?></td>
+                            <form name="cambiaDescripcion" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                                <td><input type="text" name="nuevo" size="50" placeholder="denominación de tarea"></td>
+                                <td>
+                                    <button type="submit" name="updateTarea" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $tarea->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
+
+    public static function insertTarea()
+    {
+
+        parent::setOn(true);
+        parent::setRoot(true);
+        $tiposTareas = Administracion\Controlador::getAllTiposTarea();
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        ?>
+        <div class="container">
+            <form class="form-horizontal" name="insertTipoFranja" method="post" action="<?php echo self::getUrlRaiz()?>/Controlador/Administracion/Router.php"><br/>
+                <fieldset>
+                    <legend>Añadir Tarea</legend>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-md-2">Descripción:</label>
+                        <div class="col-sm-4 col-md-3">
+                            <input class="form-control" type="text" name="descripcion" placeholder="Descripcion de la tarea...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 col-md-2">TipoTarea: </label>
+                        <div class="col-sm-4 col-md-3">
+                            <select class="form-control" name="tipoTarea">
+                                <?php
+                                foreach ($tiposTareas as $tipoTarea) {
+                                    ?>
+                                    <option value="<?php echo $tipoTarea->getId() ?>"><?php echo $tipoTarea->getDescripcion() ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2 col-md-3 col-md-offset-2">
+                            <input class="btn btn-primary" type="submit" value="Añadir" name="addTarea">
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <?php
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+    public static function deleteTarea(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+//        $tipos = Administracion\Controlador::getAllTiposFranjas();
+//        if(is_null($tipos)){
+//            echo "no hay tipos";
+//        }else {
+//            ?>
+<!--            <h2 class="page-header">Convenios</h2>-->
+<!--            <div class="table-responsive col-md-offset-1 col-md-10">-->
+<!--                <table class="table table-bordered">-->
+<!--                    <tr>-->
+<!--                        <th>TIPO</th>-->
+<!--                        <th>PRECIO</th>-->
+<!--                        <th>ACCIÓN</th>-->
+<!--                    </tr>-->
+<!--                    --><?php
+//                    foreach ($tipos as $tipo) {
+//                        ?>
+<!--                        <tr>-->
+<!--                            <td>--><?php //echo $tipo->getTipo(); ?><!--</td>-->
+<!--                            <td>--><?php //echo $tipo->getPrecio(); ?><!--</td>-->
+<!--                            <td>-->
+<!--                                <form name="deleteEstado" method="post" action="--><?php //echo self::getUrlRaiz() ?><!--/Controlador/Administracion/Router.php">-->
+<!--                                    <button class="btn btn-primary" type="submit" name="deleteTipoFranja"-->
+<!--                                            value="Eliminar" style="border: none; background: none;"><span-->
+<!--                                            class="glyphicon glyphicon-remove"-->
+<!--                                            style="color:red; font-size: 1.5em"></span></button>-->
+<!--                                    <input type="hidden" name="id" value="--><?php //echo $tipo->getId(); ?><!--">-->
+<!--                                </form>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        --><?php
+//                    }
+//                    ?>
+<!--                </table>-->
+<!--            </div>-->
+<!--            <form name="deleteEstado" method="post" action="--><?php //echo self::getUrlRaiz() ?><!--/Controlador/Administracion/Router.php">-->
+<!---->
+<!--                <div class="col-sm-4 col-md-3">-->
+<!--                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">-->
+<!--                </div>-->
+<!--            </form>-->
+<!--            --><?php
+//        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
 
 }
 

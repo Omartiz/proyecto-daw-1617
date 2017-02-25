@@ -14,6 +14,8 @@ use Modelo\Base\HorariosTrabajadores;
 use Modelo\Base\Logistica;
 use Modelo\Base\ParteProducionTarea;
 use Modelo\Base\Produccion;
+use Modelo\Base\Tarea;
+use Modelo\Base\TipoTarea;
 use Modelo\Base\TiposFranjas;
 use Modelo\Base\Trabajador;
 use Modelo\Base\TrabajadorAusencia;
@@ -241,23 +243,25 @@ abstract class Controlador{
     public static function getAllTiposFranjas(){
         return BD\TipoFranjaBD::getAll();
     }
-    public static function updateTipoFranja($datos){
 
+    public static function updateTipoFranja($datos)
+    {
         $tipo = new TiposFranjas($datos['id'],null,$datos['nuevo']);
-
         BD\TipoFranjaBD::update($tipo);
     }
+
     public static function AddTipoFranja($datos){
         $datos['tipo'] = str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower(($datos['tipo'])))));
         $tipo = new TiposFranjas(null, $datos['tipo'], $datos['precio']);
         $tipo->save();
     }
+
     public static function DeleteTipoFranja($datos){
         \Modelo\BD\TipoFranjaBD::delete($datos['id']);
     }
-    public static function UpdateHorasConvenio($datos){
-        $horas = new HoraConvenio($datos['id'],$datos['nuevo']); /*error*/
 
+    public static function UpdateHorasConvenio($datos){
+        $horas = new HoraConvenio($datos['id'],$datos['nuevo']);
         BD\HorasConvenioBD::UpdateHorasConvenio($horas);
     }
 
@@ -313,9 +317,11 @@ abstract class Controlador{
 
     }
 
-    public static function getAllHoraioTrabajador(){
-    return BD\HorarioTrabajadorBD::getAll();
+    public static function getAllHoraioTrabajador()
+    {
+        return BD\HorarioTrabajadorBD::getAll();
     }
+
     public static function getHorarioTrabajador($trabajador){
         return BD\HorarioTrabajadorBD::getAll($trabajador);
     }
@@ -561,43 +567,125 @@ abstract class Controlador{
         $_SESSION['parte'] = serialize($parte);
     }
 
-    public static function getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
+    public static function getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)
     {
         return BD\ParteProduccionBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
     }
 
-    public static function getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)//Olga added
+    public static function getPartesLogByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)
     {
         return BD\ParteLogisticaBD::getPartesByTrabajadorAndFechas($dni,$fechaIni,$fechaFin);
     }
 
-    public static function getPartesVentanaTpoProd($fechaIni,$fechaFin)//Olga added
+    public static function getPartesVentanaTpoProd($fechaIni,$fechaFin)
     {
         return BD\ParteProduccionBD::getPartesByRangoFechas($fechaIni,$fechaFin);
     }
 
-    public static function getPartesVentanaTpoLog($fechaIni,$fechaFin)//Olga added
+    public static function getPartesVentanaTpoLog($fechaIni,$fechaFin)
     {
         return BD\ParteLogisticaBD::getPartesByRangoFechas($fechaIni,$fechaFin);
     }
 
-    public static function getPartesProdByEstado($filaEstado)//Olga added
+    public static function getPartesProdByEstado($filaEstado)
     {
         return BD\ParteProduccionBD::getPartesByEstado($filaEstado);
     }
 
-    public static function getPartesLogByEstado($filaEstado)//Olga added
+    public static function getPartesLogByEstado($filaEstado)
     {
         return BD\ParteLogisticaBD::getPartesByEstado($filaEstado);
     }
 
-    public static function getPartesProdByDni($dni)//Olga added
+    public static function getPartesProdByDni($dni)
     {
         return BD\ParteProduccionBD::getPartesByDni($dni);
     }
 
-    public static function getPartesLogByDni($dni)//Olga added
+    public static function getPartesLogByDni($dni)
     {
         return BD\ParteLogisticaBD::getPartesByDni($dni);
+    }
+
+    public static function getAllTareas(){
+        return BD\TareaBD::getAll();
+    }
+
+    public static function getAllTiposTarea()
+    {
+        return BD\TipoTareaBD::getAll();
+    }
+
+    public static function updateEmpresa($datos)
+    {
+        $empresa = new Empresa($datos['id'],$datos['nuevo'],$datos['nif']);
+        BD\EmpresaBD::update($empresa);
+    }
+
+    public static function updateVehiculo($datos)
+    {
+        echo("***datos que llegan a updateVEHICULO Ctrol-admin.ctrol ****"); //olga Borra
+        var_dump($datos);//Olga Borra
+        echo("+++datos que llegan a updateVEHICULO Ctrol-admin.ctrol ++++"); //olga Borra
+        $vehiculo = new Vehiculo($datos['id'],null,null,$datos['nuevo']);
+        var_dump($vehiculo);//Olga Borra
+        //die; //Olga Borra
+        BD\VehiculoBD::update($vehiculo);
+    }
+
+    public static function updateHorario($datos){
+        $horario = new horarios($datos['id'],$datos['nuevo']);
+        BD\HorarioBD::update($horario);
+    }
+
+    public static function updateHorarioTrabajador($datos)
+    {
+        $horarioTrabajador = new HorariosTrabajadores($datos['id'],null,null,$datos['nuevo']);
+        BD\HorarioTrabajadorBD::update($horarioTrabajador);
+    }
+
+    public static function updateTarea($datos){
+        $tarea = new Tarea($datos['id'],$datos['nuevo']);
+        BD\TareaBD::update($tarea);
+    }
+
+    public static function updateTiposTarea($datos){
+        $tipoTarea = new TipoTarea($datos['id'],$datos['nuevo']);
+        BD\TipoTareaBD::update($tipoTarea);
+    }
+
+    public static function updateCentro($datos)
+    {
+        $centro = new Centro($datos['id'],null, $datos['nuevo']);
+        BD\CentroBD::update($centro);
+    }
+
+    public static function AddTipoTarea($datos)
+    {
+        //$datos['tipo'] = str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower(($datos['tipo'])))));
+        $tipo = new TipoTarea(null, $datos['tipo']);
+        echo("***AddTipoTarea CONTROLADOR*****"); //Olga Borra
+        var_dump($tipo);//Olga Borra
+        echo("+++*AddTipoTarea CONTROLADOR++++"); //Olga Borra
+        $tipo->save();
+    }
+
+    public static function AddTarea($datos)
+    {
+        //$datos['tipo'] = str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower(($datos['tipo'])))));
+        $tipoTarea=BD\TipoTareaBD::getTipoByTarea($datos['tipoTarea']);
+        var_dump($tipoTarea);//Olga Borra
+        echo("#############");//Olga Borra
+        var_dump($tipoTarea->getId());//Olga Borra
+        //die;//Olga Borra
+        //var_dump($datos['tipoTarea']); //Olga Borra
+        //$tipoTarea=$datos['tipoTarea'];
+        $tarea = new tarea(null, $datos['descripcion'], "1");
+        //$tarea = new tarea(null, $datos['descripcion'], $tipoTarea->getId());
+        echo("***AddTipoTarea CONTROLADOR*****"); //Olga Borra
+        var_dump($tarea);//Olga Borra
+        echo("+++*AddTipoTarea CONTROLADOR++++"); //Olga Borra
+        $tarea->save();
+
     }
 }

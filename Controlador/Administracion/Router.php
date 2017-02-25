@@ -33,40 +33,46 @@ if(isset($_POST['eliminarEmpresa'])){
     //headerLocation a vista Eliminar
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteEmpresa.php");
 }
+
 if(isset($_POST['addEstado'])){
     Controlador::AddEstado($_POST);
     header($gestionListas);
 }
+
 if(isset($_POST['eliminarEstado'])){
     echo "hola";    Controlador::deleteEstado($_POST);
     //headerLocation a vista Eliminar
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteEstado.php");
 }
+
 if(isset($_POST['addVehiculo'])){
     Controlador::AddVehiculo($_POST);
     header($gestionListas);
-    }
-if(isset($_POST['eliminarVehiculo'])){
+}
 
+if(isset($_POST['eliminarVehiculo'])){
     Controlador::deleteVehiculo($_POST);
     //headerLocation a vista Eliminar
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteVehiculo.php");
 }
+
 if(isset($_POST['addHorasConvenio'])){
     Controlador::AddHorasConvenio($_POST);
     header($gestionListas);
 }
-if(isset($_POST['eliminarHorasConvenio'])){
 
+if(isset($_POST['eliminarHorasConvenio'])){
     Controlador::deleteHorasConvenio($_POST);
     //headerLocation a vista Eliminar
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteHorasConvenio.php");
 }
+
 if(isset($_POST['eliminarTrabajador'])){
     Controlador::deleteTrabajador($_POST);
     //headerLocation a vista Eliminar
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteTrabajador.php");
 }
+
 if(isset($_POST['addCentro'])){
     Controlador::AddCentro($_POST);
     header($gestionListas);
@@ -86,99 +92,125 @@ if(isset($_POST['eliminarHorario'])){
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteHorario.php");
 
 }
+
 if(isset($_POST['updateTipoFranja'])){
     Controlador::UpdateTipoFranja($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateTipoFranja.php");
 }
+
 if(isset($_POST['addTipoFranja'])){
     Controlador::addTipoFranja($_POST);
     header($gestionListas);
 }
+
 if(isset($_POST['deleteTipoFranja'])){
     Controlador::DeleteTipoFranja($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteTipoFranja.php");
 }
+
 if(isset($_POST['updateHorasConvenio'])){
     Controlador::UpdateHorasConvenio($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateHorasConvenio.php");
 }
+
 if(isset($_POST['añadirHorarioTrabajador'])){
     Controlador::addHorarioTrabajador($_POST);
     header($gestionListas);
 }
+
 if(isset($_POST['borrarHorarioTrabajador'])){
     Controlador::DeleteHorarioTrabajador($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteHorarioTrabajador.php");
 }
+
 if(isset($_POST['eliminarParteLogistica'])){
     Controlador::DeleteParteLogistica($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['eliminarParteProduccion'])){
     Controlador::DeleteParteProduccion($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['listarParteLog'])){
     Controlador::viewParteLog($_POST);
     //header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['listarParteProd'])){
     Controlador::viewParteProd($_POST);
     //header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['validarParteLogistica'])){
     Controlador::updateValidarParteLogistica($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['modificarParteLog'])){
     Controlador::updateParteLogistica($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=4");
 }
+
 if(isset($_POST['guardarParteLogistica'])){
     Controlador::guardarParteLogistica($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['abrirParteLogistica'])){
     Controlador::updateAbrirParteLogistica($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['validarParteProduccion'])){
     Controlador::updateValidarParteProduccion($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['modificarParteProd'])){
     Controlador::updateParteProduccion($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=5");
 }
+
 if(isset($_POST['guardarParteProduccion'])){
     Controlador::guardarParteProduccion($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
+
 if(isset($_POST['updatePassword'])){
     Controlador::updatePassword($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updatePassword.php");
 }
+
 if(isset($_POST['updateFoto'])){
     $file = $_FILES;
     Controlador::updateFoto($_POST,$file);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateFoto.php");
 }
-if(isset($_POST['añadirFestivo'])){
+
+if(isset($_POST['añadirFestivo']))
+{
     Controlador::addFestivo($_POST);
     header($gestionListas);
-   }
-if(isset($_POST['deleteFestivo'])){
+}
+
+if(isset($_POST['deleteFestivo']))
+{
     Controlador::deleteFestivo($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteFestivo.php");
 }
-if(isset($_POST['abrirParteProduccion'])){
+
+if(isset($_POST['abrirParteProduccion']))
+{
     Controlador::updateAbrirParteProduccion($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
 }
-if(isset($_POST['abrirParteLogistica'])){
+
+if(isset($_POST['abrirParteLogistica']))
+{
     Controlador::updateAbrirParteLogistica($_POST);
     header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=2");
-
 }
 /*
 if(isset($_POST['dni']) and !isset($_POST['semanas'])) {
@@ -307,16 +339,14 @@ if(isset($_POST['dni']) and !isset($_POST['semanas'])) {
     }
 }
 */
+
 if(isset($_POST['volver'])){
         header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/Administracion.php?cod=1");
 }
 
-
-
 /***********/
 if (isset($_POST["semanas"]))
 {
-
     $trabajador = BD\TrabajadorBD::getTrabajadorByDni($_POST["dni"]);
 
     $semanas = Controlador::getHorarioTrabajador($trabajador);
@@ -333,7 +363,61 @@ if (isset($_POST["semanas"]))
 
     }
     ?>
-<div><label>Todos</label><input type="checkbox" name="todos" id="todos" onclick="seleccionar()"/></div>
-<?php
+    <div>
+        <label>Todos</label>
+        <input type="checkbox" name="todos" id="todos" onclick="seleccionar()"/>
+    </div>
+    <?php
 }
+
+if(isset($_POST['updateEmpresa'])){
+    Controlador::updateEmpresa($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateEmpresa.php");
+}
+
+if(isset($_POST['updateVehiculo']))
+{
+    Controlador::updateVehiculo($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateVehiculo.php");
+}
+
+if(isset($_POST['updateHorario'])){
+    Controlador::updateHorario($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateHorario.php");
+}
+
+if(isset($_POST['updateHorarioTrabajador'])){
+    Controlador::updateHorarioTrabajador($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateHorarioTrabajador.php");
+}
+if(isset($_POST['updateTarea'])){
+    Controlador::updateTarea($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateTarea.php");
+}
+if(isset($_POST['updateTiposTarea'])){
+    Controlador::updateTiposTarea($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateTipoTarea.php");
+}
+
+if(isset($_POST['updateCentro'])){
+    Controlador::updateCentro($_POST);
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/updateCentro.php");
+}
+
+if(isset($_POST['addTipoTarea']))
+{
+    Controlador::addTipoTarea($_POST);
+    header($gestionListas);
+}
+
+if(isset($_POST['addTarea']))
+{
+    echo("****ROUTER add Tarea ****");//Olga Borra
+    var_dump($_POST); //Olga Borra
+    echo("++++*ROUTER addTarea ++++");//Olga Borra
+    Controlador::addTarea($_POST);
+
+    header($gestionListas);
+}
+
 ?>

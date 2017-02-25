@@ -28,7 +28,8 @@ abstract class TareaBD extends GenericoBD
 
     }
 
-    public static function getTareaByTipo($tipo){
+    public static function getTareaByTipo($tipo)
+    {
 
         $tareas = null;
 
@@ -44,14 +45,14 @@ abstract class TareaBD extends GenericoBD
 
         return $tareas;
 
-
     }
+
     public static function insert($Tarea){
 
         $conexion = GenericoBD::conectar();
 
-        $insert = "INSERT INTO ".self::$tabla." VALUES (null,'".$Tarea->getDescripcion()."','".$Tarea->getTipo()->getId()."'".";)";
-
+        $insert = "INSERT INTO ".self::$table." (descripcion, idTipoTarea) VALUES ('".$Tarea->getDescripcion()."','".$Tarea->getTipo()."');";
+        var_dump($insert); //Olga Borra
         mysqli_query($conexion,$insert) or die("Error InsertTarea");
 
         GenericoBD::desconectar($conexion);
@@ -61,7 +62,8 @@ abstract class TareaBD extends GenericoBD
     public static function update($Tarea){
         $conexion = GenericoBD::conectar();
 
-        $update = "UPDATE ".self::$tabla." SET descripcion='".$Tarea->getDescripcion()."', idTipoTarea='".$Tarea->getTipo()->getId()."' WHERE id = '".$Tarea->getId()."';";
+        $update = "UPDATE ".self::$table." SET descripcion='".$Tarea->getDescripcion()."', idTipoTarea='".$Tarea->getTipo()->getId()."' WHERE id = '".$Tarea->getId()."';";
+
         mysqli_query($conexion,$update) or die("Error UpdateTarea");
 
         GenericoBD::desconectar($conexion);
@@ -70,7 +72,7 @@ abstract class TareaBD extends GenericoBD
     public static function delete($Tarea){
         $conexion = GenericoBD::conectar();
 
-        $delete = "DELETE FROM ".self::$tabla." WHERE id = '".$Tarea->getId()."';";
+        $delete = "DELETE FROM ".self::$table." WHERE id = '".$Tarea->getId()."';";
 
         mysqli_query($conexion,$delete) or die("Error DeleteTarea");
 
@@ -85,6 +87,23 @@ abstract class TareaBD extends GenericoBD
 
         parent::desconectar($con);
         return $respuetsa;
+
+    }
+
+    public static function getAll()
+    {
+
+        $conexion = parent::conectar();
+
+        $query = "Select * from ".self::$table;
+
+        $rs = mysqli_query($conexion, $query) or die(mysqli_error($conexion));
+
+        $tareas = parent::mapearArray($rs, "Tarea");
+
+        parent::desconectar($conexion);
+
+        return $tareas;
 
     }
 }

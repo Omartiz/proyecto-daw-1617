@@ -63,4 +63,13 @@ abstract class EmpresaBD extends GenericoBD{
 
     }
 
+    public static function update($empresa){
+        $conexion = GenericoBD::conectar();
+
+        $update = "UPDATE ".self::$tabla." SET nombre='".$empresa->getNombre()."' WHERE id = '".$empresa->getId()."';";
+        mysqli_query($conexion,$update) or die("Error UpdateEmpresa");
+
+        GenericoBD::desconectar($conexion);
+    }
+
 }
