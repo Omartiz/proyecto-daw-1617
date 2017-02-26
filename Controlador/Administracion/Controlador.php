@@ -411,7 +411,8 @@ abstract class Controlador{
         $update = false;
         $x = 1;
         $horariosParte = $parte->getHorariosParte();
-        foreach($horariosParte as $horarioParte){
+        foreach($horariosParte as $horarioParte)
+        {
             if (strcmp($horarioParte->getHoraEntrada(),$datos['HoraEntrada'.$x] != 0))
             {
                 $horariosParte[$x-1]->setHoraEntrada($datos['HoraEntrada'.$x]);
@@ -514,29 +515,34 @@ abstract class Controlador{
         }
     }
 
-    public static function getAllFestivos(){
+    public static function getAllFestivos()
+    {
         return BD\FestivoBD::getAll();
     }
 
-    public static function addFestivo($datos){
+    public static function addFestivo($datos)
+    {
         $festivo = new Festivo(null, $datos['fecha'], $datos['motivo']);
-
         BD\FestivoBD::add($festivo);
     }
 
-    public static function deleteFestivo($datos){
+    public static function deleteFestivo($datos)
+    {
         BD\FestivoBD::delete($datos['id']);
     }
 
-    public static function buscarParteLog($datos){
+    public static function buscarParteLog($datos)
+    {
         return BD\PartelogisticaBD::getAllByTrabajador($datos['dni']);;
     }
 
-    public static function buscarParteProd($datos){
+    public static function buscarParteProd($datos)
+    {
         return BD\ParteProduccionBD::getAllByTrabajador($datos['dni']);
     }
 
-    public static function getPerfilByDni($dni){
+    public static function getPerfilByDni($dni)
+    {
         $trabajador = new Logistica($dni);
         $perfil = BD\TrabajadorBD::getPerfilByDni($trabajador);
         return $perfil;
@@ -545,10 +551,12 @@ abstract class Controlador{
     public static function getParte($dni, $perfil){
         $trabajador = new Logistica($dni);
 
-        if($perfil == "Produccion"){
+        if($perfil == "Produccion")
+        {
             return $partes = BD\ParteProduccionBD::getAllByTrabajador($trabajador);
         }
-        elseif($perfil == "Logistica"){
+        elseif($perfil == "Logistica")
+        {
             return $partes = BD\PartelogisticaBD::getAllByTrabajador($trabajador);
         }
     }
@@ -556,14 +564,12 @@ abstract class Controlador{
     public static function updateParteLogistica($datos)
     {
         $parte = BD\PartelogisticaBD::selectParteLogisticaById($datos['id']);
-
         $_SESSION['parte'] = serialize($parte);
     }
 
     public static function updateParteProduccion($datos)
     {
         $parte = BD\ParteProduccionBD::getParteById($datos['id']);
-
         $_SESSION['parte'] = serialize($parte);
     }
 
@@ -607,7 +613,8 @@ abstract class Controlador{
         return BD\ParteLogisticaBD::getPartesByDni($dni);
     }
 
-    public static function getAllTareas(){
+    public static function getAllTareas()
+    {
         return BD\TareaBD::getAll();
     }
 
@@ -624,12 +631,7 @@ abstract class Controlador{
 
     public static function updateVehiculo($datos)
     {
-        echo("***datos que llegan a updateVEHICULO Ctrol-admin.ctrol ****"); //olga Borra
-        var_dump($datos);//Olga Borra
-        echo("+++datos que llegan a updateVEHICULO Ctrol-admin.ctrol ++++"); //olga Borra
         $vehiculo = new Vehiculo($datos['id'],null,null,$datos['nuevo']);
-        var_dump($vehiculo);//Olga Borra
-        //die; //Olga Borra
         BD\VehiculoBD::update($vehiculo);
     }
 
@@ -662,30 +664,24 @@ abstract class Controlador{
 
     public static function AddTipoTarea($datos)
     {
-        //$datos['tipo'] = str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower(($datos['tipo'])))));
         $tipo = new TipoTarea(null, $datos['tipo']);
-        echo("***AddTipoTarea CONTROLADOR*****"); //Olga Borra
-        var_dump($tipo);//Olga Borra
-        echo("+++*AddTipoTarea CONTROLADOR++++"); //Olga Borra
         $tipo->save();
     }
 
-    public static function AddTarea($datos)
+    public static function AddTarea($tarea)
     {
-        //$datos['tipo'] = str_replace('\' ', '\'', ucwords(str_replace('\'', '\' ', strtolower(($datos['tipo'])))));
-        $tipoTarea=BD\TipoTareaBD::getTipoByTarea($datos['tipoTarea']);
-        var_dump($tipoTarea);//Olga Borra
-        echo("#############");//Olga Borra
-        var_dump($tipoTarea->getId());//Olga Borra
-        //die;//Olga Borra
-        //var_dump($datos['tipoTarea']); //Olga Borra
-        //$tipoTarea=$datos['tipoTarea'];
-        $tarea = new tarea(null, $datos['descripcion'], "1");
-        //$tarea = new tarea(null, $datos['descripcion'], $tipoTarea->getId());
-        echo("***AddTipoTarea CONTROLADOR*****"); //Olga Borra
-        var_dump($tarea);//Olga Borra
-        echo("+++*AddTipoTarea CONTROLADOR++++"); //Olga Borra
+        $tarea = new tarea(null, $tarea['descripcion'], $tarea['tipoTarea']);
         $tarea->save();
+    }
 
+    public static function deleteTarea($datos)
+    {
+        BD\TareaBD::deleteById($datos["id"]);
+        //BD\TareaBD::delete($datos);
+    }
+    public static function deleteTipoTarea($datos) //Recibe el indentificador de la tarea
+    {
+        BD\TareaBD::deleteByIdTipoTarea($datos['id']);
+        BD\TipoTareaBD::deleteById($datos['id']);
     }
 }

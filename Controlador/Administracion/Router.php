@@ -412,12 +412,21 @@ if(isset($_POST['addTipoTarea']))
 
 if(isset($_POST['addTarea']))
 {
-    echo("****ROUTER add Tarea ****");//Olga Borra
-    var_dump($_POST); //Olga Borra
-    echo("++++*ROUTER addTarea ++++");//Olga Borra
     Controlador::addTarea($_POST);
-
     header($gestionListas);
 }
 
+if(isset($_POST['eliminarTarea']))
+{
+    Controlador::deleteTarea($_POST);
+    //headerLocation a vista Eliminar
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteTarea.php");
+}
+
+if(isset($_POST['deleteTipoTarea']))
+{
+    Controlador::deleteTipoTarea($_POST);
+    //headerLocation a vista Eliminar
+    header("Location: ".Views::getUrlRaiz()."/Vista/Administracion/deleteTipoTarea.php");
+}
 ?>

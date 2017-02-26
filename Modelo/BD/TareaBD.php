@@ -47,19 +47,21 @@ abstract class TareaBD extends GenericoBD
 
     }
 
-    public static function insert($Tarea){
+    public static function insert($Tarea)
+    {
 
         $conexion = GenericoBD::conectar();
 
         $insert = "INSERT INTO ".self::$table." (descripcion, idTipoTarea) VALUES ('".$Tarea->getDescripcion()."','".$Tarea->getTipo()."');";
-        var_dump($insert); //Olga Borra
+
         mysqli_query($conexion,$insert) or die("Error InsertTarea");
 
         GenericoBD::desconectar($conexion);
 
     }
 
-    public static function update($Tarea){
+    public static function update($Tarea)
+    {
         $conexion = GenericoBD::conectar();
 
         $update = "UPDATE ".self::$table." SET descripcion='".$Tarea->getDescripcion()."', idTipoTarea='".$Tarea->getTipo()->getId()."' WHERE id = '".$Tarea->getId()."';";
@@ -69,22 +71,34 @@ abstract class TareaBD extends GenericoBD
         GenericoBD::desconectar($conexion);
     }
 
-    public static function delete($Tarea){
+    public static function delete($tarea)
+    {
         $conexion = GenericoBD::conectar();
 
-        $delete = "DELETE FROM ".self::$table." WHERE id = '".$Tarea->getId()."';";
+        $delete = "DELETE FROM ".self::$table." WHERE id = '".$tarea->getId()."';";
 
         mysqli_query($conexion,$delete) or die("Error DeleteTarea");
 
         GenericoBD::desconectar($conexion);
     }
+
+    public static function deleteById($id)
+    {
+        $conexion = GenericoBD::conectar();
+
+        $delete = "DELETE FROM ".self::$table." WHERE id = '".$id."';";
+
+        mysqli_query($conexion,$delete) or die("Error DeleteTareaById");
+
+        GenericoBD::desconectar($conexion);
+    }
+
     public static function getTareaByTareaParte($tareParte){
 
         $con = parent::conectar();
         $query=" SELECT * FROM ".self::$table." WHERE id = (SELECT idTareas FROM partesproducciontareas WHERE id=".$tareParte->getId().")";
         $rs=mysqli_query($con,$query) or die(mysqli_error($con));
         $respuetsa=parent::mapear($rs,"Tarea");
-
         parent::desconectar($con);
         return $respuetsa;
 
@@ -105,5 +119,16 @@ abstract class TareaBD extends GenericoBD
 
         return $tareas;
 
+    }
+
+    public static function deleteByIdTipoTarea($idTipoTarea)
+    {
+        $conexion = GenericoBD::conectar();
+
+        $delete = "DELETE FROM ".self::$table." WHERE idTipoTarea = '".$idTipoTarea."';";
+
+        mysqli_query($conexion,$delete) or die("Error DeleteTarea");
+
+        GenericoBD::desconectar($conexion);
     }
 }

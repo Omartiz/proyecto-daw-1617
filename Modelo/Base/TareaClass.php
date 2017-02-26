@@ -33,8 +33,7 @@ class Tarea
     {
         $this->setId($id);
         $this->setDescripcion($descripcion);
-
-
+        $this->setTipo($tipo);// added 20170226
     }
 
     /**
@@ -76,7 +75,8 @@ class Tarea
     public function getTipo()
     {
         //metodo sin programar
-        if(is_null($this->tipo)){
+        if(is_null($this->tipo))
+        {
             $this->setTipo(BD\TipoTareaBD::getTipoByTarea($this));
         }
         return $this->tipo;
@@ -89,6 +89,7 @@ class Tarea
     {
         $this->tipo = $tipo;
     }
+
     public function save(){
         BD\TareaBD::insert($this);
     }

@@ -65,8 +65,8 @@ abstract class GenericoBD
                 return new Base\Estado($fila["id"], $fila["tipo"]);
                 break;
             case "Partelogistica":
-                //return new Base\ParteLogistica($fila["id"], TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']), EstadoBD::selectEstadoById($fila["idEstado"]), $fila["nota"], null, $fila['fecha']); //Olga los pareametros de construcción tienen orden anómalo
-                return new Base\ParteLogistica($fila["id"],$fila['fecha'],$fila["nota"], null,  null,  null, EstadoBD::selectEstadoById($fila["idEstado"]),TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']) );//Olga Cambiado orden de parametros de construccion
+                //return new Base\ParteLogistica($fila["id"], TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']), EstadoBD::selectEstadoById($fila["idEstado"]), $fila["nota"], null, $fila['fecha']); // los parametros de construcción tienen orden anómalo
+                return new Base\ParteLogistica($fila["id"],$fila['fecha'],$fila["nota"], null,  null,  null, EstadoBD::selectEstadoById($fila["idEstado"]),TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']) );//Cambiado orden de parametros de construccion
 
                 break;
             case "Centro":
@@ -79,7 +79,7 @@ abstract class GenericoBD
                 return new Base\ParteProduccion($fila["id"], EstadoBD::selectEstadoById($fila["idEstado"]), $fila["fecha"], $fila["incidencia"], $fila["autopista"], $fila["dieta"], $fila["otroGasto"], TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']));
                 break;
             case "Tarea":
-                return new Base\Tarea($fila["id"], $fila["descripcion"], null);
+                return new Base\Tarea($fila["id"], $fila["descripcion"], $fila["idTipoTarea"]);//Added info in idTipoTarea (was null) 20170226
                 break;
             case "TipoTarea":
                 return new Base\TipoTarea($fila["id"], $fila["descripcion"]);

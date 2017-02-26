@@ -18,8 +18,6 @@ abstract class HorarioTrabajadorBD extends GenericoBD{
     public static function getHorarioTrabajadorByTrabajador($trabajador){
 
         $conexion=parent::conectar();
-        //var_dump($trabajador);
-        //die();
         $query="SELECT * FROM ".self::$tabla." WHERE dniTrabajador='".$trabajador->getDni()."'";
         $rs=mysqli_query($conexion,$query) or die(mysqli_error($conexion));
         $respuesta=parent::mapear($rs,"HorarioTrabajador");
@@ -28,7 +26,8 @@ abstract class HorarioTrabajadorBD extends GenericoBD{
 
     }
 
-    public static function getHorarioTrabajadorByTrabajadorBySemana($trabajador,$semana){
+    public static function getHorarioTrabajadorByTrabajadorBySemana($trabajador,$semana)
+    {
 
         $conexion=parent::conectar();
         $query="SELECT * FROM ".self::$tabla." WHERE dniTrabajador='".$trabajador->getDni()."' and numeroSemana=".$semana;
@@ -39,8 +38,8 @@ abstract class HorarioTrabajadorBD extends GenericoBD{
 
     }
 
-
-    public static function getHorarioTrabajadorById($trabajadorId){
+    public static function getHorarioTrabajadorById($trabajadorId)
+    {
 
         $con = parent::conectar();
 
@@ -102,11 +101,8 @@ abstract class HorarioTrabajadorBD extends GenericoBD{
     public static function update($horarioTrabajador)
     {
         $conexion = GenericoBD::conectar();
-        var_dump($horarioTrabajador);//Olga Borra
-        //die;//Olga Borra
         $update = "UPDATE ".self::$tabla." SET idHorario='".$horarioTrabajador->getHorario()."' WHERE id = '".$horarioTrabajador->getId()."';";
         mysqli_query($conexion,$update) or die("Error UpdateHorarioTrabajador");
-
         GenericoBD::desconectar($conexion);
     }
 }

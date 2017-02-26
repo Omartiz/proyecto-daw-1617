@@ -29,19 +29,28 @@ abstract class TipoTareaBD extends GenericoBD
     public static function getTipoByTarea($tarea){
 
         $conexion = parent::conectar();
-        echo("************getTipoBy Tarea**********");//olga Borra
-        var_dump($tarea);//olga Borra
-        echo("+++++++++++getTipoBy Tarea++++++");//olga Borra
-        //$query = "SELECT * FROM ".self::$tabla." WHERE id = (SELECT idTipoTarea FROM tareas WHERE id = '".$tarea->getId()."');";
-        $query = "SELECT * FROM ".self::$tabla." WHERE id = (SELECT idTipoTarea FROM tareas WHERE id = '".$tarea."');";
-        var_dump($query);//olga Borra
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE id = (SELECT idTipoTarea FROM tareas WHERE id = '".$tarea->getId()."');";
+
         $rs = mysqli_query($conexion, $query) or die(mysqli_error($conexion));
 
         $tipo= parent::mapear($rs, "TipoTarea");
-
         return $tipo;
 
     }
+
+
+//    public static function getHorarioByHorarioTrabajador($horarioTrabajador){
+//
+//        $conexion=parent::conectar();
+//        $query="SELECT * FROM ".self::$tabla." WHERE id= (SELECT idHorario FROM horariotrabajadores WHERE id=".$horarioTrabajador->getId().")";
+//        $rs=mysqli_query($conexion,$query) or die(mysqli_error($conexion));
+//        $respuesta=parent::mapear($rs,"Horario");
+//        parent::desconectar($conexion);
+//        return $respuesta;
+//
+//    }
+
 
     public static function insert($tipoTarea){
 
@@ -55,7 +64,8 @@ abstract class TipoTareaBD extends GenericoBD
 
     }
 
-    public static function update($tipoTarea){
+    public static function update($tipoTarea)
+    {
         $conexion = GenericoBD::conectar();
 
         $update = "UPDATE ".self::$tabla." SET descripcion='".$tipoTarea->getDescripcion()."' WHERE id = '".$tipoTarea->getId()."';";
@@ -64,12 +74,24 @@ abstract class TipoTareaBD extends GenericoBD
         GenericoBD::desconectar($conexion);
     }
 
-    public static function delete($tipoTarea){
+    public static function delete($tipoTarea)
+    {
         $conexion = GenericoBD::conectar();
 
         $delete = "DELETE FROM ".self::$tabla." WHERE id = '".$tipoTarea->getId()."';";
 
         mysqli_query($conexion,$delete) or die("Error DeleteTipoTarea");
+
+        GenericoBD::desconectar($conexion);
+    }
+
+    public static function deleteById($id)
+    {
+        $conexion = GenericoBD::conectar();
+
+        $delete = "DELETE FROM ".self::$tabla." WHERE id = '".$id."';";
+
+        mysqli_query($conexion,$delete) or die("Error DeleteTipoTareaById");
 
         GenericoBD::desconectar($conexion);
     }
