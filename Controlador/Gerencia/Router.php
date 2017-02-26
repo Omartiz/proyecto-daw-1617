@@ -113,6 +113,7 @@ if(isset($_POST['eliminarParteProduccion'])){
     header("Location: ".Views::getUrlRaiz()."/Vista/Gerencia/Gerencia.php?cod=2");
 }
 if(isset($_POST['listarParteLog'])){
+    //var_dump($_POST);//Borra
     Controlador::viewParteLog($_POST);
   }
 if(isset($_POST['listarParteProd'])){

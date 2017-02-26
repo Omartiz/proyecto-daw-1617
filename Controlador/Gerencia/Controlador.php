@@ -326,6 +326,7 @@ abstract class Controlador{
     public static function viewParteLog($datos)
     {
         //$trabajador=unserialize($_SESSION['trabajador']);
+        //var_dump($datos); //Borra
         $parte=BD\PartelogisticaBD::selectParteLogisticaById($datos['id']);
         $viajes=BD\ViajeBD::getViajeByParte($parte);
 

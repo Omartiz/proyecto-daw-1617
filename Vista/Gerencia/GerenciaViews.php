@@ -1340,13 +1340,15 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 			{
 			    if (!is_null($horarioTrabajador))
 			    {
+                    //$horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
+                    $horariofranjas =\Modelo\BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario());
+                    //var_dump($horariofranjas);//Borra
+                    echo "<p class='col-xs-12'><strong>Horario asociado: ";
+                    //echo $horariofranjas[0]->getFranja()->getHoraInicio()." - ".$horariofranjas[sizeof($horariofranjas)-1]->getFranja()->getHoraFin();
+                    echo $horariofranjas->getHoraInicio()." - ".$horariofranjas->getHoraFin();
 
-				$horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
-				echo "<p class='col-xs-12'><strong>Horario asociado: ";
-				echo $horariofranjas[0]->getFranja()->getHoraInicio()." - ".$horariofranjas[sizeof($horariofranjas)-1]->getFranja()->getHoraFin();
-				echo "</p>";
+                    echo "</p>";
 				}
-
 			}
 
 			$numhoras = 0;
@@ -1354,8 +1356,9 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 			{
 			    if (!is_null($horarioTrabajador))
 			    {
-				$numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
-			}
+				    //$numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+				    $numhoras = $numhoras + sizeof(\Modelo\BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario()));
+			    }
 			}
 
             $extras = $numhorasrealizadas - $numhoras;
@@ -1382,7 +1385,12 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
             ?>
 
-            <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=2">Volver</a>
+<!--            <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/Gerencia.php?cod=2">Volver</a>-->
+             <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Vista/Gerencia/Gerencia.php?cod=2">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
             </div>
             </div>
             <?php
@@ -1467,9 +1475,11 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 						foreach($horariosTrabajador as $horarioTrabajador)
 						{
 
-						    $horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
+						    //$horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
+						    $horariofranjas =\Modelo\BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario());
 						    echo "<p class='col-xs-12'><strong>Horario asociado: ";
-						    echo $horariofranjas[0]->getFranja()->getHoraInicio()." - ".$horariofranjas[sizeof($horariofranjas)-1]->getFranja()->getHoraFin();
+						    echo $horariofranjas->getHoraInicio()." - ".$horariofranjas->getHoraFin();
+						    //echo $horariofranjas[0]->getFranja()->getHoraInicio()." - ".$horariofranjas[sizeof($horariofranjas)-1]->getFranja()->getHoraFin();
 						    echo "</p>";
 
 						}
@@ -1489,7 +1499,8 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 					        $numhoras = 0;
 					        foreach($horariosTrabajador as $horarioTrabajador)
 						    {
-						        $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+						       //$numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+						        $numhoras = $numhoras + sizeof(\Modelo\BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario()));
 						    }
 
 						    $extras = $numhorasrealizadas - $numhoras;
@@ -1536,7 +1547,12 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
 		}?>
 
-            <a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=2">Volver</a>
+<!--            <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/Gerencia.php?cod=2">Volver</a>-->
+             <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Vista/Gerencia/Gerencia.php?cod=2">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
 
             <?php
             //echo '</div> </div><div><button id="close" class="btn-danger btn pull-right col-sm-2 cerrar">Volver</button></div>';
@@ -1551,7 +1567,8 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
    public static function tiposFiltro()
      {
       ?>
-       <h4>Filtrar por:</h4>
+        <div id="areaFiltrado" class="areaFiltrado">
+            <h4>Filtrar por:</h4>
             <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Gerencia/Gerencia.php?cod=4" method="post">
                 <select name="Filtro">
                     <option value="1">Trabajador</option>
@@ -1562,6 +1579,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                 </select>
                 <input type="submit" name="Buscar" value="Parámetros">
             </form>
+        </div>
       <?php
      }
 
@@ -1694,7 +1712,9 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                     $numhoras = 0;
                     foreach($horariosTrabajador as $horarioTrabajador)
                     {
-                        $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+                        $horariofranjas =\Modelo\BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario());
+                        $numhoras = $numhoras + sizeof($horariofranjas);
+                        //$numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
                     }
 
                     $extras = $numhorasrealizadas - $numhoras;
@@ -1798,11 +1818,12 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                     {
                         if (!is_null($horarioTrabajador))
                         {
-                            var_dump($horarioTrabajador->getHorario());
-
-                            $franjaHoraria= \Modelo\BD\HorarioFranjaBD::getHorariosFranjaById($horarioTrabajador->getHorario());
-                            var_dump($franjaHoraria);
-                            $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+                            //var_dump($horarioTrabajador->getHorario());
+                            $horariofranjas =\Modelo\BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario());
+                            //$franjaHoraria= \Modelo\BD\HorarioFranjaBD::getHorariosFranjaById($horarioTrabajador->getHorario());
+                            //var_dump($horariofranjas);
+                            //$numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
+                            $numhoras = $numhoras + sizeof($horariofranjas);
                         }
                     }
 
