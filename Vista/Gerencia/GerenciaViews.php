@@ -5,6 +5,8 @@ use \Controlador\Gerencia;
 
 require_once __DIR__ . "/../Plantilla/Views.php";
 require_once __DIR__."/../../Controlador/Gerencia/Controlador.php";
+require_once __DIR__.'/../../Modelo/BD/HorarioFranjaBD.php';
+require_once __DIR__.'/../../Modelo/BD/HorarioBD.php';
 
 abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
@@ -25,19 +27,19 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                         <td>TRABAJADOR</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertTrabajador.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteTrabajador.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateFoto.php">Editar Foto</a></td>
                  </tr>
                  <tr>
                         <td>EMPRESA</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertEmpresa.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteEmpresa.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateEmpresa.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>VEHICULO</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertVehiculo.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteVehiculo.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateVehiculo.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>HORAS CONVENIO</td>
@@ -49,7 +51,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                         <td>CENTRO</td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/insertCentro.php">Añadir</a></td>
                         <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/deleteCentro.php">Eliminar</a></td>
-                        <td>Editar</td>
+                        <td><a href="<?php echo self::getUrlRaiz()?>/Vista/Gerencia/updateCentro.php">Editar</a></td>
                  </tr>
                  <tr>
                         <td>TIPOS DE HORARIOS</td>
@@ -59,23 +61,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                  </tr>
             </table>
         </div>
-<!--            <h3 class="page-header">Añadir</h3>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertTrabajador.php">Añadir Trabajador</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertEmpresa.php">Añadir Empresa</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertVehiculo.php">Añadir Vehículo</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertHorasConvenio.php">Añadir Convenio</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertCentro.php">Añadir Centro</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/insertTipoFranja.php">Añadir Tipo de Horario</a><br/>-->
-<!--            <h3 class="page-header">Eliminar</h3>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteTrabajador.php">Ver Trabajadores</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteEmpresa.php">Ver Empresas</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteCentro.php">Ver Centros</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteVehiculo.php">Ver Vehículos</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteHorasConvenio.php">Ver Convenios</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/deleteTipoFranja.php">Ver Tipos de Horarios</a><br/>-->
-<!--            <h3 class="page-header">Modificar</h3>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/updateTipoFranja.php">Modificar Tipos de Horarios</a><br/>-->
-<!--                <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Gerencia/updateHorasConvenio.php">Modificar Horas de Convenios</a><br/>-->
+
 
         <?php
         require_once __DIR__ . "/../Plantilla/pie.php";
@@ -255,8 +241,12 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
 
-    public static function insertEmpresa(){
+/*****************************************************/
+/* EMPRESA */
+/*****************************************************/
 
+    public static function insertEmpresa()
+    {
         parent::setOn(true);
         parent::setRoot(true);
 
@@ -346,7 +336,71 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
         }
         require_once __DIR__ . "/../Plantilla/pie.php";
 
+    }
+
+      public static function updateEmpresa(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $empresas = Gerencia\Controlador::getAllEmpresas();
+
+        if(is_null($empresas)){
+            echo "No hay empresas";
         }
+        else
+        {
+            ?>
+            <h2 class="page-header">Actualizar nombre Empresa:</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>NIF</th>
+                        <th>NOMBRE</th>
+                        <th>NUEVO NOMBRE</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($empresas as $empresa) {
+                        ?>
+                        <tr>
+                            <td><?php echo $empresa->getId(); ?></td>
+                            <td><?php echo $empresa->getNif(); ?></td>
+                            <td><?php echo $empresa->getNombre(); ?></td>
+
+                            <form name="cambiaNombre" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                                <td><input type="text" name="nuevo" size="50" placeholder="denominación de empresa"></td>
+                                <td>
+                                    <button type="submit" name="updateEmpresa" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $empresa->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="updateEmporesa" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+   }
+
+/*****************************************************/
+/* CENTRO */
+/*****************************************************/
 
     public static function insertCentro(){
 
@@ -456,6 +510,79 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
             require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
+     public static function updateCentro()
+    {
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $centros = Gerencia\Controlador::getAllCentros();
+
+        if(is_null($centros))
+        {
+            echo "no hay centros";
+        }
+        else
+        {
+            ?>
+
+            <h2 class="page-header">Actualizar dirección de Centros  de trabajo:</h2>
+
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>LOCALIZACIÓN</th>
+                        <th>NUEVA LOCALIZACIÓN</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($centros as $centro)
+                    {
+                    ?>
+
+                    <tr>
+                        <td><?php echo $centro->getNombre(); ?></td>
+                        <td><?php echo $centro->getLocalizacion(); ?></td>
+                        <form name="updateCentro" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                            <td>
+                                    <input type="text" name="nuevo" size="50" placeholder="dirección Centro">
+                                    <input type="hidden" name="id" value="<?php echo $centro->getId(); ?>">
+                            </td>
+                            <td>
+                                    <button type="submit" name="updateCentro" value="Editar"
+                                        style="border: none; background: none;">
+                                        <span
+                                        class="glyphicon glyphicon-edit"
+                                        style="color:blue; font-size: 1.5em">
+                                        </span>
+                                    </button>
+                                    <input type="hidden" name="id" value="<?php echo $centro->getId(); ?>">
+                            </td>
+                        </form>
+                    </tr>
+
+                    <?php
+                    }
+                    ?>
+
+                </table>
+            </div>
+
+            <form name="deleteEstado" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+
+        <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+    }
+
+
     public static function insertEstado(){
 
         parent::setOn(true);
@@ -532,7 +659,12 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
     }
 
-    public static function insertVehiculo(){
+/*****************************************************/
+/* VEHICULO */
+/*****************************************************/
+
+    public static function insertVehiculo()
+    {
 
         parent::setOn(true);
         parent::setRoot(true);
@@ -599,7 +731,7 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
             echo "No hay vehiculos";
         } else {
             ?>
-            <h2 class="page-header">Vehículos</h2>
+            <h2 class="page-header">Eliminar Vehículos:</h2>
             <div class="table-responsive col-md-offset-1 col-md-10">
                 <table class="table table-bordered">
                     <tr>
@@ -609,12 +741,14 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                         <th>ACCIÓN</th>
                     </tr>
                     <?php
-                    foreach ($vehiculos as $vehiculo) {
+                    foreach ($vehiculos as $vehiculo)
+                    {
+                     $centro=\Modelo\BD\CentroBD::getCentrosById($vehiculo->getCentro());
                         ?>
                         <tr>
                             <td><?php echo $vehiculo->getMatricula(); ?></td>
                             <td><?php echo $vehiculo->getMarca(); ?></td>
-                            <td><?php echo $vehiculo->getCentro()->getNombre(); ?></td>
+                            <td><?php echo $centro->getNombre(); ?></td>
                             <td>
                                 <form name="deleteEstado" method="post"
                                       action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
@@ -642,6 +776,84 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         }
     }
+
+     public static function updateVehiculo(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+        $vehiculos = Gerencia\Controlador::getAllVehiculos();
+        $centros =Gerencia\Controlador::getAllCentros();
+
+        if(is_null($vehiculos))
+        {
+            echo "No hay vehiculos";
+        }
+        else
+        {
+            ?>
+            <h2 class="page-header">Actualizar vinculación de Vehiculo a centro de trabajo:</h2>
+            <div class="table-responsive col-md-offset-1 col-md-10">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>MATRICULA</th>
+                        <th>MARCA</th>
+                        <th>CENTRO</th>
+                        <th>NUEVO CENTRO</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                    <?php
+                    foreach ($vehiculos as $vehiculo)
+                    {
+                        $centro=\Modelo\BD\CentroBD::getCentrosById($vehiculo->getCentro());
+
+                        ?>
+                        <tr>
+                            <td><?php echo $vehiculo->getId(); ?></td>
+                            <td><?php echo $vehiculo->getMatricula(); ?></td>
+                            <td><?php echo $vehiculo->getMarca(); ?></td>
+                            <td><?php echo $centro->getNombre(); ?></td>
+
+                            <form name="cambiaCentro" method="post"
+                                  action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                                <td>
+                                    <select id="nuevo" name="nuevo">
+                                        <?php
+                                        foreach ($centros as $c)
+                                        {
+                                        ?>
+                                            <option value="<?php echo $c->getId() ?>"><?php echo $c->getNombre() ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="submit" name="updateVehiculo" value="Editar"
+                                            style="border: none; background: none;"><span
+                                            class="glyphicon glyphicon-edit"
+                                            style="color:blue; font-size: 1.5em"></span></button>
+                                    <input type="hidden" name="id" value="<?php echo $vehiculo->getId(); ?>">
+                                </td>
+                            </form>
+                        </tr>
+                        <?php
+                    }
+                    ?>
+                </table>
+            </div>
+            <form name="deleteDescripcion" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+            <?php
+        }
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+   }
 
     public static function insertHorasConvenio(){
 
@@ -1586,6 +1798,10 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
                     {
                         if (!is_null($horarioTrabajador))
                         {
+                            var_dump($horarioTrabajador->getHorario());
+
+                            $franjaHoraria= \Modelo\BD\HorarioFranjaBD::getHorariosFranjaById($horarioTrabajador->getHorario());
+                            var_dump($franjaHoraria);
                             $numhoras = $numhoras + sizeof($horarioTrabajador->getHorario()->getHorariosFranja());
                         }
                     }
@@ -1652,7 +1868,6 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 /*****************************************************/
     public static function insertarTablas($partesProd,$partesLog)
     {
-    echo ("******estas en INSERTAR TABLAS ++++")
     ?>
         <span id="respuesta">
             <table class="table table-bordered text-center">
@@ -1877,5 +2092,56 @@ abstract class GerenciaViews extends \Vista\Plantilla\Views{
 
         require_once __DIR__ . "/../Plantilla/pie.php";
     }
+/*****************************************************/
+/* FOTO */
+/*****************************************************/
+
+    public static function updateFoto(){
+
+        parent::setOn(true);
+        parent::setRoot(true);
+
+        $trabajadores = Gerencia\Controlador::getAllTrabajadores();
+
+        require_once __DIR__ . "/../Plantilla/cabecera.php";
+
+        ?>
+
+        <h2 class="page-header">Actualizar foto Trabajador:</h2>
+        <div class="table-responsive col-md-offset-1 col-md-10">
+            <table class="table table-bordered">
+                <tr>
+                    <th>DNI</th>
+                    <th>Nueva foto</th>
+                    <th>Acción</th>
+                </tr>
+                <form name="updatePassword" method="post" enctype="multipart/form-data" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+                    <tr>
+                        <td>
+                            <select class="form-control" name="trabajador">
+                                <?php foreach($trabajadores as $trabajador){
+                                    echo "<option value='".$trabajador->getDni()."'>".$trabajador->getDni()."</option>";
+                                } ?>
+                            </select>
+                        </td>
+                        <td><input class="form-control" type="file" name="foto"/></td>
+                        <td><button type="submit" name="updateFoto" value="Cambiar" style="border: none; background: none"><span class="glyphicon glyphicon-edit" style="color: blue; font-size: 1.5em"></span></button></td>
+                    </tr>
+                </form>
+            </table>
+        </div>
+
+        <form method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Gerencia/Router.php">
+            <div class="col-sm-4 col-md-3">
+                <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+            </div>
+        </form>
+
+        <?php
+
+        require_once __DIR__ . "/../Plantilla/pie.php";
+
+    }
+
 }
 

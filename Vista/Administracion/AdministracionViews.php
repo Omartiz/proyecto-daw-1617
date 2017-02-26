@@ -1778,6 +1778,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
             }
             foreach($horariosTrabajador as $horarioTrabajador)
 			{
+                //$horariofranjas =BD\FranjaBD::getFranjaById($horarioTrabajador->getHorario());
 
 				$horariofranjas = $horarioTrabajador->getHorario()->getHorariosFranja();
 				echo "<p class='col-xs-12'><strong>Horario asociado: ";
@@ -1966,11 +1967,24 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 				echo "<input type='hidden' id='contTareas' value='".sizeof($parteProduccionTareas)."'>";
 
 					$tipo = $parteProduccionTarea->getTarea()->getTipo();
-
+					$tarea=BD\TipoTareaBD::getTipoByTarea($parteProduccionTarea->getTarea());
+                    //var_dump($tarea->getDescripcion());
 					echo "<div class='panel panel-default' rel='".$parteProduccionTarea->getId()."'>";
-
-					echo "<div class='panel-heading container-fluid'><article class='col-xs-6 text-left'><h4 class='panel-title'><strong>".$parteProduccionTarea->getTarea()->getTipo()->getDescripcion().":</strong> <span class='lead small'>".$parteProduccionTarea->getTarea()->getDescripcion()."</span></h4></article>";
-
+                   // var_dump($parteProduccionTarea);//Olga Borra
+//					echo "<div class='panel-heading container-fluid'>
+//                            <article class='col-xs-6 text-left'>
+//                                <h4 class='panel-title'>
+//                                    <strong>".$parteProduccionTarea->getTarea()->getTipo()->getDescripcion().":</strong>
+//                                    <span class='lead small'>".$parteProduccionTarea->getTarea()->getDescripcion()."</span>
+//                                </h4>
+//                            </article>";
+                    echo "<div class='panel-heading container-fluid'>
+                            <article class='col-xs-6 text-left'>
+                                <h4 class='panel-title'>
+                                    <strong>".$tarea->getDescripcion().":</strong>
+                                    <span class='lead small'>".$parteProduccionTarea->getTarea()->getDescripcion()."</span>
+                                </h4>
+                            </article>";
 					if(strnatcasecmp($estado->getTipo(),"abierto")==0){ echo "<article class='col-xs-6'><a class='tOp eliminar_tarea' rel='".$parteProduccionTarea->getId()."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a><!--<a class='tOp editar_tarea' rel='".$parteProduccionTarea->getId()."'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a>--></article>";}
 
 					echo '</div><div class="panel-body">';
@@ -1979,8 +1993,11 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 						echo "<span class='col-sm-4 col-xs-12'>Numero Horas: ".$parteProduccionTarea->getNumeroHoras()."</span>";
 					}
 
-					if(!empty($parteProduccionTarea->getPaqueteEntrada())&&!empty($parteProduccionTarea->getPaqueteSalida())){
-						echo "<span class='col-sm-4 col-xs-12'>Nº Entrada: ".$parteProduccionTarea->getPaqueteEntrada()."</span><span class='col-sm-4 col-xs-12'>Nº Salida: ".$parteProduccionTarea->getPaqueteSalida()."</span><span class='col-sm-4 col-xs-12'>Total: ".($parteProduccionTarea->getPaqueteSalida()-$parteProduccionTarea->getPaqueteEntrada())."</span>";
+					if(!empty($parteProduccionTarea->getPaqueteEntrada())&&!empty($parteProduccionTarea->getPaqueteSalida()))
+					{
+						echo "<span class='col-sm-4 col-xs-12'>Nº Entrada: ".$parteProduccionTarea->getPaqueteEntrada()."</span>
+						      <span class='col-sm-4 col-xs-12'>Nº Salida: ".$parteProduccionTarea->getPaqueteSalida()."</span>
+						      <span class='col-sm-4 col-xs-12'>Total: ".($parteProduccionTarea->getPaqueteSalida()-$parteProduccionTarea->getPaqueteEntrada())."</span>";
 					}
 
 					echo "</div></div>";
@@ -2038,14 +2055,13 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 						//Calculo de horas extras
 
                             $numhorasrealizadas = 0;
-					        foreach($parte->getHorariosParte() as $horarioParte){
-
+					        foreach($parte->getHorariosParte() as $horarioParte)
+					        {
 						        $x++;
 						        $horaEntrada = $horarioParte->getHoraEntrada();
 						        $horaSalida = $horarioParte->getHoraSalida();
 
 						        $numhorasrealizadas = $numhorasrealizadas + (substr($horaSalida,0,2)-substr($horaEntrada,0,2)) ;
-
 					        }
 
 					        $numhoras = 0;
@@ -2066,29 +2082,41 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
 					echo "</strong></p><article>";
 
-					if(!empty($parte->getAutopista())){
+					if(!empty($parte->getAutopista()))
+					{
 						echo "<span class='col-sm-4 col-xs-12'>Autopistas/Peajes: ".$parte->getAutopista()."€</span>";
-					}else{
+					}
+					else
+					{
 						echo "<span class='col-sm-4 col-xs-12'>Autopista/Peajes: 0€</span>";
 					}
 
-					if(!empty($parte->getDieta())){
+					if(!empty($parte->getDieta()))
+					{
 						echo "<span class='col-sm-4 col-xs-12'>Dietas: ".$parte->getDieta()."€</span>";
-					}else{
+					}
+					else
+					{
 						echo "<span class='col-sm-4 col-xs-12'>Dietas: 0€</span>";
 					}
 
-					if(!empty($parte->getOtroGasto())){
+					if(!empty($parte->getOtroGasto()))
+					{
 						echo "<span class='col-sm-4 col-xs-12'>Otros Gastos: ".$parte->getOtroGasto()."€</span>";
-					}else{
+					}
+					else
+					{
 						echo "<span class='col-sm-4 col-xs-12'>Otros Gastos: 0€</span>";
 					}
 
 					echo "</article><article class='col-xs-12'>";
 
-					if(!empty($parte->getIncidencia())){
+					if(!empty($parte->getIncidencia()))
+					{
 						echo "<p><strong>Incidencia: </strong><br/>".$parte->getIncidencia()."</p>";
-					}else{
+					}
+					else
+					{
 						echo "<p><strong>Incidencia: </strong><br/>No hay ninguna incidencia.</p>";
 					}
 
@@ -2102,14 +2130,21 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 			{
 				echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
 			}
-		}?>
+		}
+		?>
 
-            <a href="<?php echo self::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2">Volver</a>
+<!--        <a href="--><?php //echo self::getUrlRaiz()?><!--/Vista/Administracion/Administracion.php?cod=2">Volver</a>-->
 
-            <?php
-            //echo '</div> </div><div><button id="close" class="btn-danger btn pull-right col-sm-2 cerrar">Volver</button></div>';
 
-            require_once __DIR__ . "/../Plantilla/pie.php";
+        <form name="botonVolver" method="post" action="<?php echo self::getUrlRaiz() ?>/Vista/Administracion/Administracion.php?cod=2">
+                <div class="col-sm-4 col-md-3">
+                    <input class="btn btn-danger" type="submit" name="volver" value="Volver">
+                </div>
+            </form>
+        <?php
+        //echo '</div> </div><div><button id="close" class="btn-danger btn pull-right col-sm-2 cerrar">Volver</button></div>';
+
+        require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
         public static function editParteProduccion()

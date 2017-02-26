@@ -24,11 +24,13 @@ abstract class HorarioFranjaBD extends GenericoBD{
     }
     public static function getHorariosFranjaById($id){
         $conexion=parent::conectar();
-        $query="SELECT * FROM ".self::$tabla." WHERE id= ".$id." ";
+        $query="SELECT * FROM ".self::$tabla." WHERE id= '".$id."'; ";
+        var_dump($query);//Olga Borra
         $rs=mysqli_query($conexion,$query) or die(mysqli_error($conexion));
         $respuesta=parent::mapear($rs,"HorarioFranja");
         parent::desconectar($conexion);
         return $respuesta;
+
     }
 
     public static function save($horarioFranja){
