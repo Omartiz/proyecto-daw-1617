@@ -1432,7 +1432,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                                 <tr>
                                     <td><?php echo $horario->getTipo() ?></td>
 
-<!--                                    <td><input type="submit" name="eliminarHorario" value="Eliminar"></td>-->
+
                                         <td>
                                             <form name="deleteHorario" method="post" action="<?php echo self::getUrlRaiz() ?>/Controlador/Administracion/Router.php">
                                                 <button class="btn btn-primary" type="submit" name="eliminarHorario"
@@ -1442,7 +1442,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                                                 <input type="hidden" name="id" value="<?php echo $horario->getId(); ?>">
                                             </form>
                                         </td>
-<!--                                    <td><input type="submit" value="Volver" name="volver"></td>-->
+
                                 </tr>
                                 <input type="hidden" name="id" value="<?php echo $horario->getId(); ?>">
                             </form>
@@ -1968,16 +1968,9 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
 					$tipo = $parteProduccionTarea->getTarea()->getTipo();
 					$tarea=BD\TipoTareaBD::getTipoByTarea($parteProduccionTarea->getTarea());
-                    //var_dump($tarea->getDescripcion());
+
 					echo "<div class='panel panel-default' rel='".$parteProduccionTarea->getId()."'>";
-                   // var_dump($parteProduccionTarea);//Olga Borra
-//					echo "<div class='panel-heading container-fluid'>
-//                            <article class='col-xs-6 text-left'>
-//                                <h4 class='panel-title'>
-//                                    <strong>".$parteProduccionTarea->getTarea()->getTipo()->getDescripcion().":</strong>
-//                                    <span class='lead small'>".$parteProduccionTarea->getTarea()->getDescripcion()."</span>
-//                                </h4>
-//                            </article>";
+
                     echo "<div class='panel-heading container-fluid'>
                             <article class='col-xs-6 text-left'>
                                 <h4 class='panel-title'>
@@ -2374,82 +2367,131 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
                 require_once __DIR__ . "/../Plantilla/pie.php";
         }
 
- /*****************************************************/
+/*****************************************************/
 /* Tipos de Filtros */
 /*****************************************************/
    public static function tiposFiltro()
      {
       ?>
-       <h4>Filtrar por:</h4>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
-                <select name="Filtro">
-                    <option value="1">Trabajador</option>
-                    <option value="2">Trabajador y Rango de Fechas</option>
-                    <option value="3">Rango de Fecha</option>
-                    <option value="4">Estado de Parte</option>
-                    <option value="0">Eliminar Filtro</option>
-                </select>
-                <input type="submit" name="Buscar" value="Parámetros">
-            </form>
+         <div class ="row" id="zona_Filtros">
+            <div id="select_Filtro" class="col-xs-12 col-sm-6">
+            <h4>Filtros disponibles:</h4>
+
+            <select id="mySelect" name="mySelect">
+                <option value="1">Trabajador</option>
+                <option value="2">Trabajador y Rango de Fechas</option>
+                <option value="3">Rango de Fecha</option>
+                <option value="4">Estado de Parte</option>
+                <option value="0">Eliminar Filtro</option>
+            </select>
+
+            </div>
+              <div id="param_Filtro" class="col-xs-12 col-sm-6">
+                <form action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=6" method="post">
+                   <div class="form-group col-xs-12" id="filtro0" style="display:none">
+                            <p>Mostrar Todos</p>
+                   </div>
+
+                   <div class="form-group col-xs-12" id="filtroDni" style="display:none">
+                        <label>DNI: </label><input type="text" name="dni" size="10"></br>
+                   </div>
+
+                   <div class="form-group col-xs-12" id="filtroRango" style="display:none">
+                        <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10"> </br>
+                        <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10"> </br>
+                   </div>
+
+                   <div class="form-group col-xs-12" id="filtroEstado" style="display:none">
+                        <label>Estado Parte: </label></br>
+                        <input type="radio" name="estado" value="Abierto"> Abierto</br>
+                        <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
+                    </div>
+
+                   <div class="form-group col-xs-12" id="bFiltro" style="display:none">
+                    <button type="submit" id="botonFiltro" style="" name="botonFiltro" class="btn-primary" value="Filtrar"> Filtrar</button>
+                   </div>
+                </form>
+             </div>
+            </div>
+    <script>
+
+    $().ready(function() {
+        $("#mySelect").change(function(event) {
+            var valor = event.target.value;
+            $("#bFiltro").show();
+       switch (valor)
+        {
+        case "1":
+             $("#filtro0").hide();
+             $("#filtroRango").hide();
+             $("#filtroEstado").hide();
+             $("#filtroDni").show();
+        break;
+        case "2":
+             $("#filtro0").hide();
+             $("#filtroEstado").hide();
+             $("#filtroDni").show();
+             $("#filtroRango").show();
+        break;
+        case "3":
+            $("#filtro0").hide();
+            $("#filtroEstado").hide();
+            $("#filtroDni").hide();
+            $("#filtroRango").show();
+        break;
+        case "4":
+             $("#filtro0").hide();
+             $("#filtroDni").hide();
+             $("#filtroRango").hide();
+             $("#filtroEstado").show();
+        break;
+        case "0":
+             $("#filtroDni").hide();
+             $("#filtroRango").hide();
+             $("#filtroEstado").hide();
+             $("#filtro0").show();
+        break;
+    }
+    })
+    });
+    </script>
       <?php
      }
 
 /*****************************************************/
-/* Variables de Filtrado */
+/* TipoFiltrado */
 /*****************************************************/
-     public static function pintaFiltro($tipo)
+     public static function tipoFiltro($tipo)
      {
-       switch($tipo['Filtro'])
-       {
-       case "0":
-         ?>
-            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=2" method="post">
-                <input type="submit" name="Buscar" value="Mostrar Todos">
-            </form>
-        <?php
-        break;
 
-        case "1":
-         ?>
-            <form name="FiltroPersona" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=3" method="post">
-                <label>DNI: </label><input type="text" name="dni" size="10">
-                </br>
-                <input type="submit" name="Buscar" value="Filtrar">
-            </form>
-        <?php
-        break;
+         if(isset($tipo['estado'])&& strlen($tipo['estado'])>0)
+         {
+            self::findPartesByEstado($tipo);
+         }
+         elseif (isset($tipo['dni'])&& strlen($tipo['dni'])>0)
+         {
+            if(isset($tipo['fechaIni1'])&&strlen($tipo['fechaIni1'])>0 && isset($tipo['fechaFin1'])&&strlen($tipo['fechaFin1'])>0)
+            {
+                self::findPartesByTrabajadorFechas($tipo);
+            // caso persona y rango fechas
 
-        case "2":
-        ?>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=7" method="post">
-                <label>DNI: </label><input type="text" name="dni1" size="10"></br>
-                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni1" size="10"> </br>
-                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin1" size="10"> </br>
-                <input type="submit" name="Buscar" value="Filtrar">
-            </form>
-            <?php
-        break;
-
-        case "3":
-        ?>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=8" method="post">
-                <label>Desde Fecha (yyyy-mm-dd): </label><input type="date" name="fechaIni2" size="10"> </br>
-                <label>Hasta Fecha (yyyy-mm-dd): </label><input type="date" name="fechaFin2" size="10"> </br>
-                <input type="submit" name="Buscar" value="Filtrar">
-            </form>
-        <?php
-        break;
-
-        case "4":
-        ?>
-            <form name="buscar" action="<?php echo parent::getUrlRaiz()?>/Vista/Administracion/Administracion.php?cod=9" method="post">
-                <label>Estado Parte: </label></br>
-                <input type="radio" name="estado" value="Abierto"> Abierto</br>
-                <input type="radio" name="estado" value="Cerrado"> Cerrado</br>
-                <input type="submit" name="Buscar" value="Filtrar">
-            </form><?php
-        break;
-       }
+            }
+            else //es el caso persona
+            {
+                self::findPartesByDni($tipo);
+                 echo "************persona+++++++++++++++++";
+            }
+         }
+         elseif(isset($tipo['fechaIni1'])&&strlen($tipo['fechaIni1'])>0 && isset($tipo['fechaFin1'])&&strlen($tipo['fechaFin1'])>0)
+        {
+        // caso rango fechas
+            self::findPartesByRangoFechas($tipo);
+        }
+        else
+        {
+        //caso eliminar filtro
+            self::allPartesByDni();
+        }
      }
 
 /*****************************************************/
@@ -2704,7 +2746,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
         require_once __DIR__ . "/../Plantilla/cabecera.php";
 
-        $dni=$i["dni1"];
+        $dni=$i["dni"];
         $fechaIni=$i["fechaIni1"];
         $fechaFin=$i["fechaFin1"];
 
@@ -2726,8 +2768,8 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
         parent::setRoot(true);
         require_once __DIR__ . "/../Plantilla/cabecera.php";
 
-        $fechaIni=$i["fechaIni2"];
-        $fechaFin=$i["fechaFin2"];
+        $fechaIni=$i["fechaIni1"];
+        $fechaFin=$i["fechaFin1"];
 
         $partesProd = Administracion\Controlador::getPartesVentanaTpoProd($fechaIni,$fechaFin);
         $partesLog = Administracion\Controlador::getPartesVentanaTpoLog($fechaIni,$fechaFin);

@@ -22,16 +22,16 @@ switch($_GET['cod']) {
         Vista\Administracion\AdministracionViews::editParteProduccion();
         break;
     case "6":
-        Vista\Administracion\AdministracionViews::pintaFiltro($_POST);
+        Vista\Administracion\AdministracionViews::tipoFiltro($_POST);
         break;
     case "7":
-        Vista\Administracion\AdministracionViews::findPartesByTrabajadorFechas($_POST);
+       // Vista\Administracion\AdministracionViews::findPartesByTrabajadorFechas($_POST);
         break;
     case "8":
-        Vista\Administracion\AdministracionViews::findPartesByRangoFechas($_POST);
+       //Vista\Administracion\AdministracionViews::findPartesByRangoFechas($_POST);
         break;
     case "9":
-        Vista\Administracion\AdministracionViews::findPartesByEstado($_POST);
+       // Vista\Administracion\AdministracionViews::findPartesByEstado($_POST);
         break;
 }
 ?>

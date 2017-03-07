@@ -21,7 +21,8 @@ public static function generarcalendario(){
     ?>
 
     <div class="calendario_ajax">
-        <div class="cal"></div><div id="mask"></div>
+        <div class="cal"></div>
+        <div id="mask"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>

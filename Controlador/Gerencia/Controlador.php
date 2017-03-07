@@ -326,7 +326,6 @@ abstract class Controlador{
     public static function viewParteLog($datos)
     {
         //$trabajador=unserialize($_SESSION['trabajador']);
-        //var_dump($datos); //Borra
         $parte=BD\PartelogisticaBD::selectParteLogisticaById($datos['id']);
         $viajes=BD\ViajeBD::getViajeByParte($parte);
 
@@ -342,14 +341,14 @@ abstract class Controlador{
         //$viajes=BD\ViajeBD::getViajeByParte($parte);
 
         GerenciaViews::viewParteProd($parte,$estado);
-
     }
 
     public static function updateFinalizarParteLogistica($datos){
         BD\PartelogisticaBD::saveHorasExtra($datos['id'],$datos['horas']);
         BD\PartelogisticaBD::updateFinalizar($datos['id']);
-        }
-        public static function updateCerrarParteLogistica($datos){
+    }
+    public static function updateCerrarParteLogistica($datos)
+    {
             BD\PartelogisticaBD::updateCerrar($datos['id']);
     }
     public static function updateFinalizarParteProduccion($datos){
@@ -367,17 +366,17 @@ abstract class Controlador{
 
         BD\FestivoBD::add($festivo);
     }
+
     public static function deleteFestivo($datos){
         BD\FestivoBD::delete($datos['id']);
     }
+
     public static function getPerfilByDni($dni){
         $trabajador = new Logistica($dni);
         $perfil = BD\TrabajadorBD::getPerfilByDni($trabajador);
-
-
         return $perfil;
-
     }
+
     public static function getParte($dni, $perfil)
     {
         $trabajador = new Logistica($dni);
@@ -388,7 +387,6 @@ abstract class Controlador{
         elseif($perfil == "Logistica"){
             return $partes = BD\PartelogisticaBD::getAllByTrabajador($trabajador);
         }
-
     }
 
     public static function getPartesProdByTrabAndRangoFechas($dni,$fechaIni,$fechaFin)

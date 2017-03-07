@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/GerenciaViews.php';
+use Vista\Plantilla\Views;
 
 switch($_GET['cod']) {
 
@@ -13,16 +14,17 @@ switch($_GET['cod']) {
         \Vista\Gerencia\GerenciaViews::findPartesByDni($_POST);
         break;
     case "4":
-        \Vista\Gerencia\GerenciaViews::pintaFiltro($_POST);
+        \Vista\Gerencia\GerenciaViews::tipoFiltro($_POST);
+        //header("Location: ".Views::getUrlRaiz()."/Vista/Gerencia/GerenciaViews.php");
         break;
     case "5":
-        \Vista\Gerencia\GerenciaViews::findPartesByTrabajadorFechas($_POST);
+       // \Vista\Gerencia\GerenciaViews::findPartesByTrabajadorFechas($_POST);
         break;
     case "6":
-        \Vista\Gerencia\GerenciaViews::findPartesByRangoFechas($_POST);
+        //\Vista\Gerencia\GerenciaViews::findPartesByRangoFechas($_POST);
         break;
     case "7":
-        \Vista\Gerencia\GerenciaViews::findPartesByEstado($_POST);
+        //\Vista\Gerencia\GerenciaViews::findPartesByEstado($_POST);
         break;
 }
 
