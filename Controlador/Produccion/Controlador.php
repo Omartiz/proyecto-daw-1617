@@ -30,6 +30,27 @@ class Controlador
         return BD\TipoTareaBD::getAll();
 
     }
+
+    public static function getTareas()
+    {
+        return BD\TareaBD::getTareas();
+    }
+
+    public static function getAllById($datos)
+    {
+
+        return BD\ParteProduccionTareaBD::getAllById($datos);
+    }
+
+    public static function getHorario($datos){
+        return BD\HorarioBD::getHorarioByHorarioTrabajador($datos);
+    }
+
+    public static function getParteById($datos){
+        return BD\ParteProduccionBD::getParteById($datos);
+    }
+
+
 }
 
 ?>

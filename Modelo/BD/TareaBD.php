@@ -131,4 +131,15 @@ abstract class TareaBD extends GenericoBD
 
         GenericoBD::desconectar($conexion);
     }
+
+    public static function getTareas()
+    {
+        $conexion= parent::conectar();
+        $query= "SELECT * FROM tareas";
+        $rs= mysqli_query($conexion,$query) or die (mysqli_error($conexion));
+        $tareas= parent::mapearArray($rs,"Tarea");
+        parent::desconectar($conexion);
+        return $tareas;
+    }
+
 }

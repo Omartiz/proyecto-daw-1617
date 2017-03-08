@@ -56,6 +56,7 @@ abstract class GenericoBD
         }
         switch ($clase) {
             case "Viaje":
+                //return new Base\Viaje($fila['id'], $fila['horaInicio'], $fila['horaFin'], $fila['albaran'], null, null);
                 return new Base\Viaje($fila['id'], $fila['horaInicio'], $fila['horaFin'], $fila['albaran'], null, null);
                 break;
             case "Vehiculo":
@@ -65,9 +66,8 @@ abstract class GenericoBD
                 return new Base\Estado($fila["id"], $fila["tipo"]);
                 break;
             case "Partelogistica":
-                //return new Base\ParteLogistica($fila["id"], TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']), EstadoBD::selectEstadoById($fila["idEstado"]), $fila["nota"], null, $fila['fecha']); // los parametros de construcción tienen orden anómalo
                 return new Base\ParteLogistica($fila["id"],$fila['fecha'],$fila["nota"], null,  null,  null, EstadoBD::selectEstadoById($fila["idEstado"]),TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']) );//Cambiado orden de parametros de construccion
-
+                //return new Base\ParteLogistica($fila['id'], $fila ['fecha'], null, null, null, null, $fila['idEstado'], $fila['dniTrabajador'], null);
                 break;
             case "Centro":
                 return new Base\Centro($fila["id"], $fila["nombre"], $fila["localizacion"], null, null, null, null);
@@ -76,22 +76,25 @@ abstract class GenericoBD
                 return new Base\Empresa($fila["id"], $fila["nombre"], $fila["nif"], null);
                 break;
             case "ParteProduccion":
+                //return new Base\ParteProduccion($fila["id"], EstadoBD::selectEstadoById($fila["idEstado"]), $fila["fecha"], $fila["incidencia"], $fila["autopista"], $fila["dieta"], $fila["otroGasto"], TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']));
                 return new Base\ParteProduccion($fila["id"], EstadoBD::selectEstadoById($fila["idEstado"]), $fila["fecha"], $fila["incidencia"], $fila["autopista"], $fila["dieta"], $fila["otroGasto"], TrabajadorBD::getTrabajadorByDni($fila['dniTrabajador']));
                 break;
             case "Tarea":
-                return new Base\Tarea($fila["id"], $fila["descripcion"], $fila["idTipoTarea"]);//Added info in idTipoTarea (was null) 20170226
+                return new Base\Tarea($fila["id"], $fila["descripcion"], null);
+                //return new Base\Tarea($fila["id"], $fila["descripcion"], $fila["idTipoTarea"]);//Added info in idTipoTarea
                 break;
             case "TipoTarea":
+                //return new Base\TipoTarea($fila["id"], $fila["descripcion"]);
                 return new Base\TipoTarea($fila["id"], $fila["descripcion"]);
                 break;
             case "ParteProduccionTarea":
-                return new Base\ParteProducionTarea($fila['id'], $fila['numeroHoras'], $fila['paqueteEntrada'], $fila['paqueteSalida'], null, null);
+                //return new Base\ParteProducionTarea($fila['id'], $fila['numeroHoras'], $fila['paqueteEntrada'], $fila['paqueteSalida'], null, null);
+                return new Base\ParteProducionTarea($fila['id'], $fila['numeroHoras'], $fila['paqueteEntrada'], $fila['paqueteSalida'],null, null, null);
                 break;
             case "HorarioParte":
                 return new Base\HorarioParte($fila['id'], $fila['entrada'], $fila['salida'], null);
-           /* case "Logistica":
-                return new Base\Logistica($fila["dni"], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"], CentroBD::getCentrosById($fila['idCentro']), null, null, null, null);
-                break;*/
+                //return new Base\HorarioParte($fila['id'], $fila['entrada'], $fila['salida'], null);
+                break;
             case "Administracion":
                 return new Base\Administracion($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);//entroBD::getCentrosById($fila['idCentro'])
                 break;
@@ -99,10 +102,12 @@ abstract class GenericoBD
                 return new Base\Gerencia($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);//entroBD::getCentrosById($fila['idCentro'])
                 break;
             case "Logistica":
-                return new Base\Logistica($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);//entroBD::getCentrosById($fila['idCentro'])
+                //return new Base\Logistica($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);//entroBD::getCentrosById($fila['idCentro'])
+                return new Base\Logistica($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);
                 break;
             case "Produccion":
-                return new Base\Produccion($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);//entroBD::getCentrosById($fila['idCentro'])
+                //return new Base\Produccion($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);//entroBD::getCentrosById($fila['idCentro'])
+                return new Base\Produccion($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila["foto"]);
                 break;
             case "Ausencias":
                 return new Base\TrabajadorAusencia($fila['id'], $fila['fecha'], $fila['horaInicio'], $fila['horaFin']);
@@ -117,25 +122,34 @@ abstract class GenericoBD
                 return new Base\Festivo($fila['id'], $fila['fecha'], $fila['motivo']);
                 break;
             case "TiposFranja":
+                //return new Base\TiposFranjas($fila['id'], $fila['tipo'], $fila['precio']);
                 return new Base\TiposFranjas($fila['id'], $fila['tipo'], $fila['precio']);
                 break;
             case "Login":
                 return new Base\Login($fila['id'], $fila['password']);
                 break;
             case  "HorariosFranja":
+                //return new Base\HorariosFranja($fila['id']);
                 return new Base\HorariosFranja($fila['id']);
                 break;
             case  "HorarioTrabajador":
                 return new Base\HorariosTrabajadores($fila['id'], $fila['numeroSemana'],$fila['dniTrabajador'],$fila['idHorario']);
                 break;
+            case "HoarariosTrabajadores":
+                return new Base\HorariosTrabajadores($fila['id'], $fila['numeroSemana'],null,null);
+                break;
             case  "Horario":
+                //return new Base\Horarios($fila['id'], $fila['tipo']);
                 return new Base\Horarios($fila['id'], $fila['tipo']);
                 break;
             case  "Franja":
-                return new Base\Franjas($fila['id'], $fila['horaInicio'],$fila['horaFin']);
+                //return new Base\Franjas($fila['id'], $fila['horaInicio'],$fila['horaFin']);
+                return new Base\Franjas($fila['id'], $fila['horaInicio'], $fila['horaFin']);
+                break;
+            case "Trabajador":
+                return new Base\Trabajador($fila['dni'], $fila['nombre'], $fila['apellido1'], $fila['apellido2'], $fila['telefono'], $fila['idCentro'], $fila['idPerfil'], null);
                 break;
         }
-
     }
 
 }

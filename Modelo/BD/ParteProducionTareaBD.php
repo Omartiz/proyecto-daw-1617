@@ -16,7 +16,7 @@ abstract class ParteProduccionTareaBD extends GenericoBD
 
         $conexion = GenericoBD::conectar();
 
-        $select = "SELECT * FROM ".self::$tabla." WHERE idParteProduccion = ".$parte->getId().";";
+        $select = "SELECT * FROM ".self::$tabla." WHERE idParteProduccion = ".$parte->getId();
 
         $resultado = mysqli_query($conexion,$select);
 
@@ -28,6 +28,24 @@ abstract class ParteProduccionTareaBD extends GenericoBD
         return $partes;
 
     }
+
+    public static function getAllById($id){
+
+        $conexion = GenericoBD::conectar();
+
+        $query = "SELECT * FROM ".self::$tabla." WHERE id = ".$id;
+
+        $rs = mysqli_query($conexion,$query) or die(mysqli_error($conexion));
+
+        $parte = GenericoBD::mapear($rs,"ParteProduccionTarea");
+
+
+        GenericoBD::desconectar($conexion);
+
+        return $parte;
+
+    }
+
     public static function save($ParteProduccionTarea){
 
         $conexion = parent::conectar();
@@ -53,7 +71,24 @@ abstract class ParteProduccionTareaBD extends GenericoBD
         mysqli_query($conexion,$update) or die("Error UpdateParteProduccionTarea");
 
         GenericoBD::desconectar($conexion);
+        return "ok";
     }
+
+
+    public static function modificar($parteProduccionTarea){
+        $conexion= parent::conectar();
+        $query= "UPDATE partesproducciontareas SET numeroHoras='".$parteProduccionTarea->getNumeroHoras()."', paqueteEntrada='".$parteProduccionTarea->getPaqueteEntrada()."', paqueteSalida='".$parteProduccionTarea->getPaqueteSalida()."', idTareas='".$parteProduccionTarea->getTarea()->getId()."' WHERE id= '".$parteProduccionTarea->getId()."';";
+        $respuesta= mysqli_query($conexion,$query) or die(mysqli_error($conexion));
+
+        if($respuesta){
+            parent::desconectar($conexion);
+            return "Parte modificado correctamente";
+
+        }
+        parent::desconectar($conexion);
+
+    }
+
 
     public static function delete($ParteProduccionTarea){
         $conexion = GenericoBD::conectar();

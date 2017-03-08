@@ -8,6 +8,7 @@
 namespace Modelo\BD;
 
 require_once __DIR__ .'/GenericoBD.php';
+require_once __DIR__.'/../Base/ParteLogisticaClass.php';
 
 abstract class EstadoBD extends GenericoBD{
 
@@ -32,10 +33,10 @@ abstract class EstadoBD extends GenericoBD{
         return $respuesta;
     }
 
-    public static function  selectEstadoByParteLogistica($partelogistica){
-
+    public static function selectEstadoByParteLogistica($partelogistica){
+        //var_dump($partelogistica);
         $conexion=parent::conectar();
-        $query="SELECT * FROM ".self::$tabla." WHERE id= (SELECT idEstado FROM parteslogistica WHERE id=".$partelogistica->getId().") ";
+        $query="SELECT * FROM ".self::$tabla." WHERE id = (SELECT idEstado FROM parteslogistica WHERE id = '".$partelogistica->getId()."'); ";
         $rs=mysqli_query($conexion,$query) or die(mysqli_error($conexion));
         $respuesta=parent::mapear($rs,"Estado");
         parent::desconectar($conexion);

@@ -192,6 +192,10 @@ class ParteProducionTarea
         BD\ParteProduccionTareaBD::delete($this);
     }
 
+    public function modificar(){
+        return BD\ParteProduccionTareaBD::modificar($this);
+    }
+
 
 
 }

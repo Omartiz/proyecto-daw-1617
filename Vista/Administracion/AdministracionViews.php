@@ -2668,6 +2668,7 @@ abstract class AdministracionViews extends \Vista\Plantilla\Views
 
                     foreach ($partesLog as $log)
                     {
+                        //var_dump($log);
                         if ($log->getEstado()->getTipo() == "Cerrado")
                         {
                             self::rellenaTablaPartesLog($log);

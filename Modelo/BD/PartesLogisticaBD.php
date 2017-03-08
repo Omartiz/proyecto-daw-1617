@@ -16,7 +16,7 @@ abstract class PartelogisticaBD extends GenericoBD{
     public static function selectParteLogisticaById($id){
 
             $conexion=parent::conectar();
-            $query="SELECT * FROM ".self::$tabla." WHERE id= ".$id." ";
+            $query="SELECT * FROM ".self::$tabla." WHERE id= '".$id."'";
             $rs=mysqli_query($conexion,$query) or die(mysqli_error($conexion));
             $respuesta=parent::mapear($rs,"Partelogistica");
             parent::desconectar($conexion);
@@ -55,6 +55,17 @@ abstract class PartelogisticaBD extends GenericoBD{
             parent::desconectar($conexion);
             return $respuesta;
     }
+
+    public static function getParteByTrabajadorFecha($trabajador,$fecha){
+
+        $conexion=parent::conectar();
+        $query="SELECT * FROM ".self::$tabla." WHERE dniTrabajador='".$trabajador->getDni()."' AND fecha= '".$fecha."'";
+        $rs=mysqli_query($conexion,$query) or die(mysqli_error($conexion));
+        $parte=parent::mapear($rs,"Partelogistica");
+        parent::desconectar($conexion);
+        return $parte;
+    }
+
     public static function getParteByFecha($trabajador, $fecha){
 
         $conexion=parent::conectar();
@@ -206,6 +217,41 @@ abstract class PartelogisticaBD extends GenericoBD{
 
         return $partes;
     }
+
+    public static function save($parteLogistica){
+        $conexion= parent::conectar();
+        $query= "INSERT INTO ".self::$tabla."VALUES (null,'".$parteLogistica->getFecha()."','".$parteLogistica->getFecha()."','".$parteLogistica->getNota()."','".$parteLogistica->getAutopista()."','".$parteLogistica->getDieta()."','".$parteLogistica->getOtrosGastos()."','".$parteLogistica->getEstado()->getId()."','".$parteLogistica->getTrabajador()->getDni()."','".$parteLogistica->getHorasExtra()."')";
+        $rs= mysqli_query($conexion,$query) or die(mysqli_error($conexion));
+        if($rs){
+            parent::desconectar($conexion);
+            return "Viaje insertado correctamente";
+        }
+        parent::desconectar($conexion);
+        return "Algo ha ido mal";
+    }
+
+    public static function remove($parteLogistica){
+        $conexion= parent::conectar();
+        $query= "DELETE FROM ".self::$tabla." WHERE id= '".$parteLogistica->getId()."'";
+        $rs= mysqli_query($conexion,$query) or die("Error en la BD".mysqli_error($conexion));
+        if($rs){
+                parent::desconectar($conexion);
+                return "El parte ha sido eliminado correctamente";
+        }
+        parent::desconectar($conexion);
+    }
+
+    public static function cerrarParte($parteLogistica){
+        $conexion = parent::conectar();
+        $query = "UPDATE parteslogistica SET nota='".$parteLogistica->getNota()."', autopista='".$parteLogistica->getAutopista()."', dieta='".$parteLogistica->getDieta()."', otroGasto='".$parteLogistica->getOtroGasto()."', idEstado='".$parteLogistica->getEstado()->getId()."' WHERE id = '".$parteLogistica->getId()."';";
+        $rs = mysqli_query($conexion,$query) or die(mysqli_error($conexion));
+        if($rs){
+            parent::desconectar($conexion);
+            return "Parte cerrado";
+        }
+        parent::desconectar($conexion);
+    }
+
 
     public static function getPartesByEstado($filaEstado){
 

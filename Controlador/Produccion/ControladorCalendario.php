@@ -33,6 +33,7 @@ switch ($_POST["accion"])
 		$worker = unserialize($_SESSION["trabajador"]);
 
 		$parte = BD\ParteProduccionBD::getPartebyTrabajadorAndFecha($worker,$_POST["fecha"]);
+		$idParte= $parte->getId();
 
 		$estado = BD\EstadoBD::selectEstadoByParteProduccion($parte);
 
@@ -53,16 +54,19 @@ switch ($_POST["accion"])
 
 					echo "<div class='panel-heading container-fluid'><article class='col-xs-6 text-left'><h4 class='panel-title'><strong>".$tipo->getDescripcion().":</strong> <span class='lead small'>".$tarea->getDescripcion()."</span></h4></article>";
 
-					if(strnatcasecmp($estado->getTipo(),"abierto")==0){ echo "<article class='col-xs-6'><a class='tOp eliminar_tarea' rel='".$fila["id"]."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a><!--<a class='tOp editar_tarea' rel='".$fila["id"]."'><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a>--></article>";}
+					if(strnatcasecmp($estado->getTipo(),"abierto")==0){
+					    echo "<article class='col-xs-6'><a class='tOp eliminar_tarea' rel='".$fila["id"]."'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></a>
+					                                                                                    <a class='tOp editar_tarea' rel='".$fila["id"]."'><span class='glyphicon glyphicon-edit' aria-hidden='true' style='color:blue'></span></a>
+					                                                                                    </article>";}
 
 					echo '</div><div class="panel-body">';
 
 					if(!empty($fila["numeroHoras"])){
-						echo "<span class='col-sm-4 col-xs-12'>Numero Horas: ".$fila["numeroHoras"]."</span>";
+						echo "<span class='col-sm-4 col-xs-12'><strong>Numero Horas: </strong>".$fila["numeroHoras"]."</span>";
 					}
 
 					if(!empty($fila["paqueteEntrada"])&&!empty($fila["paqueteSalida"])){
-						echo "<span class='col-sm-4 col-xs-12'>Nº Entrada: ".$fila["paqueteEntrada"]."</span><span class='col-sm-4 col-xs-12'>Nº Salida: ".$fila["paqueteSalida"]."</span><span class='col-sm-4 col-xs-12'>Total: ".($fila["paqueteSalida"]-$fila["paqueteEntrada"])."</span>";
+						echo "<span class='col-sm-4 col-xs-12'><strong>Nº Entrada: </strong>".$fila["paqueteEntrada"]."</span><span class='col-sm-4 col-xs-12'><strong>Nº Salida: </strong>".$fila["paqueteSalida"]."</span><span class='col-sm-4 col-xs-12'><strong>Total:</strong> ".($fila["paqueteSalida"]-$fila["paqueteEntrada"])."</span>";
 					}
 
 					echo "</div></div>";
@@ -70,11 +74,16 @@ switch ($_POST["accion"])
 				while($fila=$query->fetch_array());
 
 				if(strnatcasecmp($estado->getTipo(),"abierto")==0){
-					echo "<button type='button' class='btn btn-primary pCerrar' rel='".$parte->getId()."'>Cerrar Parte</button> ";
-					echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
+//
+                    echo"<div class='form-group' align='center'>
+			            <button type='button' class='btn btn-primary pCerrar' rel='".$parte->getId()."'>Cerrar Parte</button>
+                        <button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>
+			            <button type='button' class='btn btn-warning pSalir' rel='".$parte->getId()."'>Salir</button>
+
+                    </div>";
+
 				}elseif(strnatcasecmp($estado->getTipo(),"cerrado")==0){
 					echo "<div class='panel panel-default'><div class='panel-body' >";
-
 
 					if(count($parte->getHorariosParte())==1){
 						echo "<p class='col-xs-12'><strong>Tipo Jornada: Continua de ";
@@ -121,17 +130,24 @@ switch ($_POST["accion"])
 					}
 
 					echo "</div>";
-				}
+                    echo "<button type='button' class='btn btn-warning pSalir' rel='".$parte->getId()."'>Salir</button>";
+
+                    }
+
 
 			}
 		}else{
 			echo "<div class='panel panel-default'><div class='panel-body'>El Parte no tiene ninguna Tarea.</div></div>";
 			if(strnatcasecmp($estado->getTipo(),"abierto")==0){
 				echo "<button type='button' class='btn btn-danger pBorrar' rel='".$parte->getId()."'>Eliminar Parte</button>";
-			}
+
+
+            }
 		}
 
-		break;
+
+
+        break;
 	}
 	case "addTarea":
 	{
@@ -227,7 +243,25 @@ switch ($_POST["accion"])
 		else echo "<div class='alert alert-danger col-xs-8 col-xs-offset-2' role='alert'>Tarea No Eliminada</div>";
 		break;
 	}
-	case "generar_calendario":
+
+
+    case "guardar_parte_modificado":
+
+    {
+        $id=$_POST['tarea'];
+        $tipoTarea= BD\TareaBD::getTareaById($id);
+
+        $parteProduccionTarea= new Modelo\Base\ParteProducionTarea($_POST['id'],$_POST['numeroHoras'],$_POST['paquetesEntrada'],$_POST['paquetesSalida'],$tipoTarea);
+        //echo "<div class='alert alert-success col-xs-8 col-xs-offset-2' role='alert'>".$parteProduccionTarea->modificar()."</div>";
+        echo "<div class='alert alert-success col-xs-8 col-xs-offset-2' role='alert'>".$parteProduccionTarea->modificar()."</div>";
+
+        /*creamos el botón que nos llevará al calendario*/
+        echo "<div class='col-xs-8 col-xs-offset-2'><button type='button' class='btn btn-warning pSalir' rel='".$parteProduccionTarea->getId()."'> Salir </button></div>";
+
+    }
+        break;
+
+    case "generar_calendario":
 	{
 		$fecha_calendario=array();
 		if ($_POST["mes"]=="" || $_POST["anio"]=="")
@@ -360,9 +394,15 @@ switch ($_POST["accion"])
 		break;
 	}
 	case "borrar_parte":
-	{
-		$parte = new \Modelo\Base\ParteProduccion(intval($_POST["idParte"]));
-		echo "<div class='alert alert-success col-xs-8 col-xs-offset-2' role='alert'>".$parte->remove()."</div>";
+{
+            $parte = new \Modelo\Base\ParteProduccion(intval($_POST["idParte"]));
+            echo "<div class='alert alert-success col-xs-8 col-xs-offset-2' role='alert'>".$parte->remove()."</div>";
+                /*creamos el botón que nos llevará al calendario*/
+             echo "<div class='col-xs-8 col-xs-offset-2'><button type='button' class='btn btn-warning pSalir' rel='".$parte->getId()."'>Salir</button></div>";
+
+
+
+
 		break;
 	}
 
@@ -395,8 +435,11 @@ switch ($_POST["accion"])
 		$parte->cerrarParte();
 
 		echo "<div class='alert alert-success' id='fres' role='alert'>Parte Cerrado</div>";
+        echo "<div class='col-xs-8 col-xs-offset-2'><button type='button' class='btn btn-warning pSalir' rel='".$parte->getId()."'>Salir</button></div>";
 
-		break;
+
+
+        break;
 	}
 }
 ?>
